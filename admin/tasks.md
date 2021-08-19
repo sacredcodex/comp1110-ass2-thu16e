@@ -9,10 +9,7 @@ Everyone: create application skeleton - meeting 14:00 17 Aug
 
 ## Week 5
 
-
 ## Week 6
-
-...
 
 ## Mid-Semester Break
 
