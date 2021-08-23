@@ -2,40 +2,66 @@ package comp1110.ass2;
 
 public class Board {
 	/**
+	 * subscript is same with format in readme.md
 	 * [0~3][0~6/7]
+	 * empty is marked as 'n'
 	 */
-	Location[][] locations;
-	int[][] color;
+	char[][] color;
 
 	/**
-	 * create 26 Locations and colors
+	 * constructor
+	 * create 26 color
+	 * set color='n'
 	 */
 	Board(){
 
 	}
 
 	/**
-	 * connect these Location
+	 *
+	 * @param loc format in readme.md
+	 * @return color
 	 */
-	public void initialize(){
+	public char getColor(String loc){
 
 	}
 
-	public int getColor(Location loc){
+	/**
+	 *
+	 * @param loc format in readme.md
+	 * @param color 7 colors or empty
+	 */
+	public void setColor(String loc,char color){
 
 	}
 
-	public void setColor(Location loc,int color){
-
-	}
-
+	/**
+	 * print the stars on board
+	 */
 	public void print(){
 
 	}
 
-	public void setPuzzle(){}
+	/**
+	 *
+	 * @param puzzle normal puzzle(not wizard)
+	 */
+	public void setPuzzle(String puzzle){}
 
+	/**
+	 * input format is not sure
+	 */
 	public void setWizard(){}
 
-	public String solve(){}
+	/**
+	 *
+	 * @return solution of normal puzzle(not wizard)
+	 */
+	public String solvePuzzle(){}
+
+	/**
+	 *
+	 * @return solution of wizard puzzle
+	 */
+	public void solveWizard(){}
 }

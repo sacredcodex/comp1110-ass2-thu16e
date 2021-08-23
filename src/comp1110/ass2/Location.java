@@ -2,13 +2,9 @@ package comp1110.ass2;
 
 public class Location {
 	/**
-	 * Structure:
-	 *       4       5
-	 *        \     /
-	 *  3 ---(x,y,z)--- 0
-	 *        /    \
-	 *       2      1
+	 * reference：https://www.redblobgames.com/grids/hexagons/#basics
 	 *
+	 * Cube coordinates: x,y,z
 	 * Board:
 	 *    (0,0,0)---(1,-1,0)---(2,-2,0)---(3,-3,0)---(4,-4,0)---(5,-5,0)---(6,-6,0)
 	 *         \     /    \     /    \     /    \     /    \     /    \     /
@@ -18,7 +14,7 @@ public class Location {
 	 *        \     /    \     /    \     /    \     /    \     /    \     /
 	 *      (-1,-2,3)---(0,-3,3)---(1,-4,3)---(2,-5,3)---(3,-6,3)---(4,-7,3)
 	 *
-	 * Unit vector:
+	 * Definition of 6 direction unit vectors:
 	 *                4          5
 	 *            (0,1,-1)---(1,0,-1)
 	 *             /   \      /    \
@@ -28,19 +24,18 @@ public class Location {
 	 *              2          1
 	 *
 	 * Piece:
-	 *      mark a line with 4 stars as int array 0,0,0
+	 *      mark a line with 4 stars as an int array 0,0,0
 	 *      more details in Piece.java
 	 *      when rotate the piece use +1,+2...
-	 *          then the piece will change to 1,1,1
-	 *
-	 *
+	 *          then the piece will change to 1,1,1  2,2,2  ...
 	 *
 	 */
 
-	private int x,y,z;//x+y+z=0
-	Location[] neighbor;//neighbor[0~5]
+	private int x,y,z;//x+y+z==0
 
-
+	/**
+	 * constructor
+	 */
 	 Location(int x,int y, int z){
 	 	if(x+y+z==0) {
 		    this.x = x;
@@ -50,19 +45,21 @@ public class Location {
 	 }
 
 	/**
-	 * two of x,y,z
-	 * @param a
-	 * @param b
-	 * @param str "xy","xz","yz"
+	 * constructor
+	 * x+y+z==0
+	 * @param a and
+	 * @param b are two parameters of x,y,z
+	 * @param str："xy","xz","yz"
 	 */
 	 Location(int a,int b,String str){
 
 	 }
 
 	/**
-	 * readme --> x,y,z
-	 * @param x
-	 * @param y
+	 * constructor
+	 * format in readme.md --> cube coordinate x,y,z
+	 * @param x and
+	 * @param y are parameters in readme.md
 	 */
 	 Location(int x,int y){
 
@@ -80,16 +77,12 @@ public class Location {
 		return z;
 	}
 
-	public Location[] getNeighbor() {
-		return neighbor;
-	}
-
 	/**
-	 * return one of neighbors
-	 * @param rotation 0~5
-	 * @return
+	 *
+	 * @param direction:0~5 direction of unit vector
+	 * @return Location in certain direction which is adjacent to this
 	 */
-	public Location getNeighbor(int rotation){
+	public Location getNext(int direction){
 
 	}
 
@@ -105,23 +98,10 @@ public class Location {
 		this.z = z;
 	}
 
-	public void setNeighbor(Location[] neighbor) {
-		this.neighbor = neighbor;
-	}
-
-	/**
-	 *
-	 * @param loc
-	 * @param rotation
-	 */
-	public void setNeighbor(Location loc,int rotation){
-
-	}
-
 	/**
 	 * distance=1/2*(|x1-x2|+|y1-y2|+|z1-z2|)
 	 * @param loc
-	 * @return distance between this and loc (an integer)
+	 * @return distance between this and loc
 	 */
 	public int getDistance(Location loc){
 
@@ -130,7 +110,7 @@ public class Location {
 	/**
 	 *
 	 * @param loc is adjacent to this
-	 * @return 0~5 unit vector
+	 * @return direction of (this->loc) vector
 	 */
 	public int getDirection(Location loc){
 
@@ -156,7 +136,7 @@ public class Location {
 
 	/**
 	 *
-	 * @return whether the Location is on Board, or is one of the 26 Locations
+	 * @return whether the Location is on Board(one of 26 Locations)
 	 */
 	public boolean onBoard(){
 
