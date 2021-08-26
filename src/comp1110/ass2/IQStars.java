@@ -27,8 +27,7 @@ public class IQStars {
      *      @return True if the string is well-formed
      */
     static boolean isGameStringWellFormed(String gameString) {
-        return IQStarsSol.isGameStringWellFormed(gameString);
-        // return false; // FIXME Task 3 (P): determine whether a wizard or piece string is well-formed
+        return false; // FIXME Task 3 (P): determine whether a wizard or piece string is well-formed
     }
 
     /**
@@ -53,8 +52,7 @@ public class IQStars {
      * @return True if the game state string is well-formed
      */
     public static boolean isGameStateStringWellFormed(String gameStateString) {
-        return IQStarsSol.isGameStateStringWellFormed(gameStateString);
-        // return false; // FIXME Task 4 (P): determine whether a game state string is well-formed
+        return false; // FIXME Task 4 (P): determine whether a game state string is well-formed
     }
 
     /**
@@ -73,8 +71,7 @@ public class IQStars {
      * @return True if the game state represented by the string is valid
      */
     public static boolean isGameStateValid(String gameStateString) {
-        return IQStarsSol.isGameStateValid(gameStateString);
-        // return false;  // FIXME Task 6 (D): determine whether a game state is valid
+        return false;  // FIXME Task 6 (D): determine whether a game state is valid
     }
 
     /**
@@ -96,8 +93,7 @@ public class IQStars {
      * @return A set of all viable piece strings, or null if there are none.
      */
     static Set<String> getViablePieceStrings(String gameStateString, int col, int row) {
-        return IQStarsSol.getViablePieceStrings(gameStateString, col, row);
-        // return null;  // FIXME Task 7 (P): determine the set of all viable piece strings given an existing game state
+        return null;  // FIXME Task 7 (P): determine the set of all viable piece strings given an existing game state
     }
 
     /**
@@ -108,7 +104,6 @@ public class IQStars {
      * the challenge.
      */
     public static String getSolution(String challenge) {
-        return IQStarsSol.getSolution(challenge);
-        // return null;  // FIXME Task 10 (CR): determine the solution to the game, given a particular challenge
+        return null;  // FIXME Task 10 (CR): determine the solution to the game, given a particular challenge
     }
 }
