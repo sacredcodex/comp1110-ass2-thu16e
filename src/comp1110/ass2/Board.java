@@ -64,7 +64,7 @@ public class Board {
 	 *
 	 * @return solution of wizard puzzle
 	 */
-	public void solveWizard(){
+	public String solveWizard(){
 		return "";
 	}
 }
