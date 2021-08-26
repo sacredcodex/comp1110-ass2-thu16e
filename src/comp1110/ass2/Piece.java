@@ -72,7 +72,7 @@ public class Piece {
 	 * @return whether loc on board is valid to place the Piece
 	 */
 	public boolean isPieceValid(Board board,Location loc){
-
+		return true;
 	}
 
 	/**
@@ -81,7 +81,6 @@ public class Piece {
 	 * @param loc the start location to place the piece
 	 */
 	public void placePiece(Board board,Location loc){
-
 	}
 
 	/**

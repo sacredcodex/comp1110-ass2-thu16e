@@ -62,8 +62,28 @@ public class Location {
 	 * @param y are parameters in readme.md
 	 */
 	 Location(int x,int y){
-
+	 	this.z=y;
+	 	if (y==0||y==1)
+	 		this.x=x;
+	 	else this.x=x-1;
+	 	this.y= -this.x - this.y;
 	 }
+
+	/**
+	 * constructor
+	 * format in readme.md
+	 * @param str string with 2 chars. e.g. 03
+	 */
+	Location(String str){
+		char[] c=str.toCharArray();
+		int x=c[0]-'0';
+		int y=c[1]-'0';
+		this.z=y;
+		if (y==0||y==1)
+			this.x=x;
+		else this.x=x-1;
+		this.y= -this.x - this.y;
+	}
 
 	public int getX() {
 		return x;
@@ -83,6 +103,36 @@ public class Location {
 	 * @return Location in certain direction which is adjacent to this
 	 */
 	public Location getNext(int direction){
+		int x=this.x;
+		int y=this.y;
+		int z=this.z;
+		switch(direction){
+			case 0:
+				x++;
+				y--;
+				break;
+			case 1:
+				y--;
+				z++;
+				break;
+			case 2:
+				x--;
+				z++;
+				break;
+			case 3:
+				x--;
+				y++;
+				break;
+			case 4:
+				y++;
+				z--;
+				break;
+			case 5:
+				x++;
+				z--;
+				break;
+		}
+		return new Location(x,y,z);
 
 	}
 
@@ -104,16 +154,7 @@ public class Location {
 	 * @return distance between this and loc
 	 */
 	public int getDistance(Location loc){
-
-	}
-
-	/**
-	 *
-	 * @param loc is adjacent to this
-	 * @return direction of (this->loc) vector
-	 */
-	public int getDirection(Location loc){
-
+		return (Math.abs(this.x-loc.x)+Math.abs(this.y-loc.y)+Math.abs(this.z-loc.z))/2;
 	}
 
 	/**
@@ -122,7 +163,21 @@ public class Location {
 	 * @return whether the distance is 1
 	 */
 	public boolean isAdjacent(Location loc){
+		return this.getDistance(loc)==1;
+	}
 
+	/**
+	 *
+	 * @param loc is adjacent to this
+	 * @return direction of (this->loc) vector
+	 */
+	public int getDirection(Location loc){
+		//loc-this
+		int dx=loc.getX()-this.x;
+		int dy=loc.getY()-this.y;
+		int dz=loc.getZ()-this.z;
+
+		return -1;
 	}
 
 	/**
@@ -131,7 +186,7 @@ public class Location {
 	 */
 	@Override
 	public String toString(){
-
+		return "";
 	}
 
 	/**
@@ -139,7 +194,7 @@ public class Location {
 	 * @return whether the Location is on Board(one of 26 Locations)
 	 */
 	public boolean onBoard(){
-
+		return true;
 	}
 
 	/**
@@ -148,6 +203,6 @@ public class Location {
 	 * @return whether two location is same
 	 */
 	public boolean equals(Location loc){
-
+		return true;
 	}
 }

@@ -23,7 +23,7 @@ public class Board {
 	 * @return color
 	 */
 	public char getColor(String loc){
-
+		return ' ';
 	}
 
 	/**
@@ -57,11 +57,14 @@ public class Board {
 	 *
 	 * @return solution of normal puzzle(not wizard)
 	 */
-	public String solvePuzzle(){}
-
+	public String solvePuzzle(){
+		return "";
+	}
 	/**
 	 *
 	 * @return solution of wizard puzzle
 	 */
-	public void solveWizard(){}
+	public void solveWizard(){
+		return "";
+	}
 }
