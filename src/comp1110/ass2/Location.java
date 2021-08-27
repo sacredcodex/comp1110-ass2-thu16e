@@ -106,31 +106,31 @@ public class Location {
 		int x=this.x;
 		int y=this.y;
 		int z=this.z;
-		switch(direction){
-			case 0:
+		switch (direction) {
+			case 0 -> {
 				x++;
 				y--;
-				break;
-			case 1:
+			}
+			case 1 -> {
 				y--;
 				z++;
-				break;
-			case 2:
+			}
+			case 2 -> {
 				x--;
 				z++;
-				break;
-			case 3:
+			}
+			case 3 -> {
 				x--;
 				y++;
-				break;
-			case 4:
+			}
+			case 4 -> {
 				y++;
 				z--;
-				break;
-			case 5:
+			}
+			case 5 -> {
 				x++;
 				z--;
-				break;
+			}
 		}
 		return new Location(x,y,z);
 
@@ -176,25 +176,56 @@ public class Location {
 		int dx=loc.getX()-this.x;
 		int dy=loc.getY()-this.y;
 		int dz=loc.getZ()-this.z;
-
+		if ( dx == 1 && dy == -1 && dz == 0 )
+			return 0;
+		if ( dx == 0 && dy == -1 && dz == 1 )
+			return 1;
+		if ( dx == -1 && dy == 0 && dz == 1 )
+			return 2;
+		if ( dx == -1 && dy == 1 && dz == 0 )
+			return 3;
+		if ( dx == 0 && dy == 1 && dz == -1 )
+			return 4;
+		if ( dx == 1 && dy == 0 && dz == -1 )
+			return 5;
 		return -1;
 	}
 
 	/**
 	 *
-	 * @return format in readme.md
+	 * @return format in readme.md "xy"
 	 */
 	@Override
 	public String toString(){
-		return "";
+		if (this.z<2)
+			return ""+this.x+this.z;
+		else return ""+(this.x+1)+this.z;
 	}
 
 	/**
-	 *
+	 * this location should be wellformed( x+y+z==0)
 	 * @return whether the Location is on Board(one of 26 Locations)
 	 */
 	public boolean onBoard(){
-		return true;
+		switch (this.z){
+			case 0:
+				if (this.x >= 0 && this.x <= 6 )
+					return true;
+				break;
+			case 1:
+				if (this.x >= 0 && this.x <= 5 )
+					return true;
+				break;
+			case 2:
+				if (this.x >= -1 && this.x <= 5 )
+					return true;
+				break;
+			case 3:
+				if (this.x >= -1 && this.x <= 4 )
+					return true;
+				break;
+		}
+		return false;
 	}
 
 	/**
@@ -203,6 +234,6 @@ public class Location {
 	 * @return whether two location is same
 	 */
 	public boolean equals(Location loc){
-		return true;
+		return this.getDistance(loc)==0;
 	}
 }
