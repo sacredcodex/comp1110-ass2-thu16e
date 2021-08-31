@@ -5,8 +5,8 @@ public class Piece {
 	 * For each pieces, it will be stored by an int array represent for the unit vector in it
 	 *
 	 * Rules:
-	 * color                 shape
-	 * r   ✡ -- ✡           0，1，3
+	 * color  shape
+ 	 * r   ✡ -- ✡           0，1，3
 	 *           \
 	 *       ✡ -- ✡
 	 *
@@ -125,7 +125,7 @@ public class Piece {
 	 * @return whether loc on board is valid to place the Piece
 	 */
 	public boolean isPieceValid(Board board,Location loc){
-		return true;
+		return true;//TODO: complete after Board
 	}
 
 	/**
@@ -134,6 +134,15 @@ public class Piece {
 	 * @param loc the start location to place the piece
 	 */
 	public void placePiece(Board board,Location loc){
+		//TODO: complete after Board
+	}
+
+	/**
+	 *
+	 * @param str format in readme.md
+	 */
+	public static void placePiece(String str){
+		//TODO:
 	}
 
 	/**
@@ -142,6 +151,14 @@ public class Piece {
 	 * @param loc the start location to place the piece
 	 */
 	public void removePiece(Board board,Location loc){
+		//TODO: complete after Board
+	}
 
+	/**
+	 *
+	 * @return String in format like readme.md
+	 */
+	public String toString(){
+		//TODO:
 	}
 }
