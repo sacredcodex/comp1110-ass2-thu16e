@@ -141,7 +141,7 @@ public class Piece {
 	 *
 	 * @param str format in readme.md
 	 */
-	public static void placePiece(String str){
+	public static void placePiece(Board board, String str){
 		//TODO:
 	}
 
