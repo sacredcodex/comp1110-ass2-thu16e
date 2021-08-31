@@ -4,7 +4,7 @@ public class Location {
 	/**
 	 * reference：https://www.redblobgames.com/grids/hexagons/#basics
 	 *
-	 * Cube coordinates: x,y,z
+	 * Cube coordinates: (x,y,z)
 	 * Board:
 	 *    (0,0,0)---(1,-1,0)---(2,-2,0)---(3,-3,0)---(4,-4,0)---(5,-5,0)---(6,-6,0)
 	 *         \     /    \     /    \     /    \     /    \     /    \     /
@@ -16,11 +16,11 @@ public class Location {
 	 *
 	 * Definition of 6 direction unit vectors:
 	 *                4          5
-	 *            (0,1,-1)---(1,0,-1)
-	 *             /   \      /    \
+	 *            (0,1,-1)   (1,0,-1)
+	 *                 \      /
 	 *    3 (-1,1,0)---(0,0,0)----(1,-1,0) 0
-	 *            \     /    \    /
-	 *           (-1,0,1)---(0,-1,1)
+	 *                  /    \
+	 *           (-1,0,1)   (0,-1,1)
 	 *              2          1
 	 *
 	 * Piece:
@@ -31,7 +31,7 @@ public class Location {
 	 *
 	 */
 
-	private int x,y,z;//x+y+z==0
+	private int x,y,z; //x+y+z==0
 
 	/**
 	 * constructor
@@ -49,7 +49,7 @@ public class Location {
 	 * x+y+z==0
 	 * @param a and
 	 * @param b are two parameters of x,y,z
-	 * @param str："xy","xz","yz"
+	 * @param str："xy","xz","yz" str decides which two parameters
 	 */
 	 Location(int a,int b,String str){
 
@@ -57,9 +57,9 @@ public class Location {
 
 	/**
 	 * constructor
-	 * format in readme.md --> cube coordinate x,y,z
+	 * transform format in readme.md --> cube coordinate (x,y,z)
 	 * @param x and
-	 * @param y are parameters in readme.md
+	 * @param y are 2 parameters in readme.md
 	 */
 	 Location(int x,int y){
 	 	this.z=y;
@@ -150,7 +150,7 @@ public class Location {
 
 	/**
 	 * distance=1/2*(|x1-x2|+|y1-y2|+|z1-z2|)
-	 * @param loc
+	 * @param loc compare this and loc
 	 * @return distance between this and loc
 	 */
 	public int getDistance(Location loc){
@@ -159,7 +159,7 @@ public class Location {
 
 	/**
 	 *
-	 * @param loc
+	 * @param loc compare this and loc
 	 * @return whether the distance is 1
 	 */
 	public boolean isAdjacent(Location loc){
@@ -230,7 +230,7 @@ public class Location {
 
 	/**
 	 *
-	 * @param loc
+	 * @param loc compare this and loc
 	 * @return whether two location is same
 	 */
 	public boolean equals(Location loc){
