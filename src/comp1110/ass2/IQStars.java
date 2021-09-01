@@ -27,6 +27,11 @@ public class IQStars {
      *      @return True if the string is well-formed
      */
     static boolean isGameStringWellFormed(String gameString) {
+        if (gameString==null)
+            return false;
+        if (gameString.length()<3||gameString.length()>4)
+            return false;
+
         return false; // FIXME Task 3 (P): determine whether a wizard or piece string is well-formed
     }
 
