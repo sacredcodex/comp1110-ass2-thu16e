@@ -95,7 +95,7 @@ public class Board {
 		}else{
 			for (int i = 0; 4*i+4 < puzzle.length(); i++) {
 				piece=puzzle.substring(4*i,4*i+4);
-				placePiece(this,piece);
+				placePiece(piece);
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public class Board {
 	 * @param loc the center star location to place the piece
 	 * @return whether loc on board is valid to place the Piece
 	 */
-	public boolean isPieceValid(Board board ,Location loc){
+	public boolean isPieceValid(Piece piece ,Location loc){
 		return true;//TODO: complete after Board
 	}
 
@@ -120,8 +120,8 @@ public class Board {
 	 * @param loc the center star location to place the piece
 	 * @return whether loc on board is valid to place the Piece
 	 */
-	public boolean isPieceValidForWizard(Board board ,Location loc){
-		if (!isPieceValid(board, loc))
+	public boolean isPieceValidForWizard(Piece piece ,Location loc){
+		if (!isPieceValid(piece, loc))
 			return false;
 		return true;//TODO: complete after Board
 	}
@@ -130,7 +130,7 @@ public class Board {
 	 *
 	 * @param loc the center star location to place the piece
 	 */
-	public void placePiece(Board board,Location loc){
+	public void placePiece(Piece piece,Location loc){
 		//TODO: complete after Board
 	}
 
@@ -138,7 +138,7 @@ public class Board {
 	 *
 	 * @param str format in readme.md
 	 */
-	public static void placePiece(Board board, String str){
+	public static void placePiece(String str){
 		//TODO:
 	}
 
