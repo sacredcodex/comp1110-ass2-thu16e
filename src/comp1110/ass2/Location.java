@@ -5,6 +5,19 @@ public class Location {
 	 * reference：https://www.redblobgames.com/grids/hexagons/#basics
 	 *
 	 * Cube coordinates: (x,y,z)
+	 * When Location moves one space, two values in coordinates will change each time,
+	 * one + 1, the other - 1, so x + y + z == 0
+	 *
+	 * Definition of 6 direction unit vectors:
+	 *                 4          5
+	 *             (0,1,-1)   (1,0,-1)
+	 *                  \      /
+	 *     3 (-1,1,0)---(0,0,0)----(1,-1,0) 0
+	 *                   /    \
+	 *            (-1,0,1)   (0,-1,1)
+	 *               2          1
+	 *
+	 * Let the top left of the board is (0, 0, 0),
 	 * Board:
 	 *    (0,0,0)---(1,-1,0)---(2,-2,0)---(3,-3,0)---(4,-4,0)---(5,-5,0)---(6,-6,0)
 	 *         \     /    \     /    \     /    \     /    \     /    \     /
@@ -14,27 +27,19 @@ public class Location {
 	 *        \     /    \     /    \     /    \     /    \     /    \     /
 	 *      (-1,-2,3)---(0,-3,3)---(1,-4,3)---(2,-5,3)---(3,-6,3)---(4,-7,3)
 	 *
-	 * Definition of 6 direction unit vectors:
-	 *                4          5
-	 *            (0,1,-1)   (1,0,-1)
-	 *                 \      /
-	 *    3 (-1,1,0)---(0,0,0)----(1,-1,0) 0
-	 *                  /    \
-	 *           (-1,0,1)   (0,-1,1)
-	 *              2          1
+	 * Distance: loc1(x1, y1, z1) and loc2(x2, y2, z2)
+	 *           d := (|x1 - x2| + |y1 - y2 | + |z1 - z2|) / 2
 	 *
-	 * Piece:
-	 *      mark a line with 4 stars as an int array 0,0,0
-	 *      more details in Piece.java
-	 *      when rotate the piece use +1,+2...
-	 *          then the piece will change to 1,1,1  2,2,2  ...
+	 * The reason why we choose cube coordinate:
+	 *          simple distance formula in cube coordinate
+	 *
 	 *
 	 */
 
 	private int x,y,z; //x+y+z==0
 
 	/**
-	 * constructor
+	 * constructor with x, y, z
 	 */
 	 Location(int x,int y, int z){
 	 	if(x+y+z==0) {
@@ -52,7 +57,7 @@ public class Location {
 	 * @param str："xy","xz","yz" str decides which two parameters
 	 */
 	 Location(int a,int b,String str){
-
+		//TODO: fix this when this constructor is used, or delete after complete
 	 }
 
 	/**
@@ -72,7 +77,8 @@ public class Location {
 	/**
 	 * constructor
 	 * format in readme.md
-	 * @param str string with 2 chars. e.g. 03
+	 * @param str format in readme.md with 2 characters
+	 *            e.g. 03, 34, 52
 	 */
 	Location(String str){
 		char[] c=str.toCharArray();
@@ -134,18 +140,6 @@ public class Location {
 		}
 		return new Location(x,y,z);
 
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public void setZ(int z) {
-		this.z = z;
 	}
 
 	/**
