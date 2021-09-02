@@ -6,7 +6,8 @@ public class Piece {
 	 *
 	 * Rules:
 	 * the star✡ with parentheses() is regarded as the center star, and other star are marked as
-	 * a unit vector(0~5, unit vectors has been introduced in Location.java)
+	 * a unit vector(0~5, unit vectors has been introduced in Location.java),
+	 * which is from center star to this
 	 *
 	 *
 	 * color  shape           set           note
@@ -46,81 +47,180 @@ public class Piece {
 	 */
 
 	private int[] shape;
-	private char color;
+	private final char color;
+	private int direction = 0;
 
 	/**
+	 * Constructor:
 	 * create integer arrays of different length when different color input,
-	 * and set shape[] by following rules above
+	 * and set shape[] by the rules above
+	 * In this constructor, the piece is created as the default direction 0
 	 *
 	 * @param color should be one of those 7 char above
 	 */
 	Piece(char color){
+		this.color = color;
 		switch (color) {
 			case 'r' -> {
 				this.shape = new int[3];
 				this.shape[0] = 1;
 				this.shape[1] = 2;
 				this.shape[2] = 3;
-				this.color = color;
 			}
 			case 'o' -> {
 				this.shape = new int[2];
 				this.shape[0] = 1;
 				this.shape[1] = 3;
-				this.color = color;
 			}
 			case 'y' -> {
 				this.shape = new int[3];
 				this.shape[0] = 0;
 				this.shape[1] = 2;
 				this.shape[2] = 3;
-				this.color = color;
 			}
 			case 'g' -> {
 				this.shape = new int[2];
 				this.shape[0] = 1;
 				this.shape[1] = 3;
-				this.color = color;
 			}
 			case 'b' -> {
 				this.shape = new int[3];
 				this.shape[0] = 0;
 				this.shape[1] = 1;
 				this.shape[2] = 3;
-				this.color = color;
 			}
 			case 'i' -> {
 				this.shape = new int[2];
 				this.shape[0] = 0;
 				this.shape[1] = 3;
-				this.color = color;
 			}
 			case 'p' -> {
 				this.shape = new int[4];
 				this.shape[0] = 0;
 				this.shape[1] = 1;
 				this.shape[2] = 4;
-				this.shape[4] = 5;
-				this.color = color;
+				this.shape[3] = 5;
 			}
 		}
 	}
 
 	/**
-	 * get pieces in different orientations
-	 * @param rotation 0~5
+	 * let piece rotate in rotation*60 degree
+	 *
+	 * @param rotation 0~5 is better, but could be larger
 	 */
 	public void rotatePiece(int rotation){
+		this.direction = (this.direction + rotation) % 6;
 		for(int i = 0; i < this.shape.length; i++)
 			shape[i]=(shape[i] + rotation) % 6;
 	}
 
+	/**
+	 * return the direction vector from center star to the top left of the piece
+	 * 0~5 -> 6 unit direction vectors
+	 *        actually, it will only return 4, 5, 3 but not 0~2,
+	 *        because the center star is always at the top left of 0~2 direction,
+	 *        and piece 'p' has an empty center star but with 4 adjacent stars,
+	 *        which means there is always at least one of 3~5 in these 4 adjacent
+	 *        stars with total 6 direction
+	 * 6 -> just the center star of the piece
+	 *
+	 * specially, piece 'g' has a star which distance to the center star d = 2
+	 *            for this situation, use the unit vector twice
+	 *            for example:
+	 *            ✡                 this piece has the top left star which is
+	 *             \                2 units away from the center
+	 *              ✡               and return  44
+	 *               \
+	 *               （✡）-- ✡
+	 *
+	 * @return 3~6, 44, 55
+	 */
+	public int topLeft(){
+		if (this.color == 'g'){
+			switch (shape[0]){
+				case 0:
+					return 6;
+				case 1:
+					return 3;
+				case 2:
+					return 4;
+				case 3:
+					return 5;
+				case 4:
+					return 44;
+				case 5:
+					return 55;
+			}
+		}
+		boolean exist3 = false;
+		boolean exist4 = false;
+		boolean exist5 = false;
+		for (int i : this.shape){
+			if (i == 3)
+				exist3 = true;
+			if (i == 4)
+				exist4 = true;
+			if (i == 5)
+				exist5 = true;
+		}
+		if (exist4)
+			return 4;
+		else if (exist5)
+			return 5;
+		else if (exist3)
+			return 3;
+		else return 6;
+	}
 
 	/**
+	 * put piece with the center star location into format in readme.md
 	 *
-	 * @return String in format like readme.md
+	 * @param loc is the center star location
+	 * @return String in format like readme.md, length() == 4
 	 */
-	public String toString(){
-		//TODO:
+	public String toString(Location loc){
+		String res = "";
+		res = res + this.color + this.direction;
+		int topLeft = this.topLeft();
+		if (topLeft == 3)
+			return res + loc.getNext(3).toString();
+		if (topLeft == 4)
+			return res + loc.getNext(4).toString();
+		if (topLeft == 5)
+			return res + loc.getNext(5).toString();
+		if (topLeft == 6)
+			return res + loc.toString();
+		if (topLeft == 44)
+			return res + loc.getNext(4).getNext(4).toString();
+		if (topLeft == 55)
+			return res + loc.getNext(5).getNext(5).toString();
+		return "";//this line should not be used
+	}
+
+	/**
+	 * get the center star Location of the piece in readme.md format
+	 *
+	 * @param str the format in readme.md
+	 * @return the center star location
+	 */
+	public static Location getCenter(String str) {
+		Piece piece = new Piece(str.charAt(0));
+		piece.rotatePiece(str.charAt(1)-'0');
+		int topLeft = piece.topLeft();
+		Location loc = new Location(str.substring(2, 4));
+		if (topLeft == 3)
+			return loc.getNext(0);
+		if (topLeft == 4)
+			return loc.getNext(1);
+		if (topLeft == 5)
+			return loc.getNext(2);
+		if (topLeft == 6)
+			return loc;
+		if (topLeft == 44)
+			return loc.getNext(1).getNext(1);
+		if (topLeft == 55)
+			return loc.getNext(2).getNext(2);
+		return loc;//this line should not be used
 	}
 }
