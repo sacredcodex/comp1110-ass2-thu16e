@@ -15,7 +15,9 @@ public class Board {
 	 *         \    /   \    /   \    /   \    /   \    /   \    /
 	 *        [3][0]---[3][1]---[3][2]---[3][3]---[3][4]---[3][5]
 	 *
-	 *
+	 * in the char array color:
+	 * r, o, y, g, b, i, p represent for 7 pieces
+	 * n represents for empty
 	 *
 	 */
 
@@ -25,7 +27,7 @@ public class Board {
 	/**
 	 * constructor
 	 * create 26 color
-	 * set color='n'
+	 * set color = 'n'
 	 */
 	Board(){
 		color = new char[4][];
@@ -110,6 +112,7 @@ public class Board {
 	 * @return whether loc on board is valid to place the Piece
 	 */
 	public boolean isPieceValid(Piece piece ,Location loc){
+
 		return true;//TODO: complete after Board
 	}
 

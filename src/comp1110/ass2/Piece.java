@@ -174,7 +174,7 @@ public class Piece {
 	}
 
 	/**
-	 * put piece with the center star location into format in readme.md
+	 * change piece with the center star location into format in readme.md
 	 *
 	 * @param loc is the center star location
 	 * @return String in format like readme.md, length() == 4
