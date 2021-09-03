@@ -105,6 +105,22 @@ public class Piece {
 	}
 
 	/**
+	 * This is used in Board
+	 * @return char, color of piece
+	 */
+	public char getColor() {
+		return color;
+	}
+
+	/**
+	 * This is used int Board
+	 * @return int[]
+	 */
+	public int[] getShape() {
+		return shape;
+	}
+
+	/**
 	 * let piece rotate in rotation*60 degree
 	 *
 	 * @param rotation 0~5 is better, but could be larger
@@ -221,6 +237,6 @@ public class Piece {
 			return loc.getNext(1).getNext(1);
 		if (topLeft == 55)
 			return loc.getNext(2).getNext(2);
-		return loc;//this line should not be used
+		return loc;//placeholder, this line should not be used
 	}
 }
