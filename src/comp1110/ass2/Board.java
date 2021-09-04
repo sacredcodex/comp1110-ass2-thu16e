@@ -102,6 +102,16 @@ public class Board {
 		}
 	}
 
+	/**
+	 *
+	 * @param loc Location
+	 * @return if loc is on board and the color for this loc is empty
+	 */
+	public boolean isLocationValid(Location loc){
+		if (!loc.onBoard())
+			return false;
+		return this.getColor(loc.toString()) == 'n';
+	}
 
 	/**
 	 * This method is only used for normal puzzle(without wizard)
@@ -109,11 +119,18 @@ public class Board {
 	 * All star locations should be on board and empty
 	 *
 	 * @param loc the center star location to place the piece
-	 * @return whether loc on board is valid to place the Piece
+	 * @return whether loc is on board and empty to place the Piece
 	 */
 	public boolean isPieceValid(Piece piece ,Location loc){
-
-		return true;//TODO: complete after Board
+		if (!(piece.getColor() == 'p') && !isLocationValid(loc))
+			return false;
+		for (int i : piece.getShape()){
+			if (!isLocationValid(loc.getNext(i)))
+				return false;
+		}
+		if (piece.getColor() == 'g')
+			return isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]));
+		return true;
 	}
 
 	/**
@@ -130,28 +147,43 @@ public class Board {
 	}
 
 	/**
+	 * put the piece onto the board
+	 * change these location color into the piece color
 	 *
 	 * @param loc the center star location to place the piece
 	 */
 	public void placePiece(Piece piece,Location loc){
-		//TODO: complete after Board
+		if (!(piece.getColor() == 'p'))
+			this.setColor(loc.toString(), piece.getColor());
+		for (int i : piece.getShape()){
+			this.setColor(loc.getNext(i).toString(), piece.getColor());
+		}
+		if (piece.getColor() == 'g')
+			this.setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), piece.getColor());
 	}
 
 	/**
 	 *
 	 * @param str format in readme.md
 	 */
-	public static void placePiece(String str){
-		//TODO:
+	public void placePiece(String str){
+		Piece piece = new Piece(str.charAt(0));
+		piece.rotatePiece(str.charAt(1)-'0');
+		this.placePiece(piece, piece.getCenter(str));
 	}
 
 	/**
 	 * notice: it will also remove the wizard puzzle star
-	 * @param board
-	 * @param loc the start location to place the piece
+	 *
+	 * @param loc the center star location to place the piece
 	 */
-	public void removePiece(Board board,Location loc){
-		//TODO: complete after Board
+	public void removePiece(Piece piece,Location loc){
+		setColor(loc.toString(), 'n');
+		for (int i : piece.getShape()){
+			setColor(loc.getNext(i).toString(), 'n');
+		}
+		if (piece.getColor() == 'g')
+			setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), 'n');
 	}
 
 	/**

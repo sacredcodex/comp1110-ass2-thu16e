@@ -63,32 +63,32 @@ public class Location {
 	/**
 	 * constructor
 	 * transform format in readme.md --> cube coordinate (x,y,z)
-	 * @param x and
-	 * @param y are 2 parameters in readme.md
+	 * @param column and
+	 * @param row are 2 parameters in readme.md
 	 */
-	 Location(int x,int y){
-	 	this.z=y;
-	 	if (y==0||y==1)
-	 		this.x=x;
-	 	else this.x=x-1;
-	 	this.y= -this.x - this.y;
+	 Location(int column,int row){
+	 	this.z = row;
+	 	if (row == 0 || row == 1)
+	 		this.x = column;
+	 	else this.x = column - 1;
+	 	this.y = - this.x - this.z;
 	 }
 
 	/**
 	 * constructor
 	 * format in readme.md
 	 * @param str format in readme.md with 2 characters
-	 *            e.g. 03, 34, 52
+	 *            e.g. 03, 32, 52
 	 */
 	Location(String str){
 		char[] c=str.toCharArray();
-		int x=c[0]-'0';
-		int y=c[1]-'0';
-		this.z=y;
-		if (y==0||y==1)
-			this.x=x;
-		else this.x=x-1;
-		this.y= -this.x - this.y;
+		int column = c[0] - '0';
+		int row = c[1] - '0';
+		this.z = row;
+		if (row == 0 || row == 1)
+			this.x = column;
+		else this.x = column - 1;
+		this.y = - this.x - this.z;
 	}
 
 	public int getX() {

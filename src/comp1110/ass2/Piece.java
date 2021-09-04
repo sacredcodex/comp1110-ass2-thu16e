@@ -218,12 +218,12 @@ public class Piece {
 	 * get the center star Location of the piece in readme.md format
 	 *
 	 * @param str the format in readme.md
+	 *            only the last 2 chars are used
+	 *            assumed this Piece is equal to what str expresses
 	 * @return the center star location
 	 */
-	public static Location getCenter(String str) {
-		Piece piece = new Piece(str.charAt(0));
-		piece.rotatePiece(str.charAt(1)-'0');
-		int topLeft = piece.topLeft();
+	public  Location getCenter(String str) {
+		int topLeft = this.topLeft();
 		Location loc = new Location(str.substring(2, 4));
 		if (topLeft == 3)
 			return loc.getNext(0);

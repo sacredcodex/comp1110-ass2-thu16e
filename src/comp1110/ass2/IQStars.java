@@ -26,12 +26,34 @@ public class IQStars {
      *      @param gameString A string describing either a piece or a wizard
      *      @return True if the string is well-formed
      */
+    // this method only check if the topleft location is on board, not the whole piece
     static boolean isGameStringWellFormed(String gameString) {
         if (gameString==null)
             return false;
-        if (gameString.length()<3||gameString.length()>4)
-            return false;
-
+        if (gameString.length() == 3){
+            Location loc = new Location(gameString.substring(1,3));
+            if (!loc.onBoard())
+                return false;
+            char c = gameString.charAt(0);
+            return c == 'r' || c == 'o' || c == 'y' || c == 'g' || c == 'b' || c == 'i' || c == 'p';
+        }
+        if (gameString.length() == 4){
+            char c = gameString.charAt(0);
+            if (c != 'r' && c != 'o' && c != 'y' && c != 'g' && c != 'b' && c != 'i' && c != 'p')
+                return false;
+            if (gameString.charAt(1)<'0')
+                return false;
+            if (c == 'r' || c == 'i'){
+                if (gameString.charAt(1) > '2')
+                    return false;
+            }else{
+                if (gameString.charAt(1) > '5')
+                    return false;
+            }
+            Location loc = new Location(gameString.substring(2,4));
+            return loc.onBoard();
+        }
+        //length < 3 || length > 4
         return false; // FIXME Task 3 (P): determine whether a wizard or piece string is well-formed
     }
 
