@@ -152,6 +152,12 @@ public class Board {
 		return true;
 	}
 
+	public boolean isPieceValid(String str){
+		Piece piece = new Piece(str.charAt(0));
+		piece.rotatePiece(str.charAt(1)-'0');
+		return this.isPieceValid(piece, piece.getCenter(str));
+	}
+
 	/**
 	 * put the piece onto the board
 	 * change these location color into the piece color

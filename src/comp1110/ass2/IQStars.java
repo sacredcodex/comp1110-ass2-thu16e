@@ -170,7 +170,67 @@ public class IQStars {
      * @return True if the game state represented by the string is valid
      */
     public static boolean isGameStateValid(String gameStateString) {
-        return false;  // FIXME Task 6 (D): determine whether a game state is valid
+        if (!isGameStateStringWellFormed(gameStateString))
+            return false;
+        int indexOfW = gameStateString.indexOf('W');
+        String partOne = gameStateString.substring(0,indexOfW);
+        String partTwo = gameStateString.substring(indexOfW+1,gameStateString.length());
+        Board board = new Board();
+
+        String piece;
+        for (int i = 0; i < partOne.length() / 4; i++) {
+            piece = partOne.substring(4 * i, 4 * i + 4);
+            if (board.isPieceValid(piece))
+                board.placePiece(piece);
+            else
+                return false;
+        }
+        String wizard;
+        for (int i = 0; i < partTwo.length() / 3; i++){
+            wizard = partTwo.substring(3 * i, 3 * i + 3);
+            if (board.getColor(wizard.substring(1,3)) == 'n')
+                board.setColor(wizard.substring(1,3), (char)(wizard.charAt(0)-32));
+            else if (board.getColor(wizard.substring(1,3)) != wizard.charAt(0))
+                return false;
+        }
+
+        int[] countStar = new int[7];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < board.getColors()[i].length; j++) {
+                switch (board.getColors()[i][j]){
+                    case 'r' -> countStar[0]++;
+                    case 'R' -> countStar[0]++;
+                    case 'o' -> countStar[1]++;
+                    case 'O' -> countStar[1]++;
+                    case 'y' -> countStar[2]++;
+                    case 'Y' -> countStar[2]++;
+                    case 'g' -> countStar[3]++;
+                    case 'G' -> countStar[3]++;
+                    case 'b' -> countStar[4]++;
+                    case 'B' -> countStar[4]++;
+                    case 'i' -> countStar[5]++;
+                    case 'I' -> countStar[5]++;
+                    case 'p' -> countStar[6]++;
+                    case 'P' -> countStar[6]++;
+                }
+            }
+        }
+        if (countStar[0] > 4)
+            return false;
+        if (countStar[1] > 3)
+            return false;
+        if (countStar[2] > 4)
+            return false;
+        if (countStar[3] > 4)
+            return false;
+        if (countStar[4] > 4)
+            return false;
+        if (countStar[5] > 3)
+            return false;
+        if (countStar[6] > 4)
+            return false;
+
+        return true;  // FIXME Task 6 (D): determine whether a game state is valid
     }
 
     /**
