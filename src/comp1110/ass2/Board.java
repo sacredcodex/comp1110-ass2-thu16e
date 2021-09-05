@@ -3,8 +3,7 @@ package comp1110.ass2;
 public class Board {
 	/**
 	 * subscript is same with format in readme.md
-	 * [0~3][0~6/5]
-	 * empty is marked as 'n'
+	 *      [0~3][0~6/5]
 	 *
 	 * Board:
 	 *    [0][0]---[0][1]---[0][2]---[0][3]---[0][4]---[0][5]---[0][6]
@@ -19,17 +18,19 @@ public class Board {
 	 * r, o, y, g, b, i, p represent for 7 pieces
 	 * n represents for empty
 	 *
+	 * Use upper case for wizard state
+	 * R, O, Y, G, B, I, P
+	 * NOTE: 'a' - 'A' = 32
 	 */
-
 
 	private char[][] color;
 
 	/**
-	 * constructor
+	 * constructor， initialize
 	 * create 26 color
 	 * set color = 'n'
 	 */
-	Board(){
+	public Board(){
 		color = new char[4][];
 		color[0] = new char[7];
 		color[1] = new char[6];
@@ -43,9 +44,10 @@ public class Board {
 	}
 
 	/**
+	 * get one color of loc
 	 *
 	 * @param loc format in readme.md
-	 * @return color
+	 * @return char
 	 */
 	public char getColor(String loc){
 		char[] copy = loc.toCharArray();
@@ -53,9 +55,18 @@ public class Board {
 	}
 
 	/**
+	 * get all colors on the board
 	 *
+	 * @return char[][]
+	 */
+	public char[][] getColors() {
+		return color;
+	}
+
+	/**
+	 * color[loc] := color
 	 * @param loc format in readme.md
-	 * @param color 7 colors or empty
+	 * @param color 7 colors(lower or upper case) or empty
 	 */
 	public void setColor(String loc,char color){
 		char[] copy = loc.toCharArray();
@@ -86,80 +97,79 @@ public class Board {
 
 	/**
 	 * set color[][]
-	 * @param puzzle both not wizard and wizard
+	 * lower case for piece, upper case for wizard
+	 * if one location is mentioned in both piece statement and wizard statement,
+	 * color[loc] save as lower case
+	 *
+	 * @param puzzle should be wel formed, contain both piece and wizard
 	 */
 	public void setPuzzle(String puzzle){
+		int indexOfW = puzzle.indexOf('W');
+		String partOne = puzzle.substring(0,indexOfW);
+		String partTwo = puzzle.substring(indexOfW+1);
 		String piece;
-		if (puzzle.charAt(0)=='W'){
-			for (int i = 0; 3*i+3 < puzzle.length(); i++) {
-				this.setColor(puzzle.substring(3*i+2,3*i+4),puzzle.charAt(3*i+1));
-			}
-		}else{
-			for (int i = 0; 4*i+4 < puzzle.length(); i++) {
-				piece=puzzle.substring(4*i,4*i+4);
-				placePiece(piece);
-			}
+		for (int i = 0; i < partOne.length() / 4; i++) {
+			piece = partOne.substring(4 * i, 4 * i + 4);
+			placePiece(piece);
+		}
+		String wizard;
+		for (int i = 0; i < partTwo.length() / 3; i++){
+			wizard = partTwo.substring(3 * i, 3 * i + 3);
+			if (getColor(wizard.substring(1,3) )== 'n')
+				setColor(wizard.substring(1,3), (char)(wizard.charAt(0)-32));
 		}
 	}
 
 	/**
 	 *
 	 * @param loc Location
-	 * @return if loc is on board and the color for this loc is empty
+	 * @param color one of 7 lower case chars
+	 * @return true if loc is on board and
+	 *                      1. the color at this loc is empty
+	 *                   or 2. wizard state with the same color
 	 */
-	public boolean isLocationValid(Location loc){
+	public boolean isLocationValid(Location loc, char color){
 		if (!loc.onBoard())
 			return false;
-		return this.getColor(loc.toString()) == 'n';
+		return (getColor(loc.toString()) == 'n' || getColor(loc.toString()) == color - 32 );
 	}
 
 	/**
-	 * This method is only used for normal puzzle(without wizard)
-	 *
-	 * All star locations should be on board and empty
+	 * All star locations should be on board and empty or wizard
 	 *
 	 * @param loc the center star location to place the piece
 	 * @return whether loc is on board and empty to place the Piece
 	 */
 	public boolean isPieceValid(Piece piece ,Location loc){
-		if (!(piece.getColor() == 'p') && !isLocationValid(loc))
+		if (!(piece.getColor() == 'p') && !isLocationValid(loc, piece.getColor()))
 			return false;
 		for (int i : piece.getShape()){
-			if (!isLocationValid(loc.getNext(i)))
+			if (!isLocationValid(loc.getNext(i), piece.getColor()))
 				return false;
 		}
 		if (piece.getColor() == 'g')
-			return isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]));
+			return isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]), piece.getColor());
 		return true;
-	}
-
-	/**
-	 * This method should be used for wizard puzzle
-	 *
-	 *
-	 * @param loc the center star location to place the piece
-	 * @return whether loc on board is valid to place the Piece
-	 */
-	public boolean isPieceValidForWizard(Piece piece ,Location loc){
-		if (!isPieceValid(piece, loc))
-			return false;
-		return true;//TODO: complete after Board
 	}
 
 	/**
 	 * put the piece onto the board
 	 * change these location color into the piece color
+	 * for wizard location, color[loc] keep upper case
 	 *
 	 * @param loc the center star location to place the piece
 	 */
 	public void placePiece(Piece piece,Location loc){
 		if (!(piece.getColor() == 'p'))
-			this.setColor(loc.toString(), piece.getColor());
+			if (getColor(loc.toString()) == 'n')
+				setColor(loc.toString(), piece.getColor());
 		for (int i : piece.getShape()){
-			this.setColor(loc.getNext(i).toString(), piece.getColor());
+			if (getColor(loc.getNext(i).toString()) == 'n')
+				setColor(loc.getNext(i).toString(), piece.getColor());
 		}
 		if (piece.getColor() == 'g')
-			this.setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), piece.getColor());
+			if (getColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString()) == 'n')
+				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), piece.getColor());
 	}
 
 	/**
@@ -173,17 +183,20 @@ public class Board {
 	}
 
 	/**
-	 * notice: it will also remove the wizard puzzle star
+	 * notice: it will keep the wizard star
 	 *
 	 * @param loc the center star location to place the piece
 	 */
-	public void removePiece(Piece piece,Location loc){
-		setColor(loc.toString(), 'n');
+	public void removePiece(Piece piece, Location loc){
+		if (getColor(loc.toString()) > 96)//if lower case
+			setColor(loc.toString(), 'n');
 		for (int i : piece.getShape()){
-			setColor(loc.getNext(i).toString(), 'n');
+			if (getColor(loc.getNext(i).toString()) > 96)//if lower case
+				setColor(loc.getNext(i).toString(), 'n');
 		}
 		if (piece.getColor() == 'g')
-			setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), 'n');
+			if (getColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString()) > 96)//if lower case
+				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), 'n');
 	}
 
 	/**
@@ -191,13 +204,13 @@ public class Board {
 	 * @return solution of normal puzzle(not wizard)
 	 */
 	public String solvePuzzle(){
-		return "";
+		return "";//FIXME：TASK10
 	}
 	/**
 	 *
 	 * @return solution of wizard puzzle
 	 */
 	public String solveWizard(){
-		return "";
+		return "";//FIXME: TASK13
 	}
 }
