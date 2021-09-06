@@ -140,7 +140,7 @@ public class Board {
 	 * @param loc the center star location to place the piece
 	 * @return whether loc is on board and empty to place the Piece
 	 */
-	public boolean isPieceValid(Piece piece ,Location loc){
+	public boolean isPieceValid(Piece piece, Location loc){
 		if (!(piece.getColor() == 'p') && !isLocationValid(loc, piece.getColor()))
 			return false;
 		for (int i : piece.getShape()){
@@ -148,7 +148,8 @@ public class Board {
 				return false;
 		}
 		if (piece.getColor() == 'g')
-			return isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]), piece.getColor());
+			if (!(isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]), piece.getColor())))
+				return false;
 		return true;
 	}
 
@@ -189,6 +190,23 @@ public class Board {
 	}
 
 	/**
+	 * after place the Piece, check if the piece cover all the wizard star in same color
+	 * @param c
+	 * @return
+	 */
+	public boolean isCoveredWizard(char c){
+		int count = 0;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < this.color[i].length;j++) {
+				if (this.color[i][j] == c || this.color[i][j] == c - 32)
+					count++;
+			}
+		}
+		if (count == 3 && (c == 'o' || c == 'i'))
+			return true;
+		return count == 4 && (c == 'r' || c == 'y' || c == 'g' || c == 'b' || c == 'p');
+	}
+	/**
 	 * notice: it will keep the wizard star
 	 *
 	 * @param loc the center star location to place the piece
@@ -197,12 +215,19 @@ public class Board {
 		if (getColor(loc.toString()) > 96)//if lower case
 			setColor(loc.toString(), 'n');
 		for (int i : piece.getShape()){
-			if (getColor(loc.getNext(i).toString()) > 96)//if lower case
+			//if lower case, change to 'n', for upper case ,color[loc] is wizard star, do not need to change
+			if (getColor(loc.getNext(i).toString()) > 96)
 				setColor(loc.getNext(i).toString(), 'n');
 		}
 		if (piece.getColor() == 'g')
 			if (getColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString()) > 96)//if lower case
 				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), 'n');
+	}
+
+	public void removePiece(String str){
+		Piece piece = new Piece(str.charAt(0));
+		piece.rotatePiece(str.charAt(1)-'0');
+		this.removePiece(piece, piece.getCenter(str));
 	}
 
 	/**

@@ -60,6 +60,7 @@ public class Piece {
 	 */
 	Piece(char color){
 		this.color = color;
+		this.direction = 0;
 		switch (color) {
 			case 'r' -> {
 				this.shape = new int[3];
@@ -101,6 +102,7 @@ public class Piece {
 				this.shape[2] = 4;
 				this.shape[3] = 5;
 			}
+			default -> this.shape = null;
 		}
 	}
 
@@ -127,6 +129,8 @@ public class Piece {
 	 */
 	public void rotatePiece(int rotation){
 		this.direction = (this.direction + rotation) % 6;
+		if (this.color == 'r' || color == 'i')
+			direction = direction % 3;
 		for(int i = 0; i < this.shape.length; i++)
 			shape[i]=(shape[i] + rotation) % 6;
 	}
@@ -195,8 +199,9 @@ public class Piece {
 	 * @param loc is the center star location
 	 * @return String in format like readme.md, length() == 4
 	 */
-	public String toString(Location loc){
+	public String toString(Location loc) {
 		String res = "";
+
 		res = res + this.color + this.direction;
 		int topLeft = this.topLeft();
 		if (topLeft == 3)
@@ -211,7 +216,7 @@ public class Piece {
 			return res + loc.getNext(4).getNext(4).toString();
 		if (topLeft == 55)
 			return res + loc.getNext(5).getNext(5).toString();
-		return "";//this line should not be used
+		return "";//placeholder
 	}
 
 	/**

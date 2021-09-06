@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class IQStars {
@@ -252,7 +253,96 @@ public class IQStars {
      * @return A set of all viable piece strings, or null if there are none.
      */
     static Set<String> getViablePieceStrings(String gameStateString, int col, int row) {
-        return null;  // FIXME Task 7 (P): determine the set of all viable piece strings given an existing game state
+        Board board = new Board();
+        board.setPuzzle(gameStateString);
+        Location loc = new Location(""+col+row);
+        Location adjacentLoc, distance2Loc;
+        Piece piece = null;
+
+        char[] color = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
+        // not mentioned or in wizard string
+        Set<Character> unusedColor = new HashSet<>();
+        for (int i = 0; i < 7; i++) {
+            if (gameStateString.substring(0, gameStateString.indexOf('W')).indexOf(color[i]) == -1)
+                unusedColor.add(color[i]);
+        }
+
+        Set<String> res = new HashSet<>();
+
+        //input location is center star
+        for (int rotation = 0; rotation < 6; rotation++) {
+            for (char c : unusedColor){
+                if (c == 'p')
+                    continue; // center star of pink piece is empty
+                piece = new Piece(c);
+                piece.rotatePiece(rotation);
+                if (board.isPieceValid(piece, loc)) {
+                        res.add(piece.toString(loc));
+                }
+            }
+
+        }
+        // center star is around input loc
+        for (int i = 0; i < 6; i++) {
+            // adjacent
+            adjacentLoc = loc.getNext(i);
+            if (adjacentLoc.onBoard()) {
+                for (int rotation = 0; rotation < 6; rotation++) {
+                    for (char c : unusedColor){
+                        piece = new Piece(c);
+                        piece.rotatePiece(rotation);
+                        if (board.isPieceValid(piece, adjacentLoc)) {
+                            for (int j : piece.getShape()) {
+                                if (j == (i + 3) % 6){
+                                        res.add(piece.toString(adjacentLoc));
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            // green piece
+            if (unusedColor.contains('g')) {
+                distance2Loc = loc.getNext(i).getNext(i);
+                if (distance2Loc.onBoard()) {
+                    // rotation = (3 + i - 1) % 6
+                    piece = new Piece('g');
+                    piece.rotatePiece((2 + i) % 6);
+                    if (board.isPieceValid(piece, distance2Loc)){
+                            res.add(piece.toString(distance2Loc));
+                    }
+                }
+            }
+        }
+
+        // remove pieces which does not cover the wizard star:
+        int countStar;
+        Set<String> toBeRemoved = new HashSet<>();
+        for (String pieceStr : res ){
+            board.placePiece(pieceStr);
+            countStar = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < board.getColors()[i].length; j++) {
+                    if (board.getColors()[i][j] == pieceStr.charAt(0) || board.getColors()[i][j] == pieceStr.charAt(0) - 32)
+                        countStar++;
+                }
+            }
+            board.removePiece(pieceStr);
+            if (countStar == 3 && (pieceStr.charAt(0) == 'o' || pieceStr.charAt(0) == 'i'))
+                continue;
+            if (countStar == 4 && (pieceStr.charAt(0) == 'r' || pieceStr.charAt(0) == 'y' || pieceStr.charAt(0) == 'g' ||
+                    pieceStr.charAt(0) == 'b' || pieceStr.charAt(0) == 'p' ))
+                continue;
+            toBeRemoved.add(pieceStr);
+        }
+        for (String i : toBeRemoved) {
+            res.remove(i);
+        }
+
+        if (res.isEmpty())
+            return null;
+        return res;  // FIXME Task 7 (P): determine the set of all viable piece strings given an existing game state
     }
 
     /**
