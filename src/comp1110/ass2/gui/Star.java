@@ -89,6 +89,6 @@ public class Star extends Polygon {
 		);
 		super.setFill(new Color(0.172, 0.172, 0.27, 1.0));
 		super.setStroke(Color.BLACK);
-		super.setStrokeWidth(0.15*UNIT);
+		super.setStrokeWidth(0.2*UNIT);
 	}
 }

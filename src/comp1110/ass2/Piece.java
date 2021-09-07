@@ -58,7 +58,7 @@ public class Piece {
 	 *
 	 * @param color should be one of those 7 char above
 	 */
-	Piece(char color){
+	public Piece(char color){
 		this.color = color;
 		this.direction = 0;
 		switch (color) {
