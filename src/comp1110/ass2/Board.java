@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Board {
 	/**
 	 * subscript is same with format in readme.md
@@ -232,16 +235,153 @@ public class Board {
 
 	/**
 	 *
-	 * @return solution of normal puzzle(not wizard)
+	 * @return
 	 */
 	public String solvePuzzle(){
-		return "";//FIXME：TASK10
+		String res="no solution";
+		Set<Character> unusedColor = new HashSet<>();
+		unusedColor.add('r');
+		unusedColor.add('o');
+		unusedColor.add('y');
+		unusedColor.add('g');
+		unusedColor.add('b');
+		unusedColor.add('i');
+		unusedColor.add('p');
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < color[i].length; j++) {
+				return toString();
+			}
+		}
+		if (unusedColor.isEmpty())
+			this.print();
+
+		String pieceStr;
+		for (char c : unusedColor){
+			for (int rotation = 0; rotation < 6; rotation++) {
+				for (int i = 0; i < 4; i++) {
+					for (int j = 0; j < color[i].length; j++) {
+						pieceStr = "" + c + rotation + j + i;
+						if (isPieceValid(pieceStr)) {
+							placePiece(pieceStr);
+							res = solvePuzzle();
+							removePiece(pieceStr);
+						}
+					}
+				}
+			}
+		}
+		return res;
+		//FIXME：TASK10
 	}
-	/**
-	 *
-	 * @return solution of wizard puzzle
-	 */
-	public String solveWizard(){
-		return "";//FIXME: TASK13
+
+	public String toString(){
+		char[] c = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
+		boolean[] exist = {false,false,false,false,false,false,false};
+		String[] loc= new String[7];
+
+		// get topleft
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < color[i].length; j++) {
+				switch (color[i][j]){
+					case 'R' -> {
+						if (!exist[0]) {
+							exist[0] = true;
+							loc[0] = "" + j + i;
+						}
+					}
+					case 'O' -> {
+						if (!exist[1]) {
+							exist[1] = true;
+							loc[1] = "" + j + i;
+						}
+					}
+					case 'Y' -> {
+						if (!exist[2]) {
+							exist[2] = true;
+							loc[2] = "" + j + i;
+						}
+					}
+					case 'G' -> {
+						if (!exist[3]) {
+							exist[3] = true;
+							loc[3] = "" + j + i;
+						}
+					}
+					case 'B' -> {
+						if (!exist[4]) {
+							exist[4] = true;
+							loc[4] = "" + j + i;
+						}
+					}
+					case 'I' -> {
+						if (!exist[5]) {
+							exist[5] = true;
+							loc[5] = "" + j + i;
+						}
+					}
+					case 'P' -> {
+						if (!exist[6]) {
+							exist[6] = true;
+							loc[6] = "" + j + i;
+						}
+					}
+					case 'r' -> {
+						if (!exist[0]) {
+							exist[0] = true;
+							loc[0] = "" + j + i;
+						}
+					}
+					case 'o' -> {
+						if (!exist[1]) {
+							exist[1] = true;
+							loc[1] = "" + j + i;
+						}
+					}
+					case 'y' -> {
+						if (!exist[2]) {
+							exist[2] = true;
+							loc[2] = "" + j + i;
+						}
+					}
+					case 'g' -> {
+						if (!exist[3]) {
+							exist[3] = true;
+							loc[3] = "" + j + i;
+						}
+					}
+					case 'b' -> {
+						if (!exist[4]) {
+							exist[4] = true;
+							loc[4] = "" + j + i;
+						}
+					}
+					case 'i' -> {
+						if (!exist[5]) {
+							exist[5] = true;
+							loc[5] = "" + j + i;
+						}
+					}
+					case 'p' -> {
+						if (!exist[6]) {
+							exist[6] = true;
+							loc[6] = "" + j + i;
+						}
+					}
+				}
+			}
+		}
+
+		int[] rotation = new int[7];
+		// get  rotation
+
+
+
+		String res = "";
+		for (int i = 0; i < 7; i++) {
+			if (exist[i]){
+				res = res + c[i] + rotation[i] + loc[i];
+			}
+		}
+		return res+"W";
 	}
 }
