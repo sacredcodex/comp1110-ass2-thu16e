@@ -27,6 +27,7 @@ public class Board {
 	 */
 
 	private char[][] color;
+	private String solution = "no solution";
 
 	/**
 	 * constructor， initialize
@@ -46,6 +47,15 @@ public class Board {
 		}
 	}
 
+	public boolean onBoard(String loc){
+		char[] chars = loc.toCharArray();
+		if (chars[0] >= '0' && chars[0] <= '5') {
+			return chars[1] >= '0' && chars[1] <= '3';
+		}else if (chars[0] == '6' )
+			return chars[1] == '0' || chars[1] == '2';
+		else return false;
+	}
+
 	/**
 	 * get one color of loc
 	 *
@@ -53,8 +63,14 @@ public class Board {
 	 * @return char
 	 */
 	public char getColor(String loc){
+		if (!onBoard(loc))
+			return ' ';
 		char[] copy = loc.toCharArray();
 		return this.color[copy[1]-'0'][copy[0]-'0'];
+	}
+
+	public String getSolution() {
+		return solution;
 	}
 
 	/**
@@ -215,8 +231,9 @@ public class Board {
 	 * @param loc the center star location to place the piece
 	 */
 	public void removePiece(Piece piece, Location loc){
-		if (getColor(loc.toString()) > 96)//if lower case
-			setColor(loc.toString(), 'n');
+		if (piece.getColor() != 'p')
+			if (getColor(loc.toString()) > 96)//if lower case
+				setColor(loc.toString(), 'n');
 		for (int i : piece.getShape()){
 			//if lower case, change to 'n', for upper case ,color[loc] is wizard star, do not need to change
 			if (getColor(loc.getNext(i).toString()) > 96)
@@ -237,8 +254,7 @@ public class Board {
 	 *
 	 * @return
 	 */
-	public String solvePuzzle(){
-		String res="no solution";
+	public void solvePuzzle(){
 		Set<Character> unusedColor = new HashSet<>();
 		unusedColor.add('r');
 		unusedColor.add('o');
@@ -249,31 +265,37 @@ public class Board {
 		unusedColor.add('p');
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < color[i].length; j++) {
-				return toString();
+				unusedColor.remove(color[i][j]);
 			}
 		}
 		if (unusedColor.isEmpty())
-			this.print();
+			solution = this.toString();
 
 		String pieceStr;
-		for (char c : unusedColor){
+		String colors = unusedColor.toString();
+		char c = unusedColor.toString().charAt(1);
 			for (int rotation = 0; rotation < 6; rotation++) {
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < color[i].length; j++) {
-						pieceStr = "" + c + rotation + j + i;
-						if (isPieceValid(pieceStr)) {
-							placePiece(pieceStr);
-							res = solvePuzzle();
-							removePiece(pieceStr);
+						if (color[i][j] < c - 32 || color[i][j] == 'n') {
+							pieceStr = "" + c + rotation + j + i;
+							if (isPieceValid(pieceStr)) {
+								placePiece(pieceStr);
+								solvePuzzle();
+								removePiece(pieceStr);
+							}
 						}
 					}
 				}
 			}
-		}
-		return res;
+
 		//FIXME：TASK10
 	}
 
+	/**
+	 * a gameStateString with 'W' as the end
+	 * @return
+	 */
 	public String toString(){
 		char[] c = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
 		boolean[] exist = {false,false,false,false,false,false,false};
@@ -372,7 +394,104 @@ public class Board {
 		}
 
 		int[] rotation = new int[7];
+		Location topLeft;
 		// get  rotation
+		for (int i = 0; i < 7; i++) {
+			if (exist[i]){
+				topLeft = new Location(loc[i]);
+				switch (i){
+					// red
+					case 0:
+						if (getColor(topLeft.getNext(0).toString()) == 'r' || getColor(topLeft.getNext(0).toString()) == 'R'){
+							if (getColor(topLeft.getNext(2).toString()) == 'r' || getColor(topLeft.getNext(2).toString()) == 'R')
+								rotation[i] = 2;
+							else rotation[i] = 0;
+						}else
+							rotation[i] = 1;
+						break;
+					//orange
+					case 1:
+						if (getColor(topLeft.getNext(0).toString()) == 'o' || getColor(topLeft.getNext(0).toString()) == 'O'){
+							if (getColor(topLeft.getNext(2).toString()) == 'o' || getColor(topLeft.getNext(2).toString()) == 'O')
+								rotation[i] = 5;
+							else rotation[i] =0;
+						}else if (getColor(topLeft.getNext(1).toString()) == 'o' || getColor(topLeft.getNext(1).toString()) == 'O') {
+							if (getColor(topLeft.getNext(1).getNext(0).toString()) == 'o' || getColor(topLeft.getNext(1).getNext(0).toString()) == 'O')
+								rotation[i] = 3;
+							else rotation[i] = 1;
+						}else if (getColor(topLeft.getNext(2).toString()) == 'o' || getColor(topLeft.getNext(2).toString()) == 'O') {
+							if (getColor(topLeft.getNext(2).getNext(1).toString()) == 'o' || getColor(topLeft.getNext(2).getNext(1).toString()) == 'O')
+								rotation[i] = 4;
+							else rotation[i] = 2;
+						}
+						break;
+					// yellow
+					case 2:
+						if (getColor(topLeft.getNext(0).toString()) == 'y' || getColor(topLeft.getNext(0).toString()) == 'Y'){
+							if (getColor(topLeft.getNext(0).getNext(0).toString()) == 'y' || getColor(topLeft.getNext(0).getNext(0).toString()) == 'Y')
+								rotation[i] = 0;
+							else rotation[i] = 2;
+						}else if (getColor(topLeft.getNext(1).toString()) == 'y' || getColor(topLeft.getNext(1).toString()) == 'Y'){
+							if (getColor(topLeft.getNext(2).toString()) == 'y' || getColor(topLeft.getNext(2).toString()) == 'Y') {
+								if (getColor(topLeft.getNext(1).getNext(1).toString()) == 'y' || getColor(topLeft.getNext(1).getNext(1).toString()) == 'Y')
+									rotation[i] = 1;
+								else rotation[i] = 3;
+							}else rotation[i] = 4;
+						}else
+							rotation[i] = 5;
+						break;
+					case 3:
+						if (getColor(topLeft.getNext(0).toString()) == 'g' || getColor(topLeft.getNext(0).toString()) == 'G'){
+							if (getColor(topLeft.getNext(2).toString()) == 'g' || getColor(topLeft.getNext(2).toString()) == 'G')
+								rotation[i] = 5;
+							else rotation[i] =0;
+						}else if (getColor(topLeft.getNext(1).toString()) == 'g' || getColor(topLeft.getNext(1).toString()) == 'G') {
+							if (getColor(topLeft.getNext(1).getNext(1).toString()) == 'g' || getColor(topLeft.getNext(1).getNext(1).toString()) == 'G')
+								rotation[i] = 3;
+							else rotation[i] = 1;
+						}else if (getColor(topLeft.getNext(2).toString()) == 'g' || getColor(topLeft.getNext(2).toString()) == 'G') {
+							if (getColor(topLeft.getNext(2).getNext(2).toString()) == 'g' || getColor(topLeft.getNext(2).getNext(2).toString()) == 'G')
+								rotation[i] = 4;
+							else rotation[i] = 2;
+						}
+						break;
+					case 4:
+						if (getColor(topLeft.getNext(0).toString()) == 'b' || getColor(topLeft.getNext(0).toString()) == 'B'){
+							if (getColor(topLeft.getNext(1).toString()) == 'b' || getColor(topLeft.getNext(1).toString()) == 'B')
+								rotation[i] = 4;
+							else rotation[i] = 0;
+						}else if (getColor(topLeft.getNext(1).toString()) == 'b' || getColor(topLeft.getNext(1).toString()) == 'B'){
+							if (getColor(topLeft.getNext(2).toString()) == 'b' || getColor(topLeft.getNext(2).toString()) == 'B'){
+								if (getColor(topLeft.getNext(1).getNext(0).toString()) == 'b' || getColor(topLeft.getNext(1).getNext(0).toString()) == 'B'){
+									rotation[i] = 3;
+								}else rotation[i] = 5;
+							}else rotation[i] = 1;
+						}else rotation[i] = 2;
+						break;
+					case 5:
+						for (int j = 0; j < 3; j++) {
+							if (getColor(topLeft.getNext(j).toString()) == 'i' || getColor(topLeft.getNext(j).toString()) == 'I'){
+								rotation[i] = j;
+								break;
+							}
+						}
+						break;
+					case 6:
+						if (getColor(topLeft.getNext(1).toString()) == 'p' || getColor(topLeft.getNext(1).toString()) == 'P'){
+							if (getColor(topLeft.getNext(1).getNext(0).toString()) == 'p' || getColor(topLeft.getNext(1).getNext(0).toString()) == 'P')
+								rotation[i] = 2;
+							else rotation[i] = 1;
+						}else if (getColor(topLeft.getNext(0).toString()) == 'p' || getColor(topLeft.getNext(0).toString()) == 'P'){
+							if (getColor(topLeft.getNext(2).toString()) == 'p' || getColor(topLeft.getNext(2).toString()) == 'P') {
+								if (getColor(topLeft.getNext(0).getNext(1).toString()) == 'p' || getColor(topLeft.getNext(0).getNext(1).toString()) == 'P')
+									rotation[i] = 5;
+								else rotation[i] = 4;
+							}else rotation[i] = 0;
+						}else rotation[i] = 3;
+						break;
+				}
+			}
+		}
 
 
 

@@ -361,6 +361,10 @@ public class IQStars {
      * the challenge.
      */
     public static String getSolution(String challenge) {
-        return null;  // FIXME Task 10 (CR): determine the solution to the game, given a particular challenge
+        Board board = new Board();
+        board.setPuzzle(challenge);
+        board.solvePuzzle();
+        return board.getSolution();
+        // FIXME Task 10 (CR): determine the solution to the game, given a particular challenge
     }
 }
