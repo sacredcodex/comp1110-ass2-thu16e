@@ -255,25 +255,26 @@ public class Board {
 	 * @return
 	 */
 	public void solvePuzzle(){
-		Set<Character> unusedColor = new HashSet<>();
-		unusedColor.add('r');
-		unusedColor.add('o');
-		unusedColor.add('y');
-		unusedColor.add('g');
-		unusedColor.add('b');
-		unusedColor.add('i');
-		unusedColor.add('p');
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < color[i].length; j++) {
-				unusedColor.remove(color[i][j]);
+		if (this.solution == "no solution") {
+			Set<Character> unusedColor = new HashSet<>();
+			unusedColor.add('r');
+			unusedColor.add('o');
+			unusedColor.add('y');
+			unusedColor.add('g');
+			unusedColor.add('b');
+			unusedColor.add('i');
+			unusedColor.add('p');
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < color[i].length; j++) {
+					unusedColor.remove(color[i][j]);
+				}
 			}
-		}
-		if (unusedColor.isEmpty())
-			solution = this.toString();
+			if (unusedColor.isEmpty())
+				solution = this.toString();
 
-		String pieceStr;
-		String colors = unusedColor.toString();
-		char c = unusedColor.toString().charAt(1);
+			String pieceStr;
+			String colors = unusedColor.toString();
+			char c = unusedColor.toString().charAt(1);
 			for (int rotation = 0; rotation < 6; rotation++) {
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < color[i].length; j++) {
@@ -288,7 +289,7 @@ public class Board {
 					}
 				}
 			}
-
+		}
 		//FIXME：TASK10
 	}
 
