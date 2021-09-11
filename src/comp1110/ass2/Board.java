@@ -30,6 +30,7 @@ public class Board {
 	private String solution = "no solution";
 	private String puzzle = "";
 	private Set<Character> unusedColor = new HashSet();
+	private Set<Character> wizardColor = new HashSet<>();
 
 	/**
 	 * constructor， initialize
@@ -152,6 +153,7 @@ public class Board {
 		for (int i = 0; i < partTwo.length() / 3; i++){
 			wizard = partTwo.substring(3 * i, 3 * i + 3);
 			setColor(wizard.substring(1,3), (char)(wizard.charAt(0)-32));
+			wizardColor.add(wizard.charAt(0));
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -222,6 +224,7 @@ public class Board {
 				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), piece.getColor());
 
 		unusedColor.remove(piece.getColor());
+		wizardColor.remove(piece.getColor());
 	}
 
 	/**
@@ -307,9 +310,30 @@ public class Board {
 	}
 
 	public void solveWizard(){
-		if (this.solution.equals("no solution")){
-			Set<Character> unplacedWizard = new HashSet<>();
+		if (wizardColor.isEmpty()){
+			solvePuzzle();
+		}else{
+			String pieceStr;
+			char c = wizardColor.toString().charAt(1);
 
+			for (int rotation = 0; rotation < 6; rotation++) {
+				for (int i = 0; i < 4; i++) {
+					for (int j = 0; j < color[i].length; j++) {
+						if (color[i][j] == c - 32 || color[i][j] == 'n') {
+							pieceStr = "" + c + rotation + j + i;
+							if (isPieceValid(pieceStr)) {
+								placePiece(pieceStr);
+
+								if (isCoveredWizard(c)) {
+									solvePuzzle();
+								}
+								removePiece(pieceStr);
+							}
+						}
+
+					}
+				}
+			}
 		}
 	}
 
