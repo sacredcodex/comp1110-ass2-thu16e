@@ -364,7 +364,8 @@ public class IQStars {
         Board board = new Board();
         board.setPuzzle(challenge);
         board.solvePuzzle();
-        return board.getSolution();
+        String wizard = challenge.substring(challenge.indexOf('W')+1);
+        return board.getSolution() + wizard;
         // FIXME Task 10 (CR): determine the solution to the game, given a particular challenge
     }
 }

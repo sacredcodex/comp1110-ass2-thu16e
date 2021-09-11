@@ -29,6 +29,7 @@ public class Board {
 	private char[][] color;
 	private String solution = "no solution";
 	private String puzzle = "";
+	private Set<Character> unusedColor = new HashSet();
 
 	/**
 	 * constructor， initialize
@@ -46,6 +47,14 @@ public class Board {
 				color[i][j] = 'n';
 			}
 		}
+
+		unusedColor.add('r');
+		unusedColor.add('o');
+		unusedColor.add('y');
+		unusedColor.add('g');
+		unusedColor.add('b');
+		unusedColor.add('i');
+		unusedColor.add('p');
 	}
 
 	public boolean onBoard(String loc){
@@ -81,6 +90,10 @@ public class Board {
 	 */
 	public char[][] getColors() {
 		return color;
+	}
+
+	public Set<Character> getUnusedColor() {
+		return unusedColor;
 	}
 
 	/**
@@ -124,9 +137,8 @@ public class Board {
 	 * @param puzzle should be wel formed, contain both piece and wizard
 	 */
 	public void setPuzzle(String puzzle){
-		if (this.puzzle != puzzle){
+		if (!this.puzzle.equals(puzzle)){
 			this.puzzle = puzzle;
-			this.solution = "no solution";
 		}
 		int indexOfW = puzzle.indexOf('W');
 		String partOne = puzzle.substring(0,indexOfW);
@@ -139,8 +151,13 @@ public class Board {
 		String wizard;
 		for (int i = 0; i < partTwo.length() / 3; i++){
 			wizard = partTwo.substring(3 * i, 3 * i + 3);
-			if (getColor(wizard.substring(1,3) )== 'n')
-				setColor(wizard.substring(1,3), (char)(wizard.charAt(0)-32));
+			setColor(wizard.substring(1,3), (char)(wizard.charAt(0)-32));
+		}
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < color[i].length; j++) {
+				unusedColor.remove(color[i][j]);
+			}
 		}
 	}
 
@@ -153,6 +170,8 @@ public class Board {
 	 *                   or 2. wizard state with the same color
 	 */
 	public boolean isLocationValid(Location loc, char color){
+		if (!unusedColor.contains(color))
+			return false;
 		if (!loc.onBoard())
 			return false;
 		return (getColor(loc.toString()) == 'n' || getColor(loc.toString()) == color - 32 );
@@ -201,6 +220,8 @@ public class Board {
 		if (piece.getColor() == 'g')
 			if (getColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString()) == 'n')
 				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), piece.getColor());
+
+		unusedColor.remove(piece.getColor());
 	}
 
 	/**
@@ -237,6 +258,7 @@ public class Board {
 	 * @param color r, o, y, g, b, i, p
 	 */
 	public void removePiece(char color){
+		unusedColor.add(color);
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < this.color[i].length; j++) {
 				if (this.color[i][j] == color)
@@ -255,36 +277,28 @@ public class Board {
 	 */
 	public void solvePuzzle(){
 		if (this.solution.equals("no solution")) {
-			Set<Character> unusedColor = new HashSet<>();
-			unusedColor.add('r');
-			unusedColor.add('o');
-			unusedColor.add('y');
-			unusedColor.add('g');
-			unusedColor.add('b');
-			unusedColor.add('i');
-			unusedColor.add('p');
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < color[i].length; j++) {
-					unusedColor.remove(color[i][j]);
-				}
-			}
+
 			if (unusedColor.isEmpty())
 				solution = this.toString();
 
 			String pieceStr;
-			String colors = unusedColor.toString();
 			char c = unusedColor.toString().charAt(1);
+
 			for (int rotation = 0; rotation < 6; rotation++) {
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < color[i].length; j++) {
-						if (color[i][j] < c - 32 || color[i][j] == 'n') {
-							pieceStr = "" + c + rotation + j + i;
-							if (isPieceValid(pieceStr)) {
-								placePiece(pieceStr);
-								solvePuzzle();
-								removePiece(pieceStr);
+							if (color[i][j] == c - 32 || color[i][j] == 'n') {
+								pieceStr = "" + c + rotation + j + i;
+								if (isPieceValid(pieceStr)) {
+									placePiece(pieceStr);
+
+									if (isCoveredWizard(c)) {
+										solvePuzzle();
+									}
+									removePiece(pieceStr);
+								}
 							}
-						}
+
 					}
 				}
 			}
@@ -292,8 +306,16 @@ public class Board {
 		//FIXME：TASK10
 	}
 
+	public void solveWizard(){
+		if (this.solution.equals("no solution")){
+			Set<Character> unplacedWizard = new HashSet<>();
+
+		}
+	}
+
 	/**
 	 * a gameStateString with 'W' as the end
+	 * the board should not have empty star(s)
 	 * @return
 	 */
 	public String toString(){
