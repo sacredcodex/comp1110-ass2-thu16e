@@ -306,7 +306,6 @@ public class Board {
 				}
 			}
 		}
-		//FIXME：TASK10
 	}
 
 	public void solveWizard(){
@@ -328,6 +327,7 @@ public class Board {
 									solvePuzzle();
 								}
 								removePiece(pieceStr);
+								wizardColor.add(c);
 							}
 						}
 
