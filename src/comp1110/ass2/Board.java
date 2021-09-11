@@ -28,6 +28,7 @@ public class Board {
 
 	private char[][] color;
 	private String solution = "no solution";
+	private String puzzle = "";
 
 	/**
 	 * constructor， initialize
@@ -123,6 +124,10 @@ public class Board {
 	 * @param puzzle should be wel formed, contain both piece and wizard
 	 */
 	public void setPuzzle(String puzzle){
+		if (this.puzzle != puzzle){
+			this.puzzle = puzzle;
+			this.solution = "no solution";
+		}
 		int indexOfW = puzzle.indexOf('W');
 		String partOne = puzzle.substring(0,indexOfW);
 		String partTwo = puzzle.substring(indexOfW+1);
@@ -225,29 +230,23 @@ public class Board {
 			return true;
 		return count == 4 && (c == 'r' || c == 'y' || c == 'g' || c == 'b' || c == 'p');
 	}
+
 	/**
-	 * notice: it will keep the wizard star
-	 *
-	 * @param loc the center star location to place the piece
+	 * remove all stars in color(lower case)
+	 * star in upper case is wizard star, which should not be removed
+	 * @param color r, o, y, g, b, i, p
 	 */
-	public void removePiece(Piece piece, Location loc){
-		if (piece.getColor() != 'p')
-			if (getColor(loc.toString()) > 96)//if lower case
-				setColor(loc.toString(), 'n');
-		for (int i : piece.getShape()){
-			//if lower case, change to 'n', for upper case ,color[loc] is wizard star, do not need to change
-			if (getColor(loc.getNext(i).toString()) > 96)
-				setColor(loc.getNext(i).toString(), 'n');
+	public void removePiece(char color){
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < this.color[i].length; j++) {
+				if (this.color[i][j] == color)
+					this.color[i][j] = 'n';
+			}
 		}
-		if (piece.getColor() == 'g')
-			if (getColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString()) > 96)//if lower case
-				setColor(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]).toString(), 'n');
 	}
 
 	public void removePiece(String str){
-		Piece piece = new Piece(str.charAt(0));
-		piece.rotatePiece(str.charAt(1)-'0');
-		this.removePiece(piece, piece.getCenter(str));
+		this.removePiece(str.charAt(0));
 	}
 
 	/**
@@ -255,7 +254,7 @@ public class Board {
 	 * @return
 	 */
 	public void solvePuzzle(){
-		if (this.solution == "no solution") {
+		if (this.solution.equals("no solution")) {
 			Set<Character> unusedColor = new HashSet<>();
 			unusedColor.add('r');
 			unusedColor.add('o');
