@@ -32,7 +32,33 @@ public class VisualPiece extends Group {
 		for (Star i : starSet) {
 			i.setPieceStar(color);
 		}
-		this.getChildren().addAll(starSet);
+		this.getChildren().setAll(starSet);
+	}
+
+	VisualPiece(double x, double y, double starWidth){
+		super();
+		this.starWidth = starWidth;
+		this.x = x;
+		this.y = y;
+		this.starWidth = starWidth;
+
+	}
+
+	public void setPiece(Piece piece){
+		this.color = piece.getColor();
+		Set<Star> starSet = new HashSet<>();
+		for (int i : piece.getShape()) {
+			starSet.add(new Star(getNextX(i), getNextY(i), starWidth));
+		}
+		if (color != 'p')
+			starSet.add(new Star(x, y, starWidth));
+		if (color == 'g')
+			starSet.add(new Star(2 * getNextX(piece.getShape()[0]) - x, 2 * getNextY(piece.getShape()[0]) -y, starWidth));
+		//x+2i=2(x+i)-x
+		for (Star i : starSet) {
+			i.setPieceStar(color);
+		}
+		this.getChildren().setAll(starSet);
 	}
 
 	private double getNextX(int direction){
