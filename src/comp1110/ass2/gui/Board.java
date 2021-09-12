@@ -16,11 +16,14 @@ public class Board extends Application {
     private static final int BOARD_WIDTH = 933;
     private static final int BOARD_HEIGHT = 700;
     private static final int WHITE_EDGE = 10;
-    private static final int RECTA_WIDTH = BOARD_WIDTH - 2 * WHITE_EDGE;// 913
-    private static final double MARGIN = RECTA_WIDTH / 42.0;// 21.7
-    private static final double STAR_WIDTH = (RECTA_WIDTH - 2 * MARGIN) / 7;// 124.2
-    private static final double STAR_HEIGHT = STAR_WIDTH * Math.sqrt(3) / 2;// 107.6
-    private static final double RECTA_HEIGHT = 2 * MARGIN + 4 * STAR_HEIGHT;// 473.8
+    private static final int SHADOW = 5;
+    private static final double STAR_WIDTH = 82.26684575;
+    private static final double STAR_HEIGHT = STAR_WIDTH * Math.sqrt(3) / 2;
+    private static final double MARGIN = 0.175 * STAR_WIDTH;
+    private static final double RECTA_WIDTH = 2 * MARGIN + 7 * STAR_WIDTH; //604.66
+    private static final double RECTA_HEIGHT = 2 * MARGIN + 4 * STAR_HEIGHT;
+    private static final Color BLACKBLUE = new Color(0.172, 0.172, 0.27, 1.0);
+
 
     private final Group root = new Group();
     private final Group blankBoard = new Group();
@@ -30,10 +33,15 @@ public class Board extends Application {
 
     public void initializeBlankBoard(){
         // back board
+        Rectangle boardShadow = new Rectangle(WHITE_EDGE + SHADOW, WHITE_EDGE + SHADOW, RECTA_WIDTH, RECTA_HEIGHT);
+        boardShadow.setArcWidth(15);
+        boardShadow.setArcHeight(15);
+        boardShadow.setFill(Color.GRAY);
+        blankBoard.getChildren().add(boardShadow);
         Rectangle board = new Rectangle(WHITE_EDGE, WHITE_EDGE, RECTA_WIDTH, RECTA_HEIGHT);
         board.setArcWidth(15);
         board.setArcHeight(15);
-        board.setFill(new Color(0.172, 0.172, 0.27, 1.0));
+        board.setFill(BLACKBLUE);
         blankBoard.getChildren().add(board);
 
         // set empty stars
@@ -72,16 +80,24 @@ public class Board extends Application {
         primaryStage.setTitle("IQ Stars");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 
+
+        //set something that will not move in game
+        Rectangle pieceBoard = new Rectangle(WHITE_EDGE, 2 * WHITE_EDGE + RECTA_HEIGHT, 5 * STAR_WIDTH, 5 * STAR_HEIGHT);
+        pieceBoard.setArcHeight(60);
+        pieceBoard.setArcWidth(60);
+        pieceBoard.setFill(BLACKBLUE);
+        root.getChildren().add(pieceBoard);
+
         // set backboard
         root.getChildren().add(blankBoard);
         initializeBlankBoard();
 
-        //test piece
+        //set pieces
         Piece piece = new Piece('r');
-        VisualPiece pinkPiece = new VisualPiece(300,300,piece, STAR_WIDTH);
-        root.getChildren().add(pinkPiece);
-        pinkPiece.setScaleX(0.5);
-        pinkPiece.setScaleY(0.5);
+        VisualPiece redPiece = new VisualPiece(300,300,piece, STAR_WIDTH);
+        root.getChildren().add(redPiece);
+
+
 
         primaryStage.setScene(scene);
         primaryStage.show();

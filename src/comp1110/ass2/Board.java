@@ -27,7 +27,7 @@ public class Board {
 	 */
 
 	private char[][] color;
-	private String solution = "no solution";
+	private String solution = "";
 	private String puzzle = "";
 	private Set<Character> unusedColor = new HashSet();
 	private Set<Character> wizardColor = new HashSet<>();
@@ -43,7 +43,7 @@ public class Board {
 		color[1] = new char[6];
 		color[2] = new char[7];
 		color[3] = new char[6];
-		for (int i = 0; i < color.length; i++) {
+		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < color[i].length; j++) {
 				color[i][j] = 'n';
 			}
@@ -129,6 +129,14 @@ public class Board {
 		System.out.println("  "+color[3][0]+" --- "+color[3][1]+" --- "+color[3][2]+" --- "+color[3][3]+" --- "+color[3][4]+" --- "+color[3][5]);
 	}
 
+	public void setEmpty(){
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < color[i][j]; j++) {
+				color[i][j] = 'n';
+			}
+		}
+	}
+
 	/**
 	 * set color[][]
 	 * lower case for piece, upper case for wizard
@@ -140,6 +148,7 @@ public class Board {
 	public void setPuzzle(String puzzle){
 		if (!this.puzzle.equals(puzzle)){
 			this.puzzle = puzzle;
+			this.solution = "";
 		}
 		int indexOfW = puzzle.indexOf('W');
 		String partOne = puzzle.substring(0,indexOfW);
@@ -279,7 +288,7 @@ public class Board {
 	 * @return
 	 */
 	public void solvePuzzle(){
-		if (this.solution.equals("no solution")) {
+		if (this.solution.equals("")) {
 
 			if (unusedColor.isEmpty())
 				solution = this.toString();
@@ -324,7 +333,7 @@ public class Board {
 								placePiece(pieceStr);
 
 								if (isCoveredWizard(c)) {
-									solvePuzzle();
+									solveWizard();
 								}
 								removePiece(pieceStr);
 								wizardColor.add(c);
@@ -336,6 +345,8 @@ public class Board {
 			}
 		}
 	}
+
+
 
 	/**
 	 * a gameStateString with 'W' as the end

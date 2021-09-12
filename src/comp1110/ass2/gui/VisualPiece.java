@@ -1,7 +1,6 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Piece;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
 
 import java.util.HashSet;
@@ -35,12 +34,12 @@ public class VisualPiece extends Group {
 		}
 		this.getChildren().addAll(starSet);
 	}
+
 	private double getNextX(int direction){
 		return x + Math.cos(Math.PI / 3 * direction) * starWidth;
 	}
 	private double getNextY(int direction){
 		return y + Math.sin(Math.PI / 3 * direction) * starWidth;
 	}
-
 
 }

@@ -38,6 +38,12 @@ public class Location {
 
 	private int x,y,z; //x+y+z==0
 
+	Location(){
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+	}
+
 	/**
 	 * constructor with x, y, z
 	 */
@@ -47,17 +53,6 @@ public class Location {
 		    this.y = y;
 		    this.z = z;
 	 	}
-	 }
-
-	/**
-	 * constructor
-	 * x+y+z==0
-	 * @param a and
-	 * @param b are two parameters of x,y,z
-	 * @param str："xy","xz","yz" str decides which two parameters
-	 */
-	 Location(int a,int b,String str){
-		//TODO: fix this when this constructor is used, or delete after complete
 	 }
 
 	/**

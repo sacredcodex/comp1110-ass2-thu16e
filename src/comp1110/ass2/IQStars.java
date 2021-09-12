@@ -103,6 +103,8 @@ public class IQStars {
      */
     public static boolean isGameStateStringWellFormed(String gameStateString) {
         int indexOfW = gameStateString.indexOf('W');
+        if (indexOfW == -1)
+            return false;
         String partOne = gameStateString.substring(0,indexOfW);
         String partTwo = gameStateString.substring(indexOfW+1,gameStateString.length());
         if (!(partOne.length() % 4 == 0 && partOne.length() <= 28))
