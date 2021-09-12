@@ -324,7 +324,7 @@ public class Board {
 								placePiece(pieceStr);
 
 								if (isCoveredWizard(c)) {
-									solvePuzzle();
+									solveWizard();
 								}
 								removePiece(pieceStr);
 								wizardColor.add(c);
