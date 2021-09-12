@@ -66,18 +66,18 @@ public class IQStars {
      */
     public static boolean isOrdered(char c1, char c2){
         if (c1 == 'r')
-            return c2 != 'r';
+            return c2 == 'r';
         if (c1 == 'o')
-            return c2 != 'r' && c2 != 'o';
+            return c2 == 'r' || c2 == 'o';
         if (c1 == 'y')
-            return c2 != 'r' && c2 != 'o' && c2 != 'y';
+            return c2 == 'r' || c2 == 'o' || c2 == 'y';
         if (c1 == 'g')
-            return c2 == 'b' || c2 == 'i' || c2 == 'p';
+            return c2 != 'b' && c2 != 'i' && c2 != 'p';
         if (c1 == 'b')
-            return c2 == 'i' || c2 == 'p';
+            return c2 != 'i' && c2 != 'p';
         if (c1 == 'i')
-            return c2 == 'p';
-        return false;
+            return c2 != 'p';
+        return true;
     }
 
     /**
@@ -106,7 +106,7 @@ public class IQStars {
         if (indexOfW == -1)
             return false;
         String partOne = gameStateString.substring(0,indexOfW);
-        String partTwo = gameStateString.substring(indexOfW+1,gameStateString.length());
+        String partTwo = gameStateString.substring(indexOfW+1);
         if (!(partOne.length() % 4 == 0 && partOne.length() <= 28))
             return false;
         if (partTwo.length() % 3 != 0)
@@ -120,7 +120,7 @@ public class IQStars {
             if (!isGameStringWellFormed(piece))
                 return false;
             if (i >= 1)
-                if (!isOrdered(previousColor, piece.charAt(0)))
+                if (isOrdered(previousColor, piece.charAt(0)))
                     return false;
             previousColor = piece.charAt(0);
         }
@@ -134,7 +134,7 @@ public class IQStars {
             if (!isGameStringWellFormed(wizard))
                 return false;
             if (i >= 1) {
-                if (!isOrdered(previousColor, wizard.charAt(0))) {
+                if (isOrdered(previousColor, wizard.charAt(0))) {
                     if (previousColor == wizard.charAt(0)) {
                         if (previousRow >= wizard.charAt(2)){
                             if (previousRow == wizard.charAt(2)){
@@ -177,7 +177,7 @@ public class IQStars {
             return false;
         int indexOfW = gameStateString.indexOf('W');
         String partOne = gameStateString.substring(0,indexOfW);
-        String partTwo = gameStateString.substring(indexOfW+1,gameStateString.length());
+        String partTwo = gameStateString.substring(indexOfW+1);
         Board board = new Board();
 
         String piece;
@@ -230,7 +230,7 @@ public class IQStars {
             return false;
         if (countStar[5] > 3)
             return false;
-        if (countStar[6] > 4)
+        if (countStar[6] > 4) //do not simplify, for a regular structure
             return false;
 
         return true;  // FIXME Task 6 (D): determine whether a game state is valid
@@ -259,7 +259,7 @@ public class IQStars {
         board.setPuzzle(gameStateString);
         Location loc = new Location(""+col+row);
         Location adjacentLoc, distance2Loc;
-        Piece piece = null;
+        Piece piece;
 
         char[] color = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
         // not mentioned or in wizard string

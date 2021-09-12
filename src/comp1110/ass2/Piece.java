@@ -60,7 +60,6 @@ public class Piece {
 	 */
 	public Piece(char color){
 		this.color = color;
-		this.direction = 0;
 		switch (color) {
 			case 'r' -> {
 				this.shape = new int[3];

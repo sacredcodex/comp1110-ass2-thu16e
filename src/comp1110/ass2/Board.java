@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,8 +30,8 @@ public class Board {
 	private char[][] color;
 	private String solution = "";
 	private String puzzle = "";
-	private Set<Character> unusedColor = new HashSet();
-	private Set<Character> wizardColor = new HashSet<>();
+	private HashSet<Character> unusedColor = new HashSet<>();
+	private HashSet<Character> wizardColor = new HashSet<>();
 
 	/**
 	 * constructor， initialize
@@ -44,9 +45,7 @@ public class Board {
 		color[2] = new char[7];
 		color[3] = new char[6];
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < color[i].length; j++) {
-				color[i][j] = 'n';
-			}
+			Arrays.fill(color[i], 'n');
 		}
 
 		unusedColor.add('r');
@@ -202,8 +201,7 @@ public class Board {
 				return false;
 		}
 		if (piece.getColor() == 'g')
-			if (!(isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]), piece.getColor())))
-				return false;
+			return isLocationValid(loc.getNext(piece.getShape()[0]).getNext(piece.getShape()[0]), piece.getColor());
 		return true;
 	}
 
@@ -247,9 +245,9 @@ public class Board {
 	}
 
 	/**
-	 * after place the Piece, check if the piece cover all the wizard star in same color
-	 * @param c
-	 * @return
+	 * after placePiece, check if the piece cover all the wizard star in same color
+	 * @param c color
+	 * @return true, if number of color star is correct
 	 */
 	public boolean isCoveredWizard(char c){
 		int count = 0;
@@ -284,8 +282,8 @@ public class Board {
 	}
 
 	/**
+	 *  Solve puzzle without wizard star
 	 *
-	 * @return
 	 */
 	public void solvePuzzle(){
 		if (this.solution.equals("")) {
@@ -299,7 +297,7 @@ public class Board {
 			for (int rotation = 0; rotation < 6; rotation++) {
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < color[i].length; j++) {
-							if (color[i][j] == c - 32 || color[i][j] == 'n') {
+							if (color[i][j] == 'n') {
 								pieceStr = "" + c + rotation + j + i;
 								if (isPieceValid(pieceStr)) {
 									placePiece(pieceStr);
@@ -351,96 +349,54 @@ public class Board {
 	/**
 	 * a gameStateString with 'W' as the end
 	 * the board should not have empty star(s)
-	 * @return
+	 * @return a String format in readme
 	 */
 	public String toString(){
 		char[] c = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
 		boolean[] exist = {false,false,false,false,false,false,false};
 		String[] loc= new String[7];
 
-		// get topleft
+		// get topLeft
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < color[i].length; j++) {
 				switch (color[i][j]){
-					case 'R' -> {
+					case 'R', 'r' -> {
 						if (!exist[0]) {
 							exist[0] = true;
 							loc[0] = "" + j + i;
 						}
 					}
-					case 'O' -> {
+					case 'O', 'o' -> {
 						if (!exist[1]) {
 							exist[1] = true;
 							loc[1] = "" + j + i;
 						}
 					}
-					case 'Y' -> {
+					case 'Y', 'y' -> {
 						if (!exist[2]) {
 							exist[2] = true;
 							loc[2] = "" + j + i;
 						}
 					}
-					case 'G' -> {
+					case 'G', 'g' -> {
 						if (!exist[3]) {
 							exist[3] = true;
 							loc[3] = "" + j + i;
 						}
 					}
-					case 'B' -> {
+					case 'B', 'b' -> {
 						if (!exist[4]) {
 							exist[4] = true;
 							loc[4] = "" + j + i;
 						}
 					}
-					case 'I' -> {
+					case 'I', 'i' -> {
 						if (!exist[5]) {
 							exist[5] = true;
 							loc[5] = "" + j + i;
 						}
 					}
-					case 'P' -> {
-						if (!exist[6]) {
-							exist[6] = true;
-							loc[6] = "" + j + i;
-						}
-					}
-					case 'r' -> {
-						if (!exist[0]) {
-							exist[0] = true;
-							loc[0] = "" + j + i;
-						}
-					}
-					case 'o' -> {
-						if (!exist[1]) {
-							exist[1] = true;
-							loc[1] = "" + j + i;
-						}
-					}
-					case 'y' -> {
-						if (!exist[2]) {
-							exist[2] = true;
-							loc[2] = "" + j + i;
-						}
-					}
-					case 'g' -> {
-						if (!exist[3]) {
-							exist[3] = true;
-							loc[3] = "" + j + i;
-						}
-					}
-					case 'b' -> {
-						if (!exist[4]) {
-							exist[4] = true;
-							loc[4] = "" + j + i;
-						}
-					}
-					case 'i' -> {
-						if (!exist[5]) {
-							exist[5] = true;
-							loc[5] = "" + j + i;
-						}
-					}
-					case 'p' -> {
+					case 'P', 'p' -> {
 						if (!exist[6]) {
 							exist[6] = true;
 							loc[6] = "" + j + i;
