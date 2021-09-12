@@ -116,12 +116,12 @@ public class Viewer extends Application {
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
         // background
-        Rectangle boardShadow = new Rectangle(15, 15, 700, 364);
+        Rectangle boardShadow = new Rectangle(13, 15, 700, 364);
         boardShadow.setArcHeight(12);
         boardShadow.setArcWidth(12);
         boardShadow.setFill(Color.GRAY);
         root.getChildren().add(boardShadow);
-        Rectangle board = new Rectangle(10, 10, 700, 364);
+        Rectangle board = new Rectangle(8, 10, 700, 364);
         board.setArcHeight(12);
         board.setArcWidth(12);
         board.setFill(new Color(0.172, 0.172, 0.27, 1.0));
