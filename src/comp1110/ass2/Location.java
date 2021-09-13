@@ -61,7 +61,7 @@ public class Location {
 	 * @param column and
 	 * @param row are 2 parameters in readme.md
 	 */
-	 Location(int column,int row){
+	 public Location(int column,int row){
 	 	this.z = row;
 	 	if (row == 0 || row == 1)
 	 		this.x = column;

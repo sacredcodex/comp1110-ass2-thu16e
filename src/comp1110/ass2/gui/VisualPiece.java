@@ -44,6 +44,21 @@ public class VisualPiece extends Group {
 
 	}
 
+	public void addX(double x){
+		this.x = this.x + x;
+	}
+	public void addY(double y){
+		this.y = this.y + y;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	public void setPiece(Piece piece){
 		this.color = piece.getColor();
 		Set<Star> starSet = new HashSet<>();
@@ -68,4 +83,7 @@ public class VisualPiece extends Group {
 		return y + Math.sin(Math.PI / 3 * direction) * starWidth;
 	}
 
+	public void setEmpty(){
+		this.getChildren().setAll();
+	}
 }

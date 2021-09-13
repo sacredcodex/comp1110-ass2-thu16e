@@ -83,6 +83,10 @@ public class Board {
 		return solution;
 	}
 
+	public String getPuzzle(){
+		return puzzle;
+	}
+
 	/**
 	 * get all colors on the board
 	 *
@@ -130,7 +134,7 @@ public class Board {
 
 	public void setEmpty(){
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < color[i][j]; j++) {
+			for (int j = 0; j < color[i].length; j++) {
 				color[i][j] = 'n';
 			}
 		}
