@@ -156,10 +156,7 @@ public class Board {
 	 * @param puzzle should be wel formed, contain both piece and wizard
 	 */
 	public void setPuzzle(String puzzle){
-		if (!this.puzzle.equals(puzzle)){
-			this.puzzle = puzzle;
-			this.solution = "";
-		}
+		this.puzzle = puzzle;
 		int indexOfW = puzzle.indexOf('W');
 		String partOne = puzzle.substring(0,indexOfW);
 		String partTwo = puzzle.substring(indexOfW+1);
@@ -180,6 +177,10 @@ public class Board {
 				unusedColor.remove(color[i][j]);
 			}
 		}
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
 	}
 
 	/**
