@@ -133,10 +133,17 @@ public class Board {
 	}
 
 	public void setEmpty(){
+		unusedColor.clear();
+		unusedColor.add('r');
+		unusedColor.add('o');
+		unusedColor.add('y');
+		unusedColor.add('g');
+		unusedColor.add('b');
+		unusedColor.add('i');
+		unusedColor.add('p');
+
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < color[i].length; j++) {
-				color[i][j] = 'n';
-			}
+			Arrays.fill(color[i], 'n');
 		}
 	}
 

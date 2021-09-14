@@ -458,7 +458,8 @@ public class Board extends Application {
                 Location click = new Location(x,y);
                 if (click.onBoard()){
                     char color = gameBoard.getColor(click.toString());
-                    Character.toLowerCase(color);
+                    if (color < 'a')
+                        color = (char)(color + 32);
                     if (gameBoard.getPuzzle().indexOf(color) == -1) {
                         gameBoard.removePiece(color);
                         setBoardStars();
