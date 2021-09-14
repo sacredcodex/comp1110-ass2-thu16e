@@ -308,6 +308,14 @@ public class Board extends Application {
         button2.setFont(new Font(20));
         button2.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL,new CornerRadii(7), Insets.EMPTY)));
         controlBoard.getChildren().add(button2);
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                gameBoard.setEmpty();
+                gameBoard.setPuzzle(gameBoard.getPuzzle());
+                setBoardStars();
+            }
+        });
     }
 
     public void setPiece(char color){
