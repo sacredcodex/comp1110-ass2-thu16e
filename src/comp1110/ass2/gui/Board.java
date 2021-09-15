@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import com.sun.javafx.tk.quantum.PrimaryTimer;
 import comp1110.ass2.Games;
 import comp1110.ass2.Location;
 import comp1110.ass2.Piece;
@@ -296,6 +295,11 @@ public class Board extends Application {
         difficultyControl.setSnapToTicks(true);
         controlBoard.getChildren().add(difficultyControl);
         //button
+        Rectangle rec1 = new Rectangle(774,554,100,40);
+        rec1.setArcHeight(7);
+        rec1.setArcWidth(7);
+        rec1.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
+        controlBoard.getChildren().add(rec1);
         Button button1 = new Button("Start");
         button1.setPrefSize(100, 40);
         button1.setLayoutX(770);
@@ -313,21 +317,41 @@ public class Board extends Application {
                     gameBoard.setEmpty();
                     num = difficulty * 24 - 24 + random.nextInt(24);
                 }while (Games.ALL_CHALLENGES[num].equals(gameBoard.getPuzzle()));
-                hintUse = 0;
-                showHint = false;
+
+
+
                 gameBoard.setPuzzle(Games.ALL_CHALLENGES[num]);
                 gameBoard.setSolution(Games.ALL_CHALLENGES_SOLUTIONS[num].substring(0,28));
                 setBoardStars();
-                tmp = -1;
-                timeLabel();
-                timeline.play();
-                resetPiecePreview();
+
+                initializeStart();
+
             }
         });
+        button1.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button1.setLayoutX(772);
+                button1.setLayoutY(552);
+            }
+        });
+        button1.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button1.setLayoutX(770);
+                button1.setLayoutY(550);
+            }
+        });
+
+        Rectangle rec2 = new Rectangle(644,624,100,40);
+        rec2.setArcHeight(7);
+        rec2.setArcWidth(7);
+        rec2.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
+        controlBoard.getChildren().add(rec2);
         Button button2 = new Button("Restart");
         button2.setPrefSize(100, 40);
         button2.setLayoutX(640);
-        button2.setLayoutY(630);
+        button2.setLayoutY(620);
         button2.setFont(new Font(20));
         button2.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL,new CornerRadii(7), Insets.EMPTY)));
         controlBoard.getChildren().add(button2);
@@ -335,32 +359,65 @@ public class Board extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameBoard.setEmpty();
+                if (!gameBoard.getPuzzle().equals(""))
                 gameBoard.setPuzzle(gameBoard.getPuzzle());
                 setBoardStars();
                 resetPiecePreview();
             }
         });
+        button2.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button2.setLayoutX(642);
+                button2.setLayoutY(622);
+            }
+        });
+        button2.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button2.setLayoutX(640);
+                button2.setLayoutY(620);
+            }
+        });
+
+        Rectangle rec3 = new Rectangle(774,624,100,40);
+        rec3.setArcHeight(7);
+        rec3.setArcWidth(7);
+        rec3.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
+        controlBoard.getChildren().add(rec3);
         button3 = new Button("Hint("+hintUse+")");
         button3.setPrefSize(100, 40);
         button3.setLayoutX(770);
-        button3.setLayoutY(630);
+        button3.setLayoutY(620);
         button3.setFont(new Font(20));
         button3.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL,new CornerRadii(7), Insets.EMPTY)));
         controlBoard.getChildren().add(button3);
         button3.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() == MouseButton.PRIMARY)
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    button3.setLayoutX(772);
+                    button3.setLayoutY(622);
                     showHint();
+                }
             }
         });
         button3.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() == MouseButton.PRIMARY)
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    button3.setLayoutX(770);
+                    button3.setLayoutY(620);
                     hideHint();
+                }
             }
         });
+
+        Rectangle rec4 = new Rectangle(644,554,100,40);
+        rec4.setArcHeight(7);
+        rec4.setArcWidth(7);
+        rec4.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
+        controlBoard.getChildren().add(rec4);
         Button button4 = new Button("Radom");
         button4.setPrefSize(100, 40);
         button4.setLayoutX(640);
@@ -376,21 +433,35 @@ public class Board extends Application {
                 setBoardStars();
             }
         });
+        button4.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button4.setLayoutX(642);
+                button4.setLayoutY(552);
+            }
+        });
+        button4.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button4.setLayoutX(640);
+                button4.setLayoutY(550);
+            }
+        });
     }
 
-    public void setPiece(char color){
+    private void setPiece(char color){
         piecePreview = new Piece(color);
         visualPiecePriview.setPiece(piecePreview);
     }
 
-    public void rotatePiece(int rotation){
+    private void rotatePiece(int rotation){
         if (piecePreview != null) {
             piecePreview.rotatePiece(rotation);
             visualPiecePriview.setPiece(piecePreview);
         }
     }
 
-    public void setBoardStars(){
+    private void setBoardStars(){
         char[][] colors = gameBoard.getColors();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < colors[i].length; j++) {
@@ -435,14 +506,51 @@ public class Board extends Application {
 
     }
 
-    public void showHint() {
-        if (!showHint) {
-            if (gameBoard.getSolution().length() == 28) {
-                showHint = true;
+    private void initializeStart(){
+        showHint = false;
+        hintPieceStr = "";
+        hintUse = 0;
+        button3.setText("Hint("+hintUse+")");
+        tmp = -1;
+        timeLabel();
+        timeline.play();
+        resetPiecePreview();
+    }
+
+    private void showHint() {
+        if (!gameBoard.getUnusedColor().isEmpty() && !showHint && gameBoard.getSolution().length() == 28) {
+            showHint = true;
+            if (hintPieceStr.length() == 4 && gameBoard.isPieceValid(hintPieceStr)){
+                gameBoard.placePiece(hintPieceStr);
+                setBoardStars();
+                switch (hintPieceStr.charAt(0)) {
+                    case 'r':
+                        selects[0][0].setOpacity(1.0);
+                        break;
+                    case 'o':
+                        selects[1][0].setOpacity(1.0);
+                        break;
+                    case 'y':
+                        selects[2][0].setOpacity(1.0);
+                        break;
+                    case 'g':
+                        selects[3][0].setOpacity(1.0);
+                        break;
+                    case 'b':
+                        selects[0][1].setOpacity(1.0);
+                        break;
+                    case 'i':
+                        selects[1][1].setOpacity(1.0);
+                        break;
+                    case 'p':
+                        selects[2][1].setOpacity(1.0);
+                        break;
+                }
+            }else {
                 hintUse = hintUse + 1;
                 if (hintUse > 9)
                     hintUse = 9;
-                button3.setText("Hint("+hintUse+")");
+                button3.setText("Hint(" + hintUse + ")");
                 if (piecePreview != null)
                     switch (piecePreview.getColor()) {
                         case 'r':
@@ -475,34 +583,47 @@ public class Board extends Application {
                         else
                             hintPieceStr = "";
                     }
-                if (!hintPieceStr.equals("")) {
-                    gameBoard.placePiece(hintPieceStr);
-                    setBoardStars();
-                    switch(hintPieceStr.charAt(0)){
-                        case'r':selects[0][0].setOpacity(1.0);break;
-                        case'o':selects[1][0].setOpacity(1.0);break;
-                        case'y':selects[2][0].setOpacity(1.0);break;
-                        case'g':selects[3][0].setOpacity(1.0);break;
-                        case'b':selects[0][1].setOpacity(1.0);break;
-                        case'i':selects[1][1].setOpacity(1.0);break;
-                        case'p':selects[2][1].setOpacity(1.0);break;
-                    }
+            }
+            if (!hintPieceStr.equals("")) {
+                gameBoard.placePiece(hintPieceStr);
+                setBoardStars();
+                switch (hintPieceStr.charAt(0)) {
+                    case 'r':
+                        selects[0][0].setOpacity(1.0);
+                        break;
+                    case 'o':
+                        selects[1][0].setOpacity(1.0);
+                        break;
+                    case 'y':
+                        selects[2][0].setOpacity(1.0);
+                        break;
+                    case 'g':
+                        selects[3][0].setOpacity(1.0);
+                        break;
+                    case 'b':
+                        selects[0][1].setOpacity(1.0);
+                        break;
+                    case 'i':
+                        selects[1][1].setOpacity(1.0);
+                        break;
+                    case 'p':
+                        selects[2][1].setOpacity(1.0);
+                        break;
                 }
             }
         }
     }
 
-
-    public void hideHint(){
+    private void hideHint(){
         if (showHint && hintPieceStr.length() == 4) {
             gameBoard.removePiece(hintPieceStr);
             setBoardStars();
             showHint = false;
-            hintPieceStr = "";
         }
     }
 
-    public void resetPiecePreview(){
+    // clear piecePreview and put visualPiecePreview back
+    private void resetPiecePreview(){
         visualPiecePriview.getChildren().setAll();
         piecePreview = null;
         visualPiecePriview.setX(X_PIECE_PLACE + 2.5 * STAR_WIDTH);
@@ -520,10 +641,11 @@ public class Board extends Application {
 
 
     private void setTimer(){
-        timer = new Label("00 : 00 . 0");
-        timer.setFont(new Font(26));
-        timer.setLayoutX(640);
-        timer.setLayoutY(400);
+        timer = new Label("         00 : 00 . 0     ");
+        timer.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(7),Insets.EMPTY)));
+        timer.setFont(new Font(36));
+        timer.setLayoutX(610);
+        timer.setLayoutY(380);
         timeline = new Timeline(new KeyFrame(Duration.millis(100), actionEvent -> timeLabel()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -535,7 +657,7 @@ public class Board extends Application {
         b = tmp / 10;
         a = b / 60;
         b = b % 60;
-        String output = "";
+        String output = "         ";
         if (a == 0)
             output = output + "00";
         else if (a < 10)
@@ -552,62 +674,15 @@ public class Board extends Application {
         else
             output = output + b;
 
-        output = output + " . "+c;
+        output = output + " . "+c+"     ";
 
 
         if (a > 60)
-            output = "60 : 00.0";
+            output = "         60 : 00 . 0     ";
         timer.setText(output);
     }
 
-
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("IQ Stars");
-        Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-
-        // set backboard
-        root.getChildren().add(blankBoard);
-        initializeBlankBoard();
-
-        //set controlBoard
-        root.getChildren().add(controlBoard);
-        initializeControlBorad();
-
-        // set pieceBoard
-        root.getChildren().add(pieceBoard);
-        initializePieceBoard();
-
-
-
-        setTimer();
-        root.getChildren().add(timer);
-
-        // Keyboard listener
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.Q)
-                    rotatePiece(5);
-                else if (keyEvent.getCode() == KeyCode.E)
-                    rotatePiece(1);
-                else if (keyEvent.getCode() == KeyCode.SLASH) {
-                    showHint();
-                    keyEvent.consume();// when starting a new game with "/" pressed, the new game wouldl remove a puzzle piece
-                }
-            }
-        });
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.SLASH){
-                    hideHint();
-                }
-            }
-        });
-
-
-
+    private void movePiecePreview(){
         //movePiecePreview();
         double[] startX = new double[1];
         double[] startY = new double[1];
@@ -639,7 +714,6 @@ public class Board extends Application {
                     visualPiecePriview.setY(0);
                 if (visualPiecePriview.y > BOARD_WIDTH)
                     visualPiecePriview.setY(BOARD_HEIGHT);
-
                 // toLocation
                 int x,y;
                 x = -1;
@@ -657,9 +731,52 @@ public class Board extends Application {
                     setBoardStars();
                     resetPiecePreview();
                 }
-
             }
         });
+    }
+
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("IQ Stars");
+        Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
+
+        // set backboard
+        root.getChildren().add(blankBoard);
+        initializeBlankBoard();
+
+        //set controlBoard
+        root.getChildren().add(controlBoard);
+        initializeControlBorad();
+
+        //timer
+        setTimer();
+        root.getChildren().add(timer);
+
+        // set pieceBoard
+        root.getChildren().add(pieceBoard);
+        initializePieceBoard();
+
+        // keep pressing ? for hint
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.SLASH) {
+                    showHint();
+                    keyEvent.consume();// when starting a new game with "/" pressed, the new game wouldl remove a puzzle piece
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.SLASH){
+                    hideHint();
+                }
+            }
+        });
+
+        movePiecePreview();
 
         // remove piece from game board
         blankBoard.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -679,7 +796,6 @@ public class Board extends Application {
                     char color = gameBoard.getColor(click.toString());
                     if (color < 'a')
                         color = (char)(color + 32);
-                    System.out.println(gameBoard.getPuzzle().indexOf(color));
                     if (gameBoard.getPuzzle().indexOf(color) == -1) {
                         gameBoard.removePiece(color);
                         setBoardStars();
