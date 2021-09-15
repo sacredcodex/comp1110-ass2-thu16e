@@ -29,32 +29,6 @@ public class IQStars {
      */
     // this method only check if the top left location is on board, not the whole piece
     static boolean isGameStringWellFormed(String gameString) {
-        if (gameString==null)
-            return false;
-        if (gameString.length() == 3){
-            Location loc = new Location(gameString.substring(1,3));
-            if (!loc.onBoard())
-                return false;
-            char c = gameString.charAt(0);
-            return c == 'r' || c == 'o' || c == 'y' || c == 'g' || c == 'b' || c == 'i' || c == 'p';
-        }
-        if (gameString.length() == 4){
-            char c = gameString.charAt(0);
-            if (c != 'r' && c != 'o' && c != 'y' && c != 'g' && c != 'b' && c != 'i' && c != 'p')
-                return false;
-            if (gameString.charAt(1)<'0')
-                return false;
-            if (c == 'r' || c == 'i'){
-                if (gameString.charAt(1) > '2')
-                    return false;
-            }else{
-                if (gameString.charAt(1) > '5')
-                    return false;
-            }
-            Location loc = new Location(gameString.substring(2,4));
-            return loc.onBoard();
-        }
-        //length < 3 || length > 4
         return false; // FIXME Task 3 (P): determine whether a wizard or piece string is well-formed
     }
 
@@ -102,58 +76,7 @@ public class IQStars {
      * @return True if the game state string is well-formed
      */
     public static boolean isGameStateStringWellFormed(String gameStateString) {
-        int indexOfW = gameStateString.indexOf('W');
-        if (indexOfW == -1)
-            return false;
-        String partOne = gameStateString.substring(0,indexOfW);
-        String partTwo = gameStateString.substring(indexOfW+1);
-        if (!(partOne.length() % 4 == 0 && partOne.length() <= 28))
-            return false;
-        if (partTwo.length() % 3 != 0)
-            return false;
-
-        //piece string
-        String piece;
-        char previousColor = 'r';
-        for (int i = 0; i < partOne.length() / 4; i++) {
-            piece = partOne.substring(4 * i, 4 * i + 4);
-            if (!isGameStringWellFormed(piece))
-                return false;
-            if (i >= 1)
-                if (isOrdered(previousColor, piece.charAt(0)))
-                    return false;
-            previousColor = piece.charAt(0);
-        }
-
-        //wizard string
-        String wizard;
-        char previousRow = 0;
-        char previousColumn = 0;
-        for (int i = 0; i < partTwo.length() / 3; i++) {
-            wizard = partTwo.substring(3 * i, 3 * i + 3);
-            if (!isGameStringWellFormed(wizard))
-                return false;
-            if (i >= 1) {
-                if (isOrdered(previousColor, wizard.charAt(0))) {
-                    if (previousColor == wizard.charAt(0)) {
-                        if (previousRow >= wizard.charAt(2)){
-                            if (previousRow == wizard.charAt(2)){
-                                if (previousColumn > wizard.charAt(1))
-                                    return false;
-                            }else
-                                return false;
-                        }
-                    }else
-                        return false;
-                }
-            }
-            previousColor = wizard.charAt(0);
-            previousRow = wizard.charAt(2);
-            previousColumn = wizard.charAt(1);
-        }
-
-        return true;
-
+        return false;
         // FIXME Task 4 (P): determine whether a game state string is well-formed
     }
 

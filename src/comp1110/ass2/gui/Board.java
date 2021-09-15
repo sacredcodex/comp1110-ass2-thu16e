@@ -1,11 +1,13 @@
 package comp1110.ass2.gui;
 
+import com.sun.javafx.tk.quantum.PrimaryTimer;
 import comp1110.ass2.Games;
 import comp1110.ass2.Location;
 import comp1110.ass2.Piece;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -19,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Random;
 import java.util.Set;
@@ -57,9 +60,16 @@ public class Board extends Application {
 
     private final Group controlBoard = new Group();
     private Slider difficultyControl = new Slider();
+    // hint
+    private Button button3;
     private String hintPieceStr = "";
     private boolean showHint=false;
+    private int hintUse;
 
+    private Timeline timeline;
+    private String timeStr = "";
+    private int tmp = 0;
+    private Label timer;
 
 
 
@@ -302,10 +312,15 @@ public class Board extends Application {
                 do {
                     gameBoard.setEmpty();
                     num = difficulty * 24 - 24 + random.nextInt(24);
-                }while (Games.ALL_CHALLENGES[num] == gameBoard.getPuzzle());
+                }while (Games.ALL_CHALLENGES[num].equals(gameBoard.getPuzzle()));
+                hintUse = 0;
+                showHint = false;
                 gameBoard.setPuzzle(Games.ALL_CHALLENGES[num]);
                 gameBoard.setSolution(Games.ALL_CHALLENGES_SOLUTIONS[num].substring(0,28));
                 setBoardStars();
+                tmp = -1;
+                timeLabel();
+                timeline.play();
                 resetPiecePreview();
             }
         });
@@ -325,7 +340,7 @@ public class Board extends Application {
                 resetPiecePreview();
             }
         });
-        Button button3 = new Button("Hint");
+        button3 = new Button("Hint("+hintUse+")");
         button3.setPrefSize(100, 40);
         button3.setLayoutX(770);
         button3.setLayoutY(630);
@@ -412,7 +427,8 @@ public class Board extends Application {
         if (unusedColor.contains('p'))
             selects[2][1].setOpacity(1.0);
         else selects[2][1].setOpacity(0.3);
-
+        if (unusedColor.isEmpty())
+            timeline.stop();
 
 
 
@@ -421,8 +437,12 @@ public class Board extends Application {
 
     public void showHint() {
         if (!showHint) {
-            showHint = true;
             if (gameBoard.getSolution().length() == 28) {
+                showHint = true;
+                hintUse = hintUse + 1;
+                if (hintUse > 9)
+                    hintUse = 9;
+                button3.setText("Hint("+hintUse+")");
                 if (piecePreview != null)
                     switch (piecePreview.getColor()) {
                         case 'r':
@@ -474,10 +494,11 @@ public class Board extends Application {
 
 
     public void hideHint(){
-        if (hintPieceStr.length() == 4) {
+        if (showHint && hintPieceStr.length() == 4) {
             gameBoard.removePiece(hintPieceStr);
             setBoardStars();
             showHint = false;
+            hintPieceStr = "";
         }
     }
 
@@ -498,6 +519,46 @@ public class Board extends Application {
     // FIXME Task 12 (HD): Generate interesting challenges (each challenge must have exactly one solution)
 
 
+    private void setTimer(){
+        timer = new Label("00 : 00 . 0");
+        timer.setFont(new Font(26));
+        timer.setLayoutX(640);
+        timer.setLayoutY(400);
+        timeline = new Timeline(new KeyFrame(Duration.millis(100), actionEvent -> timeLabel()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    private void timeLabel(){
+        tmp++;
+        int a,b,c;
+        c = tmp % 10;
+        b = tmp / 10;
+        a = b / 60;
+        b = b % 60;
+        String output = "";
+        if (a == 0)
+            output = output + "00";
+        else if (a < 10)
+            output = output + "0" + a;
+        else if (a < 59)
+            output = output + a;
+
+        output = output + " : ";
+
+        if (b == 0)
+            output = output + "00";
+        else if (b < 10)
+            output = output + "0" + b;
+        else
+            output = output + b;
+
+        output = output + " . "+c;
+
+
+        if (a > 60)
+            output = "60 : 00.0";
+        timer.setText(output);
+    }
 
 
     @Override
@@ -517,6 +578,11 @@ public class Board extends Application {
         root.getChildren().add(pieceBoard);
         initializePieceBoard();
 
+
+
+        setTimer();
+        root.getChildren().add(timer);
+
         // Keyboard listener
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -525,8 +591,10 @@ public class Board extends Application {
                     rotatePiece(5);
                 else if (keyEvent.getCode() == KeyCode.E)
                     rotatePiece(1);
-                else if (keyEvent.getCode() == KeyCode.SLASH)
+                else if (keyEvent.getCode() == KeyCode.SLASH) {
                     showHint();
+                    keyEvent.consume();// when starting a new game with "/" pressed, the new game wouldl remove a puzzle piece
+                }
             }
         });
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -611,7 +679,11 @@ public class Board extends Application {
                     char color = gameBoard.getColor(click.toString());
                     if (color < 'a')
                         color = (char)(color + 32);
+                    System.out.println(gameBoard.getPuzzle().indexOf(color));
                     if (gameBoard.getPuzzle().indexOf(color) == -1) {
+                        gameBoard.removePiece(color);
+                        setBoardStars();
+                    }else if (gameBoard.getPuzzle().indexOf(color) > gameBoard.getPuzzle().indexOf('W')){
                         gameBoard.removePiece(color);
                         setBoardStars();
                     }
