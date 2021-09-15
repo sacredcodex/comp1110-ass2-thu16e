@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import com.sun.javafx.tk.quantum.PrimaryTimer;
 import comp1110.ass2.Games;
 import comp1110.ass2.Location;
 import comp1110.ass2.Piece;
@@ -16,7 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
