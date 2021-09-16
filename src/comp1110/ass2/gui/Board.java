@@ -3,6 +3,7 @@ package comp1110.ass2.gui;
 import comp1110.ass2.Games;
 import comp1110.ass2.Location;
 import comp1110.ass2.Piece;
+import comp1110.ass2.Puzzle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -319,9 +320,6 @@ public class Board extends Application {
                     gameBoard.setEmpty();
                     num = difficulty * 24 - 24 + random.nextInt(24);
                 }while (Games.ALL_CHALLENGES[num].equals(gameBoard.getPuzzle()));
-
-
-
                 gameBoard.setPuzzle(Games.ALL_CHALLENGES[num]);
                 gameBoard.setSolution(Games.ALL_CHALLENGES_SOLUTIONS[num].substring(0,28));
                 setBoardStars();
@@ -431,8 +429,46 @@ public class Board extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameBoard.setEmpty();
+                int difficulty = (int) difficultyControl.getValue();
+                Random random = new Random();
+                if (difficulty == 4){
+                    int num = random.nextInt(32);
+                    gameBoard.setPuzzle(Puzzle.getMasterPuzzle(num));
+                    gameBoard.setSolution(Puzzle.getMasterSolution(num));
+                }else if (difficulty == 3){
+                    int num = random.nextInt(2308);
+                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setSolution(Puzzle.getExpertSolution(num));
+                }else if (difficulty == 2){
+                    int num = random.nextInt(2308);
+                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setSolution(Puzzle.getExpertSolution(num));
+                    char color = gameBoard.getUnusedColor().toString().charAt(1);
+                    int index = gameBoard.getSolution().indexOf(color);
+                    gameBoard.placePiece(gameBoard.getSolution().substring(index,index+4));
+                    gameBoard.setPuzzle(gameBoard.toString());
+                }else if (difficulty == 1){
+                    int num = random.nextInt(2308);
+                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setSolution(Puzzle.getExpertSolution(num));
+                    char color = gameBoard.getUnusedColor().toString().charAt(1);
+                    int index = gameBoard.getSolution().indexOf(color);
+                    gameBoard.placePiece(gameBoard.getSolution().substring(index,index+4));
+                    color = gameBoard.getUnusedColor().toString().charAt(1);
+                    index = gameBoard.getSolution().indexOf(color);
+                    gameBoard.placePiece(gameBoard.getSolution().substring(index,index+4));
+                    if (random.nextBoolean()){
+                        color = gameBoard.getUnusedColor().toString().charAt(1);
+                        index = gameBoard.getSolution().indexOf(color);
+                        gameBoard.placePiece(gameBoard.getSolution().substring(index,index+4));
+                    }
+                    gameBoard.setPuzzle(gameBoard.toString());
+                }
+
+
                 //gameBoard.setPuzzle(gameBoard.getPuzzle());
                 setBoardStars();
+                initializeStart();
             }
         });
         button4.setOnMousePressed(new EventHandler<MouseEvent>() {
