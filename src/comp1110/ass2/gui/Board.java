@@ -463,6 +463,11 @@ public class Board extends Application {
                         gameBoard.placePiece(gameBoard.getSolution().substring(index,index+4));
                     }
                     gameBoard.setPuzzle(gameBoard.toString());
+                }else if (difficulty == 5){
+                    String wizardPuzzle = Puzzle.wizards[random.nextInt(1017)];
+                    gameBoard.setPuzzle(wizardPuzzle.substring(wizardPuzzle.indexOf('W')));
+                    gameBoard.setSolution(Puzzle.solutions[Integer.parseInt(wizardPuzzle.substring(0,wizardPuzzle.indexOf('W')))].substring(0,28));
+
                 }
 
 
@@ -514,6 +519,7 @@ public class Board extends Application {
                 }
             }
         }
+
         Set<Character> unusedColor = gameBoard.getUnusedColor();
         if (unusedColor.contains('r'))
             selects[0][0].setOpacity(1.0);
@@ -536,7 +542,7 @@ public class Board extends Application {
         if (unusedColor.contains('p'))
             selects[2][1].setOpacity(1.0);
         else selects[2][1].setOpacity(0.3);
-        if (unusedColor.isEmpty())
+        if (unusedColor.isEmpty() && !showHint )
             timeline.stop();
 
 
