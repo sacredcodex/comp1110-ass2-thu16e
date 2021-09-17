@@ -72,7 +72,8 @@ public class Viewer extends Application {
         }else{
             label2.setText("Game State is not valid. Please input again.");
 
-            textField.clear();
+            if (textField.getText().length() > 40)
+                textField.clear();
 
             for (int i = 0; i < 4; i++) {
 
