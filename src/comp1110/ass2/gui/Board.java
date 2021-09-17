@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -69,13 +70,37 @@ public class Board extends Application {
     private int hintUse;
 
     private Timeline timeline;
-    private String timeStr = "";
     private int tmp = 0;
     private Label timer;
 
+    private boolean mouseDrag=false;
 
+    private final Group helpBoard = new Group();
+    private Label help1,help2;
+    private String[] help = new String[]{
+            "How to start?",
+                    "1. Select difficulty by slider. There are 5 levels:\n\n" +
+                    "   1   Starter, provide 4 or 5 pieces on the board.\n\n" +
+                    "   2   Junior, provide 3 or 2 pieces on the board.\n\n" +
+                    "   3   Expert, provide 2 pieces on the board.\n\n" +
+                    "   4   Master, provide 1 piece on the board.\n\n" +
+                    "   5   Wizard, provide a few stars on the board.\n\n" +
+                    "2. Both \"Start\" and \"Random\" can start a game,\n\n" +
+                    "   there will be more puzzles if you use \"Random\".\n\n\n" +
+                    "                                   1 / 2",
+            "How to play?",
+                    "1. Click and select the piece you want.\n\n" +
+                    "2. Drag and place it to the right position.\n\n" +
+                    "3. Use mouse wheel to rotate the piece.\n\n" +
+                    "4. If you want to remove the piece, click the\n\n" +
+                    "   piece on board or click the pieces below.\n\n" +
+                    "5. Press \'?\' or button \"hint\" for hint, it will\n\n" +
+                    "   show you where you should place the piece.\n\n" +
+                    "   (except all pieces cannot be placed correctly)\n\n\n" +
+                    "                                   2 / 2"
+    };
 
-    public void initializeBlankBoard(){
+    private void initializeBlankBoard(){
         // back board
         Rectangle boardShadow = new Rectangle(WHITE_EDGE + SHADOW, WHITE_EDGE + SHADOW, RECTA_WIDTH, RECTA_HEIGHT);
         boardShadow.setArcWidth(15);
@@ -108,7 +133,7 @@ public class Board extends Application {
         }
     }
 
-    public void initializePieceBoard(){
+    private void initializePieceBoard(){
         // back board
         Rectangle boardShadow = new Rectangle(WHITE_EDGE + SHADOW, 2 * WHITE_EDGE + RECTA_HEIGHT + SHADOW, RECTA_WIDTH, PIECE_BOARD_HEIGHT);
         boardShadow.setArcHeight(15);
@@ -132,7 +157,7 @@ public class Board extends Application {
         piecePlace.setFill(BLACKBLUE);
         piecePlace.setStroke(BLACKBLUE.darker().darker());
         pieceBoard.getChildren().add(piecePlace);
-        // set empty stars
+        // set stars
         pieceBoardStars[0] = new Star[5];
         pieceBoardStars[1] = new Star[4];
         pieceBoardStars[2] = new Star[5];
@@ -151,7 +176,6 @@ public class Board extends Application {
                 pieceBoard.getChildren().add(pieceBoardStars[i][j]);
             }
         }
-
 
         //set select color buttons
         double startX,startY;
@@ -186,90 +210,19 @@ public class Board extends Application {
         pieces[2][0].setPiece(new Piece('y'));
         pieces[2][1].setPiece(new Piece('p'));
         pieces[3][0].setPiece(new Piece('g'));
-        selects[0][0].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('r')){
-                    setPiece('r');
-                }else if (gameBoard.getPuzzle().indexOf('r') == -1){
-                    gameBoard.removePiece('r');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[1][0].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('o')){
-                    setPiece('o');
-                }else if (gameBoard.getPuzzle().indexOf('o') == -1){
-                    gameBoard.removePiece('o');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[2][0].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('y')){
-                    setPiece('y');
-                }else if (gameBoard.getPuzzle().indexOf('y') == -1){
-                    gameBoard.removePiece('y');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[3][0].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('g')){
-                    setPiece('g');
-                }else if (gameBoard.getPuzzle().indexOf('g') == -1){
-                    gameBoard.removePiece('g');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[0][1].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('b')){
-                    setPiece('b');
-                }else if (gameBoard.getPuzzle().indexOf('b') == -1){
-                    gameBoard.removePiece('b');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[1][1].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('i')){
-                    setPiece('i');
-                }else if (gameBoard.getPuzzle().indexOf('i') == -1){
-                    gameBoard.removePiece('i');
-                    setBoardStars();
-                }
-            }
-        });
-        selects[2][1].setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (gameBoard.getUnusedColor().contains('p')){
-                    setPiece('p');
-                }else if (gameBoard.getPuzzle().indexOf('p') == -1){
-                    gameBoard.removePiece('p');
-                    setBoardStars();
-                }
-            }
-        });
-
+        movePiece(selects[0][0], 'r');
+        movePiece(selects[1][0], 'o');
+        movePiece(selects[2][0], 'y');
+        movePiece(selects[3][0], 'g');
+        movePiece(selects[0][1], 'b');
+        movePiece(selects[1][1], 'i');
+        movePiece(selects[2][1], 'p');
 
         visualPiecePriview = new VisualPiece(X_PIECE_PLACE + 2.5 * STAR_WIDTH, Y_PIECE_PLACE + 2.5 * STAR_HEIGHT, STAR_WIDTH);
         pieceBoard.getChildren().add(visualPiecePriview);
     }
 
-    public void initializeControlBorad(){
+    private void initializeControlBorad(){
         Rectangle rectangle1 = new Rectangle(615,450,315,240);
         rectangle1.setFill(new Color(0,0,0,0.3));
         rectangle1.setArcHeight(15);
@@ -492,11 +445,55 @@ public class Board extends Application {
         });
     }
 
+    private void setTimer(){
+        timer = new Label("         00 : 00 . 0     ");
+        timer.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(7),Insets.EMPTY)));
+        timer.setFont(new Font(36));
+        timer.setLayoutX(610);
+        timer.setLayoutY(392);
+        timeline = new Timeline(new KeyFrame(Duration.millis(100), actionEvent -> timeLabel()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    private void setHelp(){
+        Rectangle rectangle1 = new Rectangle(615, 15, 315, 370);
+        rectangle1.setFill(new Color(0,0,0,0.3));
+        helpBoard.getChildren().add(rectangle1);
+        Rectangle rectangle2 = new Rectangle(610, 10, 315, 370);
+        rectangle2.setFill(Color.LEMONCHIFFON);
+        helpBoard.getChildren().add(rectangle2);
+        rectangle2.setFill(Color.LEMONCHIFFON);
+        help1 = new Label(this.help[0]);
+        help1.setLayoutY(30);
+        help1.setLayoutX(640);
+        help1.setFont(new Font(36));
+        helpBoard.getChildren().add(help1);
+        help2 = new Label(this.help[1]);
+        help2.setLayoutY(90);
+        help2.setLayoutX(620);
+        help2.setFont(new Font(12));
+        helpBoard.getChildren().add(help2);
+        Button button = new Button();
+        button.setLayoutY(10);
+        button.setLayoutX(610);
+        button.setPrefWidth(315);
+        button.setPrefHeight(370);
+        button.setBackground(new Background(new BackgroundFill(new Color(0,0,0,0), new CornerRadii(0), Insets.EMPTY)));
+        button.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                changeHelp();
+            }
+        });
+        helpBoard.getChildren().add(button);
+    }
+
     private void setPiece(char color){
         piecePreview = new Piece(color);
         visualPiecePriview.setPiece(piecePreview);
     }
 
+    // rotate selected Piece
     private void rotatePiece(int rotation){
         if (piecePreview != null) {
             piecePreview.rotatePiece(rotation);
@@ -504,6 +501,7 @@ public class Board extends Application {
         }
     }
 
+    // show the game state
     private void setBoardStars(){
         char[][] colors = gameBoard.getColors();
         for (int i = 0; i < 4; i++) {
@@ -550,6 +548,7 @@ public class Board extends Application {
 
     }
 
+    // clear some information when start a new game
     private void initializeStart(){
         showHint = false;
         hintPieceStr = "";
@@ -666,34 +665,7 @@ public class Board extends Application {
         }
     }
 
-    // clear piecePreview and put visualPiecePreview back
-    private void resetPiecePreview(){
-        visualPiecePriview.getChildren().setAll();
-        piecePreview = null;
-        visualPiecePriview.setX(X_PIECE_PLACE + 2.5 * STAR_WIDTH);
-        visualPiecePriview.setY(Y_PIECE_PLACE + 2.5 * STAR_HEIGHT);
-    }
-
-
-    // FIXME Task 8 (CR): Implement a basic playable IQ Stars game in JavaFX that only allows pieces to be placed in valid places
-
-    // FIXME Task 9 (D): Implement challenges (you may use the set of challenges in the Games class)
-
-    // FIXME Task 11 (HD): Implement hints (should become visible when the user presses '/' -- see gitlab issue for details)
-
-    // FIXME Task 12 (HD): Generate interesting challenges (each challenge must have exactly one solution)
-
-
-    private void setTimer(){
-        timer = new Label("         00 : 00 . 0     ");
-        timer.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(7),Insets.EMPTY)));
-        timer.setFont(new Font(36));
-        timer.setLayoutX(610);
-        timer.setLayoutY(380);
-        timeline = new Timeline(new KeyFrame(Duration.millis(100), actionEvent -> timeLabel()));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-    }
-
+    // set timer output
     private void timeLabel(){
         tmp++;
         int a,b,c;
@@ -720,25 +692,25 @@ public class Board extends Application {
 
         output = output + " . "+c+"     ";
 
-
         if (a > 60)
             output = "         60 : 00 . 0     ";
         timer.setText(output);
     }
 
-    private void movePiecePreview(){
+    // let selected piece movable
+    private void movePiece(Node piece){
         //movePiecePreview();
         double[] startX = new double[1];
         double[] startY = new double[1];
         // place the piece, let piece move with mouse
-        visualPiecePriview.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        piece.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 startX[0] = mouseEvent.getSceneX() - visualPiecePriview.x;
                 startY[0] = mouseEvent.getSceneY() - visualPiecePriview.y;
             }
         });
-        visualPiecePriview.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+        piece.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 visualPiecePriview.setX(mouseEvent.getSceneX() - startX[0]);
@@ -746,7 +718,7 @@ public class Board extends Application {
                 visualPiecePriview.setPiece(piecePreview);
             }
         });
-        visualPiecePriview.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+        piece.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 // On board
@@ -779,29 +751,224 @@ public class Board extends Application {
         });
     }
 
+    // drag select button to move the piece
+    private void movePiece(Button piece, char color){
+        //movePiecePreview();
+        double[] startX = new double[1];
+        double[] startY = new double[1];
+        // place the piece, let piece move with mouse
+        piece.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (gameBoard.getUnusedColor().contains(color)) {
+                    startX[0] = mouseEvent.getSceneX();
+                    startY[0] = mouseEvent.getSceneY();
+                    visualPiecePriview.setX(mouseEvent.getSceneX());
+                    visualPiecePriview.setY(mouseEvent.getSceneY());
+                    setPiece(color);
+                }
+            }
+        });
+        piece.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (gameBoard.getUnusedColor().contains(color)) {
+                    visualPiecePriview.setX(mouseEvent.getSceneX());
+                    visualPiecePriview.setY(mouseEvent.getSceneY());
+                    visualPiecePriview.setPiece(piecePreview);
+                }
+            }
+        });
+        piece.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // click
+                if (Math.abs(mouseEvent.getSceneX()-startX[0]) < 0.2 * STAR_WIDTH && Math.abs(mouseEvent.getSceneY()-startY[0]) < 0.2 * STAR_HEIGHT){
+                    if (gameBoard.getUnusedColor().contains(color)){
+                        visualPiecePriview.setX(X_PIECE_PLACE + 2.5 * STAR_WIDTH);
+                        visualPiecePriview.setY(Y_PIECE_PLACE + 2.5 * STAR_HEIGHT);
+                        setPiece(color);
+                    }else if (gameBoard.getPuzzle().indexOf(color) == -1){
+                        gameBoard.removePiece(color);
+                        setBoardStars();
+                    }
+                }else if (piecePreview != null){
+                    // On board
+                    if (visualPiecePriview.x < 0)
+                        visualPiecePriview.setX(0);
+                    if (visualPiecePriview.x > BOARD_WIDTH)
+                        visualPiecePriview.setX(BOARD_WIDTH);
+                    if (visualPiecePriview.y < 0)
+                        visualPiecePriview.setY(0);
+                    if (visualPiecePriview.y > BOARD_WIDTH)
+                        visualPiecePriview.setY(BOARD_HEIGHT);
+                    // toLocation
+                    int x, y;
+                    x = -1;
+                    y = (int) Math.floor((visualPiecePriview.y - WHITE_EDGE - MARGIN) / STAR_HEIGHT);
+                    if (y == 0 || y == 2) {
+                        x = (int) ((visualPiecePriview.x - WHITE_EDGE - MARGIN) / STAR_WIDTH);
+                    }
+                    if (y == 1 || y == 3) {
+                        x = (int) Math.floor((visualPiecePriview.x - WHITE_EDGE - MARGIN) / STAR_WIDTH - 0.5);
+                    }
+                    Location center = new Location(x, y);
+                    if (center.onBoard() && gameBoard.isPieceValid(piecePreview, center)) {
+                        hintPieceStr = "";
+                        gameBoard.placePiece(piecePreview, center);
+                        setBoardStars();
+                        resetPiecePreview();
+                    }
+                }
+            }
+        });
+    }
+
+    // clear piecePreview and put visualPiecePreview back
+    private void resetPiecePreview(){
+        visualPiecePriview.getChildren().setAll();
+        piecePreview = null;
+    }
+
+    // there are two pages of help, help will change after clicking help
+    private void changeHelp(){
+        if (help1.getText().equals(help[0])){
+            help1.setText(help[2]);
+            help2.setText(help[3]);
+        }else{
+            help1.setText(help[0]);
+            help2.setText(help[1]);
+        }
+    }
+
+    // remove piece from game board
+    private void removePiece() {
+        final char[] color = {'n'};
+        final double[] centerX = new double[1];
+        final double[] centerY = new double[1];
+        double[] startX = new double[1];
+        double[] startY = new double[1];
+        blankBoard.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int x,y;
+                x = -1;
+                y = (int) Math.floor((mouseEvent.getSceneY() - WHITE_EDGE - MARGIN) / STAR_HEIGHT);
+                if (y == 0 || y == 2) {
+                    x= (int)((mouseEvent.getSceneX() - WHITE_EDGE - MARGIN) / STAR_WIDTH);
+                }
+                if (y == 1 || y == 3) {
+                    x= (int)Math.floor((mouseEvent.getSceneX() - WHITE_EDGE - MARGIN) / STAR_WIDTH - 0.5);
+                }
+                Location location = new Location(x,y);
+                if (location.onBoard())
+                    color[0] = gameBoard.getColor(location.toString());
+                if (color[0] != 'n' && !gameBoard.getUnusedColor().contains(color[0])) {
+                    if (gameBoard.getPuzzle().indexOf(color[0]) == -1 || gameBoard.getPuzzle().indexOf(color[0]) > gameBoard.getPuzzle().indexOf('W')) {
+                        piecePreview = new Piece(color[0]);
+                        String state = gameBoard.toString();
+                        piecePreview.rotatePiece(state.charAt(state.indexOf(color[0])+1));
+                        Location loc = piecePreview.getCenter(state.substring(state.indexOf(color[0]), state.indexOf(color[0])+4));
+                        centerX[0] = loc.getSceneX();
+                        centerY[0] = loc.getSceneY();
+                        visualPiecePriview.setX(centerX[0]);
+                        visualPiecePriview.setY(centerY[0]);
+                        visualPiecePriview.setPiece(piecePreview);
+                        gameBoard.removePiece(color[0]);
+                        setBoardStars();
+                        startX[0] = mouseEvent.getSceneX() - visualPiecePriview.x;
+                        startY[0] = mouseEvent.getSceneY() - visualPiecePriview.y;
+                    }
+                }
+            }
+        });
+        blankBoard.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (gameBoard.getUnusedColor().contains(color[0])) {
+                    visualPiecePriview.setX(mouseEvent.getSceneX()-startX[0]);
+                    visualPiecePriview.setY(mouseEvent.getSceneY()-startY[0]);
+                    visualPiecePriview.setPiece(piecePreview);
+                }
+            }
+        });
+        blankBoard.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (Math.abs(mouseEvent.getSceneX()-startX[0]-centerX[0]) < 0.5 * STAR_WIDTH && Math.abs(mouseEvent.getSceneY()-startY[0]-centerY[0]) < 0.5 * STAR_HEIGHT){
+                    // click
+                    if (Math.abs(mouseEvent.getSceneX()-startX[0]-centerX[0]) < 0.2 * STAR_WIDTH && Math.abs(mouseEvent.getSceneY()-startY[0]-centerY[0]) < 0.2 * STAR_HEIGHT){
+                        resetPiecePreview();
+                        setBoardStars();
+                    }
+                    //do nothing
+                }else {
+                    //place somewhere else
+                    // On board
+                    if (visualPiecePriview.x < 0)
+                        visualPiecePriview.setX(0);
+                    if (visualPiecePriview.x > BOARD_WIDTH)
+                        visualPiecePriview.setX(BOARD_WIDTH);
+                    if (visualPiecePriview.y < 0)
+                        visualPiecePriview.setY(0);
+                    if (visualPiecePriview.y > BOARD_WIDTH)
+                        visualPiecePriview.setY(BOARD_HEIGHT);
+                    // toLocation
+                    int x, y;
+                    x = -1;
+                    y = (int) Math.floor((visualPiecePriview.y - WHITE_EDGE - MARGIN) / STAR_HEIGHT);
+                    if (y == 0 || y == 2) {
+                        x = (int) ((visualPiecePriview.x - WHITE_EDGE - MARGIN) / STAR_WIDTH);
+                    }
+                    if (y == 1 || y == 3) {
+                        x = (int) Math.floor((visualPiecePriview.x - WHITE_EDGE - MARGIN) / STAR_WIDTH - 0.5);
+                    }
+                    Location center = new Location(x, y);
+                    if (center.onBoard() && piecePreview != null && gameBoard.isPieceValid(piecePreview, center)) {
+                        hintPieceStr = "";
+                        gameBoard.placePiece(piecePreview, center);
+                        setBoardStars();
+                        resetPiecePreview();
+                    }
+                }
+            }
+        });
+    }
+
+    // FIXME Task 8 (CR): Implement a basic playable IQ Stars game in JavaFX that only allows pieces to be placed in valid places
+
+    // FIXME Task 9 (D): Implement challenges (you may use the set of challenges in the Games class)
+
+    // FIXME Task 11 (HD): Implement hints (should become visible when the user presses '/' -- see gitlab issue for details)
+
+    // FIXME Task 12 (HD): Generate interesting challenges (each challenge must have exactly one solution)
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("IQ Stars");
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
 
-        // set backboard
+        // set blankboard:
         root.getChildren().add(blankBoard);
         initializeBlankBoard();
 
-        //set controlBoard
+        // set controlBoard: 4 buttons
         root.getChildren().add(controlBoard);
         initializeControlBorad();
 
-        //timer
+        // timer
         setTimer();
         root.getChildren().add(timer);
 
-        // set pieceBoard
+        // help
+        setHelp();
+        root.getChildren().add(helpBoard);
+
+        // set pieceBoard: select piece here
         root.getChildren().add(pieceBoard);
         initializePieceBoard();
 
-        // keep pressing ? for hint
+        // keep pressing ? for hint, Q and E to rotate piece
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -809,6 +976,10 @@ public class Board extends Application {
                     showHint();
                     keyEvent.consume();// when starting a new game with "/" pressed, the new game wouldl remove a puzzle piece
                 }
+                if (keyEvent.getCode() == KeyCode.Q)
+                    rotatePiece(5);
+                if (keyEvent.getCode() == KeyCode.E)
+                    rotatePiece(1);
             }
         });
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -820,36 +991,10 @@ public class Board extends Application {
             }
         });
 
-        movePiecePreview();
+        // let the piece movable
+        movePiece(visualPiecePriview);
 
-        // remove piece from game board
-        blankBoard.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                int x,y;
-                x = -1;
-                y = (int) Math.floor((mouseEvent.getSceneY() - WHITE_EDGE - MARGIN) / STAR_HEIGHT);
-                if (y == 0 || y == 2) {
-                    x= (int)((mouseEvent.getSceneX() - WHITE_EDGE - MARGIN) / STAR_WIDTH);
-                }
-                if (y == 1 || y == 3) {
-                    x= (int)Math.floor((mouseEvent.getSceneX()- WHITE_EDGE - MARGIN) / STAR_WIDTH - 0.5);
-                }
-                Location click = new Location(x,y);
-                if (click.onBoard()){
-                    char color = gameBoard.getColor(click.toString());
-                    if (color < 'a')
-                        color = (char)(color + 32);
-                    if (gameBoard.getPuzzle().indexOf(color) == -1) {
-                        gameBoard.removePiece(color);
-                        setBoardStars();
-                    }else if (gameBoard.getPuzzle().indexOf(color) > gameBoard.getPuzzle().indexOf('W')){
-                        gameBoard.removePiece(color);
-                        setBoardStars();
-                    }
-                }
-            }
-        });
+        removePiece();
 
         // rotate piece with scroll
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
@@ -861,9 +1006,6 @@ public class Board extends Application {
                     rotatePiece(1);
             }
         });
-
-
-
 
         primaryStage.setScene(scene);
         primaryStage.show();

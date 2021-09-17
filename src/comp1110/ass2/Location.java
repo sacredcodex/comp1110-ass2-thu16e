@@ -225,4 +225,12 @@ public class Location {
 	public boolean equals(Location loc){
 		return this.getDistance(loc)==0;
 	}
+
+	public double getSceneY(){
+		return 24 + (z + 0.5) * 69.282;
+	}
+
+	public double getSceneX(){
+		return 24 +(x + 0.5 * (z + 1)) * 80;
+	}
 }
