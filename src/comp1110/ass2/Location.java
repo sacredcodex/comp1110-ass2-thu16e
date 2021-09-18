@@ -38,7 +38,7 @@ public class Location {
 
 	private int x,y,z; //x+y+z==0
 
-	Location(){
+	public Location(){
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
@@ -47,7 +47,7 @@ public class Location {
 	/**
 	 * constructor with x, y, z
 	 */
-	 Location(int x,int y, int z){
+	 public Location(int x,int y, int z){
 	 	if(x+y+z==0) {
 		    this.x = x;
 		    this.y = y;
@@ -75,7 +75,7 @@ public class Location {
 	 * @param str format in readme.md with 2 characters
 	 *            e.g. 03, 32, 52
 	 */
-	Location(String str){
+	public Location(String str){
 		char[] c=str.toCharArray();
 		int column = c[0] - '0';
 		int row = c[1] - '0';
@@ -147,16 +147,6 @@ public class Location {
 	}
 
 	/**
-	 *
-	 * @param loc compare this and loc
-	 * @return whether the distance is 1
-	 */
-	public boolean isAdjacent(Location loc){
-		return this.getDistance(loc)==1;
-	}
-
-	/**
-	 *
 	 * @param loc is adjacent to this
 	 * @return direction of (this->loc) vector
 	 */
@@ -192,7 +182,6 @@ public class Location {
 	}
 
 	/**
-	 * this location should be wellformed( x+y+z==0)
 	 * @return whether the Location is on Board(one of 26 Locations)
 	 */
 	public boolean onBoard(){
@@ -217,15 +206,16 @@ public class Location {
 		return false;
 	}
 
-	/**
-	 *
-	 * @param loc compare this and loc
-	 * @return whether two location is same
-	 */
-	public boolean equals(Location loc){
-		return this.getDistance(loc)==0;
+	public static boolean onBoard(String loc){
+		char[] chars = loc.toCharArray();
+		if (chars[0] >= '0' && chars[0] <= '5') {
+			return chars[1] >= '0' && chars[1] <= '3';
+		}else if (chars[0] == '6' )
+			return chars[1] == '0' || chars[1] == '2';
+		else return false;
 	}
 
+	//used in gui/Board.java
 	public double getSceneY(){
 		return 24 + (z + 0.5) * 69.282;
 	}

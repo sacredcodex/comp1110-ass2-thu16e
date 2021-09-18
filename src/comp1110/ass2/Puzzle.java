@@ -3,7 +3,7 @@ package comp1110.ass2;
 import java.util.HashSet;
 import java.util.Set;
 
-// this class is used to find(start at line 3805) and store new puzzle Strings
+// this class is used to find(start at line 3784) and store new puzzle Strings
 public class Puzzle {
 	//381
 	public static final String[] solutions = new String[]{
@@ -3758,15 +3758,10 @@ public class Puzzle {
 	};
 
 	/**
-	 *
 	 * @param num 0~31
 	 */
-	public static String getMasterPuzzle(int num){
-		return masters[num];
-	}
-
 	public static String getMasterSolution(int num){
-		String puzzle = getMasterPuzzle(num);
+		String puzzle = masters[num];
 		for (String solution : solutions){
 			if (solution.contains(puzzle))
 				return solution.substring(0,28);
@@ -3774,12 +3769,11 @@ public class Puzzle {
 		return "";// placeholder
 	}
 
-	public static String getExpertPuzzle(int num){
-		return experts[num];
-	}
-
+	/**
+	 * @param num 0~2307
+	 */
 	public static String getExpertSolution(int num){
-		String puzzle = getExpertPuzzle(num);
+		String puzzle = experts[num];
 		for (String solution : solutions){
 			if (solution.contains(puzzle.substring(0,4)) && solution.contains(puzzle.substring(4,8)))
 				return solution.substring(0,28);
@@ -4047,8 +4041,7 @@ public class Puzzle {
 	 * All solutions for puzzles with two pieces exclude solution(r041o121y400g540b342i010p202W)
 	 */
 	public void isTwoPiecesPuzzlesCoveredAllSolutions(){
-		Set<String> solutions = new HashSet<>();
-		solutions.addAll(allSolutions);
+		Set<String> solutions = new HashSet<>(allSolutions);
 
 		for (String puzzles : allPuzzlesWithTwoPieces){
 			for (String solution : allSolutions){
@@ -4088,29 +4081,6 @@ public class Puzzle {
 										}
 									}
 								}
-								/*
-								for (int o = l + 1; o < 7; o++) {
-									for (int p = 0; p < 4; p++) {
-										for (int q = 0; q < board.getColors()[p].length; q++) {
-											for (int r = 0; r < 381; r++){
-												Board board = new Board();
-												board.setPuzzle(solutions[r]);
-												if (board.getColor(""+k+j) == colors[i] && board.getColor(""+n+m) == colors[l] && board.getColor(""+q+p) == colors[o]){
-													puzzle = o + "W" + colors[i] + k + j + colors[l] + n + m + colors[o] + q + p;
-													if (puzzle.substring(puzzle.indexOf('W')).equals(last.substring(last.indexOf('W')))) {
-														wizardPuzzles.remove(last);
-														break;
-													}else {
-														wizardPuzzles.add(puzzle);
-														last = puzzle;
-													}
-												}
-											}
-										}
-									}
-								}
-
-								 */
 							}
 						}
 					}

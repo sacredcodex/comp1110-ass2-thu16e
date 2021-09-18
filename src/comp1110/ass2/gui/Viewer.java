@@ -48,8 +48,7 @@ public class Viewer extends Application {
      * @param gameStateString A valid game state string
      */
     void makeGameState(String gameStateString) {
-        if (IQStars.isGameStateValid(gameStateString)) {
-            label2.setText("");
+        if (IQStars.isGameStateStringWellFormed(gameStateString)) {
             Board board = new Board();
             board.setPuzzle(gameStateString);
             char[][] color = board.getColors();
@@ -69,8 +68,13 @@ public class Viewer extends Application {
                 }
 
             }
+
+            if (IQStars.isGameStateValid(gameStateString))
+                label2.setText("");
+            else
+                label2.setText("Game State is not valid.");
         }else{
-            label2.setText("Game State is not valid. Please input again.");
+            label2.setText("Game State String is not well formed. Please input again.");
 
             if (textField.getText().length() > 40)
                 textField.clear();

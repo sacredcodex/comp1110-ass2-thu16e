@@ -52,17 +52,17 @@ public class Board extends Application {
     private final Group root = new Group();
 
     private final Group blankBoard = new Group();
-    private comp1110.ass2.Board gameBoard = new comp1110.ass2.Board();
-    private Star[][] stars = new Star[4][];//place on blank board
+    private final comp1110.ass2.Board gameBoard = new comp1110.ass2.Board();
+    private final Star[][] stars = new Star[4][];//place on blank board
 
     private final Group pieceBoard = new Group();
-    private Star[][] pieceBoardStars = new Star[5][];//place on piece board
+    private final Star[][] pieceBoardStars = new Star[5][];//place on piece board
     private final Button[][] selects = new Button[4][];
     private Piece piecePreview;
     private VisualPiece visualPiecePriview;
 
     private final Group controlBoard = new Group();
-    private Slider difficultyControl = new Slider();
+    private final Slider difficultyControl = new Slider();
     // hint
     private Button button3;
     private String hintPieceStr = "";
@@ -73,31 +73,49 @@ public class Board extends Application {
     private int tmp = 0;
     private Label timer;
 
-    private boolean mouseDrag=false;
-
     private final Group helpBoard = new Group();
     private Label help1,help2;
-    private String[] help = new String[]{
+    private final String[] help = new String[]{
             "How to start?",
-                    "1. Select difficulty by slider. There are 5 levels:\n\n" +
-                    "   1   Starter, provide 4 or 5 pieces on the board.\n\n" +
-                    "   2   Junior, provide 3 or 2 pieces on the board.\n\n" +
-                    "   3   Expert, provide 2 pieces on the board.\n\n" +
-                    "   4   Master, provide 1 piece on the board.\n\n" +
-                    "   5   Wizard, provide a few stars on the board.\n\n" +
-                    "2. Both \"Start\" and \"Random\" can start a game,\n\n" +
-                    "   there will be more puzzles if you use \"Random\".\n\n\n" +
-                    "                                   1 / 2",
+            """
+1. Select difficulty by slider. There are 5 levels:
+
+   1   Starter, provide 4 or 5 pieces on the board.
+
+   2   Junior, provide 3 or 2 pieces on the board.
+
+   3   Expert, provide 2 pieces on the board.
+
+   4   Master, provide 1 piece on the board.
+
+   5   Wizard, provide a few stars on the board.
+
+2. Both "Start" and "Random" can start a game,
+
+   there will be more puzzles if you use "Random".
+
+
+                                   1 / 2""",
             "How to play?",
-                    "1. Click and select the piece you want.\n\n" +
-                    "2. Drag and place it to the right position.\n\n" +
-                    "3. Use mouse wheel to rotate the piece.\n\n" +
-                    "4. If you want to remove the piece, click the\n\n" +
-                    "   piece on board or click the pieces below.\n\n" +
-                    "5. Press \'?\' or button \"hint\" for hint, it will\n\n" +
-                    "   show you where you should place the piece.\n\n" +
-                    "   (except all pieces cannot be placed correctly)\n\n\n" +
-                    "                                   2 / 2"
+            """
+1. Click and select the piece you want.
+
+2. Drag and place it to the right position.
+
+3. Use mouse wheel to rotate the piece.
+
+4. If you want to remove the piece, click the
+
+   piece on board or click the pieces below.
+
+5. Press '?' or button "hint" for hint, it will
+
+   show you where you should place the piece.
+
+   (except all pieces cannot be placed correctly)
+
+
+                                   2 / 2"""
     };
 
     private void initializeBlankBoard(){
@@ -386,15 +404,15 @@ public class Board extends Application {
                 Random random = new Random();
                 if (difficulty == 4){
                     int num = random.nextInt(32);
-                    gameBoard.setPuzzle(Puzzle.getMasterPuzzle(num));
+                    gameBoard.setPuzzle(Puzzle.masters[num]);
                     gameBoard.setSolution(Puzzle.getMasterSolution(num));
                 }else if (difficulty == 3){
                     int num = random.nextInt(2308);
-                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setPuzzle(Puzzle.masters[num]);
                     gameBoard.setSolution(Puzzle.getExpertSolution(num));
                 }else if (difficulty == 2){
                     int num = random.nextInt(2308);
-                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setPuzzle(Puzzle.experts[num]);
                     gameBoard.setSolution(Puzzle.getExpertSolution(num));
                     char color = gameBoard.getUnusedColor().toString().charAt(1);
                     int index = gameBoard.getSolution().indexOf(color);
@@ -402,7 +420,7 @@ public class Board extends Application {
                     gameBoard.setPuzzle(gameBoard.toString());
                 }else if (difficulty == 1){
                     int num = random.nextInt(2308);
-                    gameBoard.setPuzzle(Puzzle.getExpertPuzzle(num));
+                    gameBoard.setPuzzle(Puzzle.experts[num]);
                     gameBoard.setSolution(Puzzle.getExpertSolution(num));
                     char color = gameBoard.getUnusedColor().toString().charAt(1);
                     int index = gameBoard.getSolution().indexOf(color);
@@ -567,27 +585,13 @@ public class Board extends Application {
                 gameBoard.placePiece(hintPieceStr);
                 setBoardStars();
                 switch (hintPieceStr.charAt(0)) {
-                    case 'r':
-                        selects[0][0].setOpacity(1.0);
-                        break;
-                    case 'o':
-                        selects[1][0].setOpacity(1.0);
-                        break;
-                    case 'y':
-                        selects[2][0].setOpacity(1.0);
-                        break;
-                    case 'g':
-                        selects[3][0].setOpacity(1.0);
-                        break;
-                    case 'b':
-                        selects[0][1].setOpacity(1.0);
-                        break;
-                    case 'i':
-                        selects[1][1].setOpacity(1.0);
-                        break;
-                    case 'p':
-                        selects[2][1].setOpacity(1.0);
-                        break;
+                    case 'r' -> selects[0][0].setOpacity(1.0);
+                    case 'o' -> selects[1][0].setOpacity(1.0);
+                    case 'y' -> selects[2][0].setOpacity(1.0);
+                    case 'g' -> selects[3][0].setOpacity(1.0);
+                    case 'b' -> selects[0][1].setOpacity(1.0);
+                    case 'i' -> selects[1][1].setOpacity(1.0);
+                    case 'p' -> selects[2][1].setOpacity(1.0);
                 }
             }else {
                 hintUse = hintUse + 1;
@@ -596,27 +600,13 @@ public class Board extends Application {
                 button3.setText("Hint(" + hintUse + ")");
                 if (piecePreview != null)
                     switch (piecePreview.getColor()) {
-                        case 'r':
-                            hintPieceStr = gameBoard.getSolution().substring(0, 4);
-                            break;
-                        case 'o':
-                            hintPieceStr = gameBoard.getSolution().substring(4, 8);
-                            break;
-                        case 'y':
-                            hintPieceStr = gameBoard.getSolution().substring(8, 12);
-                            break;
-                        case 'g':
-                            hintPieceStr = gameBoard.getSolution().substring(12, 16);
-                            break;
-                        case 'b':
-                            hintPieceStr = gameBoard.getSolution().substring(16, 20);
-                            break;
-                        case 'i':
-                            hintPieceStr = gameBoard.getSolution().substring(20, 24);
-                            break;
-                        case 'p':
-                            hintPieceStr = gameBoard.getSolution().substring(24, 28);
-                            break;
+                        case 'r' -> hintPieceStr = gameBoard.getSolution().substring(0, 4);
+                        case 'o' -> hintPieceStr = gameBoard.getSolution().substring(4, 8);
+                        case 'y' -> hintPieceStr = gameBoard.getSolution().substring(8, 12);
+                        case 'g' -> hintPieceStr = gameBoard.getSolution().substring(12, 16);
+                        case 'b' -> hintPieceStr = gameBoard.getSolution().substring(16, 20);
+                        case 'i' -> hintPieceStr = gameBoard.getSolution().substring(20, 24);
+                        case 'p' -> hintPieceStr = gameBoard.getSolution().substring(24, 28);
                     }
                 if (hintPieceStr.length() != 4 || !gameBoard.isPieceValid(hintPieceStr))
                     for (int i = 0; i < 7; i++) {
@@ -631,27 +621,13 @@ public class Board extends Application {
                 gameBoard.placePiece(hintPieceStr);
                 setBoardStars();
                 switch (hintPieceStr.charAt(0)) {
-                    case 'r':
-                        selects[0][0].setOpacity(1.0);
-                        break;
-                    case 'o':
-                        selects[1][0].setOpacity(1.0);
-                        break;
-                    case 'y':
-                        selects[2][0].setOpacity(1.0);
-                        break;
-                    case 'g':
-                        selects[3][0].setOpacity(1.0);
-                        break;
-                    case 'b':
-                        selects[0][1].setOpacity(1.0);
-                        break;
-                    case 'i':
-                        selects[1][1].setOpacity(1.0);
-                        break;
-                    case 'p':
-                        selects[2][1].setOpacity(1.0);
-                        break;
+                    case 'r' -> selects[0][0].setOpacity(1.0);
+                    case 'o' -> selects[1][0].setOpacity(1.0);
+                    case 'y' -> selects[2][0].setOpacity(1.0);
+                    case 'g' -> selects[3][0].setOpacity(1.0);
+                    case 'b' -> selects[0][1].setOpacity(1.0);
+                    case 'i' -> selects[1][1].setOpacity(1.0);
+                    case 'p' -> selects[2][1].setOpacity(1.0);
                 }
             }
         }

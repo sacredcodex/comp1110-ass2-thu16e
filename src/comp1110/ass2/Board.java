@@ -57,15 +57,6 @@ public class Board {
 		unusedColor.add('p');
 	}
 
-	public boolean onBoard(String loc){
-		char[] chars = loc.toCharArray();
-		if (chars[0] >= '0' && chars[0] <= '5') {
-			return chars[1] >= '0' && chars[1] <= '3';
-		}else if (chars[0] == '6' )
-			return chars[1] == '0' || chars[1] == '2';
-		else return false;
-	}
-
 	/**
 	 * get one color of loc
 	 *
@@ -73,18 +64,10 @@ public class Board {
 	 * @return char
 	 */
 	public char getColor(String loc){
-		if (!onBoard(loc))
+		if (!Location.onBoard(loc))
 			return ' ';
 		char[] copy = loc.toCharArray();
 		return this.color[copy[1]-'0'][copy[0]-'0'];
-	}
-
-	public String getSolution() {
-		return solution;
-	}
-
-	public String getPuzzle(){
-		return puzzle;
 	}
 
 	/**
@@ -94,6 +77,14 @@ public class Board {
 	 */
 	public char[][] getColors() {
 		return color;
+	}
+
+	public String getSolution() {
+		return solution;
+	}
+
+	public String getPuzzle(){
+		return puzzle;
 	}
 
 	public Set<Character> getUnusedColor() {
@@ -246,10 +237,6 @@ public class Board {
 		wizardColor.remove(piece.getColor());
 	}
 
-	/**
-	 *
-	 * @param str format in readme.md
-	 */
 	public void placePiece(String str){
 		Piece piece = new Piece(str.charAt(0));
 		piece.rotatePiece(str.charAt(1)-'0');
@@ -355,8 +342,6 @@ public class Board {
 			}
 		}
 	}
-
-
 
 	/**
 	 * a gameStateString with 'W' as the end
@@ -518,12 +503,10 @@ public class Board {
 			}
 		}
 
-
-
-		String res = "";
+		StringBuilder res = new StringBuilder();
 		for (int i = 0; i < 7; i++) {
 			if (exist[i]){
-				res = res + c[i] + rotation[i] + loc[i];
+				res.append(c[i]).append(rotation[i]).append(loc[i]);
 			}
 		}
 		return res+"W";

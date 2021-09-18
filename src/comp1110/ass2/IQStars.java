@@ -36,10 +36,7 @@ public class IQStars {
             if(!(a == 'r' || a == 'o' || a == 'y' || a == 'g' || a == 'b' || a== 'i' || a == 'p'))
                 return false;
             Location loc = new Location(gameString.substring(1,3));
-            if (!loc.onBoard())
-                return false;
-            else
-                return true;
+            return loc.onBoard();
         }
         if(gameString.length()==4){
             char b=gameString.charAt(0);
@@ -206,20 +203,13 @@ public class IQStars {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < board.getColors()[i].length; j++) {
                 switch (board.getColors()[i][j]){
-                    case 'r' -> countStar[0]++;
-                    case 'R' -> countStar[0]++;
-                    case 'o' -> countStar[1]++;
-                    case 'O' -> countStar[1]++;
-                    case 'y' -> countStar[2]++;
-                    case 'Y' -> countStar[2]++;
-                    case 'g' -> countStar[3]++;
-                    case 'G' -> countStar[3]++;
-                    case 'b' -> countStar[4]++;
-                    case 'B' -> countStar[4]++;
-                    case 'i' -> countStar[5]++;
-                    case 'I' -> countStar[5]++;
-                    case 'p' -> countStar[6]++;
-                    case 'P' -> countStar[6]++;
+                    case 'r', 'R' -> countStar[0]++;
+                    case 'o', 'O' -> countStar[1]++;
+                    case 'y', 'Y' -> countStar[2]++;
+                    case 'g', 'G' -> countStar[3]++;
+                    case 'b', 'B' -> countStar[4]++;
+                    case 'i', 'I' -> countStar[5]++;
+                    case 'p', 'P' -> countStar[6]++;
                 }
             }
         }

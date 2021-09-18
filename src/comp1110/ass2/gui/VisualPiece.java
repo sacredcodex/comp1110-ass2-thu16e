@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class VisualPiece extends Group {
 
-	private Set<Star> stars = new HashSet<>();
+	private Set<Star> stars;
 	private char color;
 	double x,y;
 	double starWidth;
@@ -40,7 +40,6 @@ public class VisualPiece extends Group {
 		this.starWidth = starWidth;
 		this.x = x;
 		this.y = y;
-		this.starWidth = starWidth;
 
 	}
 
@@ -61,19 +60,19 @@ public class VisualPiece extends Group {
 
 	public void setPiece(Piece piece){
 		this.color = piece.getColor();
-		Set<Star> starSet = new HashSet<>();
+		stars = new HashSet<>();
 		for (int i : piece.getShape()) {
-			starSet.add(new Star(getNextX(i), getNextY(i), starWidth));
+			stars.add(new Star(getNextX(i), getNextY(i), starWidth));
 		}
 		if (color != 'p')
-			starSet.add(new Star(x, y, starWidth));
+			stars.add(new Star(x, y, starWidth));
 		if (color == 'g')
-			starSet.add(new Star(2 * getNextX(piece.getShape()[0]) - x, 2 * getNextY(piece.getShape()[0]) -y, starWidth));
+			stars.add(new Star(2 * getNextX(piece.getShape()[0]) - x, 2 * getNextY(piece.getShape()[0]) -y, starWidth));
 		//x+2i=2(x+i)-x
-		for (Star i : starSet) {
+		for (Star i : stars) {
 			i.setPieceStar(color);
 		}
-		this.getChildren().setAll(starSet);
+		this.getChildren().setAll(stars);
 	}
 
 	private double getNextX(int direction){
