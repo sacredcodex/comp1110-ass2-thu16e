@@ -23,9 +23,9 @@ class:
 # I wish to submit the following methods as entirely my own (remove this if
 # you want to just submit classes):
 method:
-   - 
-   - 
+   - isGameStringWellFormed(String gameString)
+   - isGameStateStringWellFormed(String gameStateString)
 
 # sign *your* name and uid here
-name:
-uid:
+name:Yu Cong
+uid:u7387703
