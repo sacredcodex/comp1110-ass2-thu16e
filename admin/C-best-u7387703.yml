@@ -16,15 +16,15 @@ declaration: >-
 
 # I wish to submit the following classes as entirely my own (remove this if
 # you want to just submit methods):
-class:
-   - 
-   - 
+# class:
+   # -
+   # -
 
 # I wish to submit the following methods as entirely my own (remove this if
 # you want to just submit classes):
 method:
-   - isGameStringWellFormed(String gameString)
-   - isGameStateStringWellFormed(String gameStateString)
+   - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/IQStars.java#L31-60
+   - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/IQStars.java#L105-160
 
 # sign *your* name and uid here
 name: Yu Cong
