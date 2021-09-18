@@ -17,8 +17,8 @@ declaration: >-
 # I wish to submit the following classes as entirely my own (remove this if
 # you want to just submit methods):
 class:
-  - Piece.java
-  - Star.java
+  - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/Piece.java
+  - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/gui/Star.java
 
     # I wish to submit the following methods as entirely my own (remove this if
   # you want to just submit classes):
