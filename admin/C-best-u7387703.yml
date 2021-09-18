@@ -27,5 +27,5 @@ method:
    - isGameStateStringWellFormed(String gameStateString)
 
 # sign *your* name and uid here
-name:Yu Cong
-uid:u7387703
+name: Yu Cong
+uid: u7387703
