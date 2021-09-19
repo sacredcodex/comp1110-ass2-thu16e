@@ -14,17 +14,12 @@ declaration: >-
   is entirely my own work, with the following documented exceptions:
 
 
-# I wish to submit the following classes as entirely my own (remove this if
-# you want to just submit methods):
-# class:
-   # -
-   # -
+
 
 # I wish to submit the following methods as entirely my own (remove this if
 # you want to just submit classes):
 method:
-   - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/IQStars.java#L31-60
-   - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/IQStars.java#L105-160
+   - https://gitlab.cecs.anu.edu.au/u7386319/comp1110-ass2-thu16e/-/blob/master/src/comp1110/ass2/IQStars.java#L129-156
 
 # sign *your* name and uid here
 name: Yu Cong
