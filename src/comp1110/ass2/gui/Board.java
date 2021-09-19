@@ -408,7 +408,7 @@ public class Board extends Application {
                     gameBoard.setSolution(Puzzle.getMasterSolution(num));
                 }else if (difficulty == 3){
                     int num = random.nextInt(2308);
-                    gameBoard.setPuzzle(Puzzle.masters[num]);
+                    gameBoard.setPuzzle(Puzzle.experts[num]);
                     gameBoard.setSolution(Puzzle.getExpertSolution(num));
                 }else if (difficulty == 2){
                     int num = random.nextInt(2308);
@@ -637,8 +637,8 @@ public class Board extends Application {
         if (showHint && hintPieceStr.length() == 4) {
             gameBoard.removePiece(hintPieceStr);
             setBoardStars();
-            showHint = false;
         }
+        showHint = false;
     }
 
     // set timer output
