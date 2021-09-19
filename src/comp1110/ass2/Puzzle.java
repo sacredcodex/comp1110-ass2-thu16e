@@ -3761,7 +3761,7 @@ public class Puzzle {
 	 * @param num 0~31
 	 */
 	public static String getMasterSolution(int num){
-		String puzzle = masters[num];
+		String puzzle = masters[num].substring(0,4);
 		for (String solution : solutions){
 			if (solution.contains(puzzle))
 				return solution.substring(0,28);
@@ -4126,9 +4126,18 @@ public class Puzzle {
 		puzzle.isTwoPiecesPuzzlesCoveredAllSolutions();
 		 */
 
+		/*
 		puzzle.getWizardPuzzles();
 		for (String wizard : puzzle.wizardPuzzles)
 			System.out.println("\""+wizard+"\",");
+		 */
+
+		for (int i = 0; i < 32; i++){
+			String master = masters[i];
+			System.out.println(master);
+			System.out.println(getMasterSolution(i));
+		}
+
 	}
 
 }
