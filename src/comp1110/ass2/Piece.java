@@ -124,7 +124,7 @@ public class Piece {
 	/**
 	 * let piece rotate in rotation*60 degree
 	 *
-	 * @param rotation 0~5 is better, but could be larger
+	 * @param rotation 0~5 is better, but could be larger, not negative.
 	 */
 	public void rotatePiece(int rotation){
 		this.direction = (this.direction + rotation) % 6;
@@ -226,7 +226,7 @@ public class Piece {
 	 *            assumed this Piece is equal to what str expresses
 	 * @return the center star location
 	 */
-	public  Location getCenter(String str) {
+	public Location getCenter(String str) {
 		int topLeft = this.topLeft();
 		Location loc = new Location(str.substring(2, 4));
 		if (topLeft == 3)

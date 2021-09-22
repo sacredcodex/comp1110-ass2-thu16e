@@ -32,7 +32,6 @@ import java.util.Set;
 
 public class Board extends Application {
 
-
     private static final int BOARD_WIDTH = 933;
     private static final int BOARD_HEIGHT = 700;
     private static final int WHITE_EDGE = 10;
@@ -42,12 +41,11 @@ public class Board extends Application {
     private static final double MARGIN = 0.175 * STAR_WIDTH; //14
     private static final double RECTA_WIDTH = 2 * MARGIN + 7 * STAR_WIDTH; //588
     private static final double RECTA_HEIGHT = 2 * MARGIN + 4 * STAR_HEIGHT; //305.128
-    private static final Color BLACKBLUE = new Color(0.172, 0.172, 0.27, 1.0);
+    private static final Color BLACKBLUE = new Color(0.172, 0.172, 0.27, 1.0);// background
     private static final double PIECE_BOARD_HEIGHT = BOARD_HEIGHT - 3 * WHITE_EDGE - RECTA_HEIGHT;
     private static final int MARGIN_IN_PIECE_BOARD = 9;
     private static final double X_PIECE_PLACE = WHITE_EDGE + MARGIN_IN_PIECE_BOARD + 2;
     private static final double Y_PIECE_PLACE = 2 * WHITE_EDGE + RECTA_HEIGHT + MARGIN_IN_PIECE_BOARD + 2;
-
 
     private final Group root = new Group();
 

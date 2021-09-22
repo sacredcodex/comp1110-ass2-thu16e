@@ -4131,13 +4131,6 @@ public class Puzzle {
 		for (String wizard : puzzle.wizardPuzzles)
 			System.out.println("\""+wizard+"\",");
 		 */
-
-		for (int i = 0; i < 32; i++){
-			String master = masters[i];
-			System.out.println(master);
-			System.out.println(getMasterSolution(i));
-		}
-
 	}
 
 }

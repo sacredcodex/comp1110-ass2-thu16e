@@ -256,13 +256,7 @@ public class IQStars {
         Location adjacentLoc, distance2Loc;
         Piece piece;
 
-        char[] color = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};
-        // not mentioned or in wizard string
-        Set<Character> unusedColor = new HashSet<>();
-        for (int i = 0; i < 7; i++) {
-            if (gameStateString.substring(0, gameStateString.indexOf('W')).indexOf(color[i]) == -1)
-                unusedColor.add(color[i]);
-        }
+        Set<Character> unusedColor = board.getUnusedColor();
 
         Set<String> res = new HashSet<>();
 
