@@ -29,9 +29,9 @@ import javafx.util.Duration;
 import java.util.Random;
 import java.util.Set;
 
-
 public class Board extends Application {
 
+    // static final
     private static final int BOARD_WIDTH = 933;
     private static final int BOARD_HEIGHT = 700;
     private static final int WHITE_EDGE = 10;
@@ -161,37 +161,6 @@ public class Board extends Application {
         board.setArcWidth(15);
         board.setFill(BLACKBLUE);
         pieceBoard.getChildren().add(board);
-        //
-        Rectangle piecePlaceShadow = new Rectangle(X_PIECE_PLACE - 3, Y_PIECE_PLACE - 3, 5 * STAR_WIDTH + 3, 5 * STAR_HEIGHT + 3);
-        piecePlaceShadow.setArcHeight(15);
-        piecePlaceShadow.setArcWidth(15);
-        piecePlaceShadow.setFill(BLACKBLUE.brighter().brighter());
-        pieceBoard.getChildren().add(piecePlaceShadow);
-        Rectangle piecePlace = new Rectangle(X_PIECE_PLACE, Y_PIECE_PLACE, 5 * STAR_WIDTH, 5 * STAR_HEIGHT);
-        piecePlace.setArcHeight(15);
-        piecePlace.setArcWidth(15);
-        piecePlace.setFill(BLACKBLUE);
-        piecePlace.setStroke(BLACKBLUE.darker().darker());
-        pieceBoard.getChildren().add(piecePlace);
-        // set stars
-        pieceBoardStars[0] = new Star[5];
-        pieceBoardStars[1] = new Star[4];
-        pieceBoardStars[2] = new Star[5];
-        pieceBoardStars[3] = new Star[4];
-        pieceBoardStars[4] = new Star[5];
-        double starX, starY;
-        for (int i = 0; i < 5; i++) {
-            starY = Y_PIECE_PLACE + (2*i+1) * STAR_HEIGHT / 2;
-            for (int j = 0; j < pieceBoardStars[i].length; j++) {
-                if (i % 2 == 0)
-                    starX = X_PIECE_PLACE + (2 * j + 1) / 2.0 * STAR_WIDTH;
-                else starX = X_PIECE_PLACE + (j + 1) * STAR_WIDTH;
-                pieceBoardStars[i][j] = new Star(starX, starY, STAR_WIDTH);
-                pieceBoardStars[i][j].setEmptyStar();
-                pieceBoardStars[i][j].setStroke(BLACKBLUE.darker());
-                pieceBoard.getChildren().add(pieceBoardStars[i][j]);
-            }
-        }
 
         //set select color buttons
         double startX,startY;
@@ -206,10 +175,11 @@ public class Board extends Application {
         selects[2] = new Button[2];
         selects[3] = new Button[1];
         for (int i = 0; i < 4; i++) {
-            startY = Y_PIECE_PLACE + i * STAR_HEIGHT * (4.0 / 3);
+            startX = X_PIECE_PLACE + i * RECTA_WIDTH / 4;
+
             for (int j = 0; j < pieces[i].length; j++) {
-                startX = X_PIECE_PLACE + (5 + j) * STAR_WIDTH + 2;
-                pieces[i][j] = new VisualPiece(0 ,0 , STAR_WIDTH/3);
+                startY = Y_PIECE_PLACE + j * PIECE_BOARD_HEIGHT / 2 + 50;
+                pieces[i][j] = new VisualPiece(0 ,0 , STAR_WIDTH * 0.5);
                 selects[i][j] = new Button();
                 selects[i][j].setPrefSize(STAR_WIDTH-5,STAR_HEIGHT-5);
                 selects[i][j].setLayoutX(startX);
@@ -234,7 +204,7 @@ public class Board extends Application {
         movePiece(selects[1][1], 'i');
         movePiece(selects[2][1], 'p');
 
-        visualPiecePriview = new VisualPiece(X_PIECE_PLACE + 2.5 * STAR_WIDTH, Y_PIECE_PLACE + 2.5 * STAR_HEIGHT, STAR_WIDTH);
+        visualPiecePriview = new VisualPiece(0, 0, STAR_WIDTH);
         pieceBoard.getChildren().add(visualPiecePriview);
     }
 
@@ -727,6 +697,15 @@ public class Board extends Application {
 
     // drag select button to move the piece
     private void movePiece(Button piece, char color){
+        piece.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (gameBoard.getPuzzle().indexOf(color) == -1){
+                    gameBoard.removePiece(color);
+                    setBoardStars();
+                }
+            }
+        });
         //movePiecePreview();
         double[] startX = new double[1];
         double[] startY = new double[1];
@@ -757,16 +736,7 @@ public class Board extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 // click
-                if (Math.abs(mouseEvent.getSceneX()-startX[0]) < 0.2 * STAR_WIDTH && Math.abs(mouseEvent.getSceneY()-startY[0]) < 0.2 * STAR_HEIGHT){
-                    if (gameBoard.getUnusedColor().contains(color)){
-                        visualPiecePriview.setX(X_PIECE_PLACE + 2.5 * STAR_WIDTH);
-                        visualPiecePriview.setY(Y_PIECE_PLACE + 2.5 * STAR_HEIGHT);
-                        setPiece(color);
-                    }else if (gameBoard.getPuzzle().indexOf(color) == -1){
-                        gameBoard.removePiece(color);
-                        setBoardStars();
-                    }
-                }else if (piecePreview != null){
+                if (piecePreview != null){
                     // On board
                     if (visualPiecePriview.x < 0)
                         visualPiecePriview.setX(0);
