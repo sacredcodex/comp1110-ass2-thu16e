@@ -73,7 +73,7 @@ public class Location {
 	 * @param direction:0~5 direction of unit vector
 	 * @return Location in certain direction which is adjacent to this
 	 */
-	public Location getNext(int direction){
+	public Location  getNext(int direction){
 		int column = this.column;
 		int row =this.row;
 		switch (direction) {
@@ -130,6 +130,14 @@ public class Location {
 		}else if (chars[0] == '6' )
 			return chars[1] == '0' || chars[1] == '2';
 		else return false;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public int getRow() {
+		return row;
 	}
 
 	//used in gui/Board.java
