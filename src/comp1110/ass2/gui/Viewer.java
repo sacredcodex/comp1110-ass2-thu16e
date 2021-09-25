@@ -52,11 +52,8 @@ public class Viewer extends Application {
             Board board = new Board();
             board.setPuzzle(gameStateString);
             char[][] color = board.getColors();
-
             for (int i = 0; i < 4; i++) {
-
                 for (int j = 0; j < color[i].length; j++) {
-
                     if (color[i][j] >= 'a' && color[i][j] <= 'z')
                         if (color[i][j] == 'n')
                             stars[i][j].setEmptyStar();
@@ -64,29 +61,20 @@ public class Viewer extends Application {
                             stars[i][j].setPieceStar(color[i][j]);
                     if (color[i][j] >= 'A' && color[i][j] <= 'Z')
                         stars[i][j].setWizardStar((char) (color[i][j] + 32));
-
                 }
-
             }
-
             if (IQStars.isGameStateValid(gameStateString))
                 label2.setText("");
             else
                 label2.setText("Game State is not valid.");
         }else{
             label2.setText("Game State String is not well formed. Please input again.");
-
             if (textField.getText().length() > 40)
                 textField.clear();
-
             for (int i = 0; i < 4; i++) {
-
                 for (int j = 0; j < stars[i].length; j++) {
-
                     stars[i][j].setEmptyStar();
-
                 }
-
             }
         }
         
