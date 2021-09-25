@@ -178,14 +178,14 @@ public class Board extends Application {
             startX = X_PIECE_PLACE + i * RECTA_WIDTH / 4;
 
             for (int j = 0; j < pieces[i].length; j++) {
-                startY = Y_PIECE_PLACE + j * PIECE_BOARD_HEIGHT / 2 + 50;
+                startY = Y_PIECE_PLACE + j * PIECE_BOARD_HEIGHT / 2;
                 pieces[i][j] = new VisualPiece(0 ,0 , STAR_WIDTH * 0.5);
                 selects[i][j] = new Button();
-                selects[i][j].setPrefSize(STAR_WIDTH-5,STAR_HEIGHT-5);
+                selects[i][j].setPrefSize(STAR_WIDTH * 1.5, PIECE_BOARD_HEIGHT / 2 - 35);
                 selects[i][j].setLayoutX(startX);
                 selects[i][j].setLayoutY(startY);
                 selects[i][j].setGraphic(pieces[i][j]);
-                selects[i][j].setBackground(new Background(new BackgroundFill(new Color(0,0,0,0.1),new CornerRadii(5), Insets.EMPTY)));
+                selects[i][j].setBackground(new Background(new BackgroundFill(new Color(0, 0, 0, 0),new CornerRadii(5), Insets.EMPTY)));
                 pieceBoard.getChildren().add(selects[i][j]);
             }
         }
@@ -626,16 +626,13 @@ public class Board extends Application {
             output = output + a;
 
         output = output + " : ";
-
         if (b == 0)
             output = output + "00";
         else if (b < 10)
             output = output + "0" + b;
         else
             output = output + b;
-
         output = output + " . "+c+"     ";
-
         if (a > 60)
             output = "         60 : 00 . 0     ";
         timer.setText(output);
@@ -674,6 +671,7 @@ public class Board extends Application {
                     visualPiecePriview.setY(0);
                 if (visualPiecePriview.y > BOARD_WIDTH)
                     visualPiecePriview.setY(BOARD_HEIGHT);
+                visualPiecePriview.setPiece(piecePreview);
                 // toLocation
                 int x,y;
                 x = -1;
@@ -746,6 +744,7 @@ public class Board extends Application {
                         visualPiecePriview.setY(0);
                     if (visualPiecePriview.y > BOARD_WIDTH)
                         visualPiecePriview.setY(BOARD_HEIGHT);
+                    visualPiecePriview.setPiece(piecePreview);
                     // toLocation
                     int x, y;
                     x = -1;
