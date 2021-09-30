@@ -26,8 +26,8 @@ public class IQStars {
      *      - the fourth character is a valid row number (0 .. 3)
      *      @param gameString A string describing either a piece or a wizard
      *      @return True if the string is well-formed
+     *      @author Yu Cong
      */
-    // this method only check if the top left location is on board, not the whole piece
     static boolean isGameStringWellFormed(String gameString) {
         if (gameString==null)
             {return false;}
@@ -64,6 +64,7 @@ public class IQStars {
      * @return true if c1 appears earlier
      *         false otherwise
      *         if c1 == c2 return false
+     * @author Yu Cong
      */
     public static boolean isOrdered(char c1, char c2){
         if (c1 == 'r')
@@ -101,6 +102,7 @@ public class IQStars {
      *          in a later task).
      * @param gameStateString A string describing a game state
      * @return True if the game state string is well-formed
+     * @author Yu Cong
      */
     public static boolean isGameStateStringWellFormed(String gameStateString) {
         int indexW = gameStateString.indexOf('W');
@@ -173,6 +175,7 @@ public class IQStars {
      *
      * @param gameStateString A game state string
      * @return True if the game state represented by the string is valid
+     * @author Xiao Cui
      */
     public static boolean isGameStateValid(String gameStateString) {
         if (!isGameStateStringWellFormed(gameStateString))
@@ -225,7 +228,7 @@ public class IQStars {
             return false;
         if (countStar[5] > 3)
             return false;
-        if (countStar[6] > 4) //do not simplify, for a regular structure
+        if (countStar[6] > 4) // for a regular structure
             return false;
 
         return true;  // FIXME Task 6 (D): determine whether a game state is valid
@@ -248,6 +251,7 @@ public class IQStars {
      * @param col      The location's column.
      * @param row      The location's row.
      * @return A set of all viable piece strings, or null if there are none.
+     * @author Yu Cong
      */
     static Set<String> getViablePieceStrings(String gameStateString, int col, int row) {
         Board board = new Board();
@@ -350,6 +354,7 @@ public class IQStars {
      * @param challenge A game state string describing the starting game state.
      * @return A game state string describing the encoding of the solution to
      * the challenge.
+     * @author Xiao Cui
      */
     public static String getSolution(String challenge) {
         Board board = new Board();

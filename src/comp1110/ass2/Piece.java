@@ -1,50 +1,51 @@
 package comp1110.ass2;
 
+/**
+ * For each pieces, it will be stored by an int array representing for the unit vector in it
+ *
+ * Rules:
+ * the star✡ with parentheses() is regarded as the center star, and other star are marked as
+ * a unit vector(0~5, unit vectors has been introduced in Location.java),
+ * which is from center star to this
+ *
+ *
+ * color  shape           set           note
+ * r   ✡ --(✡)           1，2，3
+ *         / \
+ *       ✡    ✡
+ *
+ * o   ✡ --(✡)           1, 3
+ *           \
+ *            ✡
+ *
+ * y    ✡ --(✡)-- ✡     0, 2, 3
+ *         /
+ *        ✡
+ *
+ * g    ✡ --(✡)         1, 3            for this piece 'g', set[0] represents for 2 stars in the same direction:
+ *            \                             one star is at the unit vector,
+ *             ✡                            and the other star is at twice the unit vector
+ *              \
+ *               ✡
+ *
+ * b    ✡ --(✡)-- ✡     0, 1, 3
+ *            \
+ *             ✡
+ *
+ * i    ✡ -- ✡ -- ✡     0, 3
+ *
+ * p    ✡    ✡          0, 1, 4, 5      for this piece 'p', the center star should not be placed on Board
+ *       \  /
+ *       ( )-- ✡
+ *         \
+ *          ✡
+ *
+ * use 0~5 stands for different orientations
+ * all integers in set[] plus orientation, the shape of piece will not change and get a new piece
+ *
+ * @author Xiao Cui
+ */
 public class Piece {
-	/**
-	 * For each pieces, it will be stored by an int array representing for the unit vector in it
-	 *
-	 * Rules:
-	 * the star✡ with parentheses() is regarded as the center star, and other star are marked as
-	 * a unit vector(0~5, unit vectors has been introduced in Location.java),
-	 * which is from center star to this
-	 *
-	 *
-	 * color  shape           set           note
- 	 * r   ✡ --(✡)           1，2，3
-	 *         / \
-	 *       ✡    ✡
-	 *
-	 * o   ✡ --(✡)           1, 3
-	 *           \
-	 *            ✡
-	 *
-	 * y    ✡ --(✡)-- ✡     0, 2, 3
-	 *         /
-	 *        ✡
-	 *
-	 * g    ✡ --(✡)         1, 3            for this piece 'g', set[0] represents for 2 stars in the same direction:
-	 *            \                             one star is at the unit vector,
-	 *             ✡                            and the other star is at twice the unit vector
-	 *              \
-	 *               ✡
-	 *
-	 * b    ✡ --(✡)-- ✡     0, 1, 3
-	 *            \
-	 *             ✡
-	 *
-	 * i    ✡ -- ✡ -- ✡     0, 3
-	 *
-	 * p    ✡    ✡          0, 1, 4, 5      for this piece 'p', the center star should not be placed on Board
-	 *       \  /
-	 *       ( )-- ✡
-	 *         \
-	 *          ✡
-	 *
-	 * use 0~5 stands for different orientations
-	 * all integers in set[] plus orientation, the shape of piece will not change and get a new piece
-	 *
-	 */
 
 	private int[] shape;
 	private final char color;
@@ -105,24 +106,16 @@ public class Piece {
 		}
 	}
 
-	/**
-	 * This is used in Board
-	 * @return char, color of piece
-	 */
 	public char getColor() {
 		return color;
 	}
 
-	/**
-	 * This is used int Board
-	 * @return int[]
-	 */
 	public int[] getShape() {
 		return shape;
 	}
 
 	/**
-	 * let piece rotate in rotation*60 degree
+	 * let piece rotate in rotation*60 degree(clockwise)
 	 *
 	 * @param rotation 0~5 is better, but could be larger, not negative.
 	 */
@@ -241,6 +234,6 @@ public class Piece {
 			return loc.getNext(1).getNext(1);
 		if (topLeft == 55)
 			return loc.getNext(2).getNext(2);
-		return loc;//placeholder, this line should not be used
+		return loc;//placeholder, this line should not be used, except str is wrong
 	}
 }
