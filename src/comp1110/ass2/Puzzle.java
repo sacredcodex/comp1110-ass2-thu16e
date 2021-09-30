@@ -3,9 +3,12 @@ package comp1110.ass2;
 import java.util.HashSet;
 import java.util.Set;
 
-// this class is used to find(start at line 3784) and store new puzzle Strings
+/**
+ * this class is used to find(after line 3784) and store(before line ) new puzzle Strings
+ * @author Xiao Cui
+  */
 public class Puzzle {
-	//381
+	// 381 solutions
 	public static final String[] solutions = new String[]{
 				"r130o140y250g262b312i000p501W",
 				"r101o460y352g000b020i250p121W",
@@ -387,9 +390,9 @@ public class Puzzle {
 				"r151o302y541g130b000i040p201W",
 				"r241o262y200g540b312i121p420W",
 				"r011o100y040g262b312i010p231W",
-				"r041o121y400g540b342i010p202W",// this solution cannot create a 2 pieces puzzles
+				"r041o121y400g540b342i010p202W"// this solution cannot create a 2 pieces puzzles
 	};
-	//32
+	// 32 master challenges
 	public static final String[] masters = new String[]{
 			"r221W",
 			"y550W",
@@ -424,7 +427,7 @@ public class Puzzle {
 			"b520W",
 			"b521W"
 	};
-	//2308
+	// 2308 expert challenges
 	public static final String[] experts = new String[]{
 			"r101p331W",
 			"r212o460W",
@@ -2736,7 +2739,12 @@ public class Puzzle {
 			"o211y000W"
 	};
 
-	//1017
+	/**
+	 * 1017 wizard challenges
+	 * each challenges provides two wizard stars in different colors
+	 * String format: <solution index> W <wizard puzzle string>
+	 *     <solution index>: 0~380 the solution for wizard puzzle
+ 	 */
 	public static final String[] wizards = new String[]{
 			"29Wg41i01",
 			"57Wr22i23",
@@ -3758,6 +3766,7 @@ public class Puzzle {
 	};
 
 	/**
+	 * get master solution
 	 * @param num 0~31
 	 */
 	public static String getMasterSolution(int num){
@@ -3770,6 +3779,7 @@ public class Puzzle {
 	}
 
 	/**
+	 * get expert solution
 	 * @param num 0~2307
 	 */
 	public static String getExpertSolution(int num){
@@ -4038,7 +4048,7 @@ public class Puzzle {
 	}
 
 	/**
-	 * All solutions for puzzles with two pieces exclude solution(r041o121y400g540b342i010p202W)
+	 * Each solutions has at least one puzzle with two pieces except solution(r041o121y400g540b342i010p202W)
 	 */
 	public void isTwoPiecesPuzzlesCoveredAllSolutions(){
 		Set<String> solutions = new HashSet<>(allSolutions);
@@ -4053,40 +4063,6 @@ public class Puzzle {
 			System.out.println("covered");
 		else System.out.println(solutions);
 
-	}
-
-	/**
-	 * 2 or 3 stars given, and all stars in different  colors
-	 */
-	public void getWizardPuzzles(){
-		String last = "W";
-		String puzzle;
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 4; j++) {
-				for (int k = 0; k < board.getColors()[j].length; k++) {
-					for (int l = i + 1; l < 7; l++) {
-						for (int m = 0; m < 4; m++) {
-							for (int n = 0; n < board.getColors()[j].length; n++) {
-								for (int o = 0; o < 381; o++){
-									Board board = new Board();
-									board.setPuzzle(solutions[o]);
-									if (board.getColor(""+k+j) == colors[i] && board.getColor(""+n+m) == colors[l]) {
-										puzzle = o + "W" + colors[i] + k + j + colors[l] + n + m;
-										if (puzzle.substring(puzzle.indexOf('W')).equals(last.substring(last.indexOf('W')))) {
-											wizardPuzzles.remove(last);
-											break;
-										}else {
-											wizardPuzzles.add(puzzle);
-											last = puzzle;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 
 	public static void main(String[] args) {
@@ -4114,17 +4090,13 @@ public class Puzzle {
 		System.out.println(puzzle.allPuzzlesWithThreePieces);
 		 */
 
-		/* too long run time
+		/* too long run time (70 minutes)
 		puzzle.getAllPuzzlesWithFourPieces();
 		System.out.println("All four pieces puzzles with more than one solutions:");
 		System.out.println(puzzle.notPuzzlesWithFourPieces);
 		System.out.println("All puzzles with four pieces:");
 		System.out.println(puzzle.allPuzzlesWithFourPieces);
 		*/
-
-		/*
-		puzzle.isTwoPiecesPuzzlesCoveredAllSolutions();
-		 */
 
 		/*
 		puzzle.getWizardPuzzles();

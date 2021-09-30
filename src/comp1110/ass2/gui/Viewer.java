@@ -46,6 +46,7 @@ public class Viewer extends Application {
      * Draw a game state in the window, removing any previously drawn one
      *
      * @param gameStateString A valid game state string
+     * @author Xiao Cui
      */
     void makeGameState(String gameStateString) {
         if (IQStars.isGameStateStringWellFormed(gameStateString)) {

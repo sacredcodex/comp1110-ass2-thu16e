@@ -3,6 +3,9 @@ package comp1110.ass2.gui;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+/**
+ * @author Xiao Cui
+ */
 public class Star extends Polygon {
 
 	final double x,y;

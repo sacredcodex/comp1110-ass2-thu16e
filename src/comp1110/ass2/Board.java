@@ -4,28 +4,28 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * subscript is same with format in readme.md
+ *      [0~3][0~6/5]
+ *
+ * Board:
+ *    [0][0]---[0][1]---[0][2]---[0][3]---[0][4]---[0][5]---[0][6]
+ *         \    /   \    /   \    /   \    /   \    /   \    /
+ *        [1][0]---[1][1]---[1][2]---[1][3]---[1][4]---[1][5]
+ *         /   \    /   \    /   \    /   \    /   \    /   \
+ *    [2][0]---[2][1]---[2][2]---[2][3]---[2][4]---[2][5]---[2][6]
+ *         \    /   \    /   \    /   \    /   \    /   \    /
+ *        [3][0]---[3][1]---[3][2]---[3][3]---[3][4]---[3][5]
+ *
+ * in the char array color:
+ * r, o, y, g, b, i, p represent for 7 pieces
+ * n represents for empty
+ *
+ * Use upper case for wizard state
+ * R, O, Y, G, B, I, P
+ *
+ */
 public class Board {
-	/**
-	 * subscript is same with format in readme.md
-	 *      [0~3][0~6/5]
-	 *
-	 * Board:
-	 *    [0][0]---[0][1]---[0][2]---[0][3]---[0][4]---[0][5]---[0][6]
-	 *         \    /   \    /   \    /   \    /   \    /   \    /
-	 *        [1][0]---[1][1]---[1][2]---[1][3]---[1][4]---[1][5]
-	 *         /   \    /   \    /   \    /   \    /   \    /   \
-	 *    [2][0]---[2][1]---[2][2]---[2][3]---[2][4]---[2][5]---[2][6]
-	 *         \    /   \    /   \    /   \    /   \    /   \    /
-	 *        [3][0]---[3][1]---[3][2]---[3][3]---[3][4]---[3][5]
-	 *
-	 * in the char array color:
-	 * r, o, y, g, b, i, p represent for 7 pieces
-	 * n represents for empty
-	 *
-	 * Use upper case for wizard state
-	 * R, O, Y, G, B, I, P
-	 * NOTE: 'a' - 'A' = 32
-	 */
 
 	private char[][] color;
 	private String solution = "";
@@ -37,6 +37,7 @@ public class Board {
 	 * constructor， initialize
 	 * create 26 color
 	 * set color = 'n'
+	 * @author Yu Cong
 	 */
 	public Board(){
 		color = new char[4][];
@@ -62,6 +63,7 @@ public class Board {
 	 *
 	 * @param loc format in readme.md
 	 * @return char
+	 * @author Yu Cong
 	 */
 	public char getColor(String loc){
 		if (!Location.onBoard(loc))
@@ -71,22 +73,29 @@ public class Board {
 	}
 
 	/**
-	 * get all colors on the board
-	 *
-	 * @return char[][]
+	 * @author Yu Cong
 	 */
 	public char[][] getColors() {
 		return color;
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public String getSolution() {
 		return solution;
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public String getPuzzle(){
 		return puzzle;
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public Set<Character> getUnusedColor() {
 		return unusedColor;
 	}
@@ -95,6 +104,7 @@ public class Board {
 	 * color[loc] := color
 	 * @param loc format in readme.md
 	 * @param color 7 colors(lower or upper case) or empty
+	 * @author Yu Cong
 	 */
 	public void setColor(String loc,char color){
 		char[] copy = loc.toCharArray();
@@ -111,7 +121,7 @@ public class Board {
 	 * n --- n --- n --- n --- n --- n --- n
 	 *  \  /  \  /  \  /  \  /  \  /  \  /
 	 *   n --- n --- n --- n --- n --- n
-	 *
+	 * @author Xiao Cui
 	 */
 	public void print(){
 		System.out.println("  "+color[0][0]+" --- "+color[0][1]+" --- "+color[0][2]+" --- "+color[0][3]+" --- "+color[0][4]+" --- "+color[0][5]+" --- "+color[0][6]);
@@ -123,6 +133,10 @@ public class Board {
 		System.out.println("  "+color[3][0]+" --- "+color[3][1]+" --- "+color[3][2]+" --- "+color[3][3]+" --- "+color[3][4]+" --- "+color[3][5]);
 	}
 
+	/**
+	 * set all color[][] == 'n'
+	 * @author Xiao Cui
+	 */
 	public void setEmpty(){
 		unusedColor.clear();
 		unusedColor.add('r');
@@ -145,6 +159,7 @@ public class Board {
 	 * color[loc] save as lower case
 	 *
 	 * @param puzzle should be wel formed, contain both piece and wizard
+	 * @author Xiao Cui
 	 */
 	public void setPuzzle(String puzzle){
 		this.puzzle = puzzle;
@@ -170,6 +185,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public void setSolution(String solution) {
 		this.solution = solution;
 	}
@@ -181,6 +199,7 @@ public class Board {
 	 * @return true if loc is on board and
 	 *                      1. the color at this loc is empty
 	 *                   or 2. wizard state with the same color
+	 * @author Yu Cong
 	 */
 	public boolean isLocationValid(Location loc, char color){
 		if (!unusedColor.contains(color))
@@ -195,6 +214,7 @@ public class Board {
 	 *
 	 * @param loc the center star location to place the piece
 	 * @return whether loc is on board and empty to place the Piece
+	 * @author Yu Cong
 	 */
 	public boolean isPieceValid(Piece piece, Location loc){
 		if (!(piece.getColor() == 'p') && !isLocationValid(loc, piece.getColor()))
@@ -208,6 +228,9 @@ public class Board {
 		return true;
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public boolean isPieceValid(String str){
 		Piece piece = new Piece(str.charAt(0));
 		piece.rotatePiece(str.charAt(1)-'0');
@@ -220,8 +243,9 @@ public class Board {
 	 * for wizard location, color[loc] keep upper case
 	 *
 	 * @param loc the center star location to place the piece
+	 * @author Yu Cong
 	 */
-	public void placePiece(Piece piece,Location loc){
+	public void placePiece(Piece piece, Location loc){
 		if (!(piece.getColor() == 'p'))
 			if (getColor(loc.toString()) == 'n')
 				setColor(loc.toString(), piece.getColor());
@@ -237,6 +261,9 @@ public class Board {
 		wizardColor.remove(piece.getColor());
 	}
 
+	/**
+	 * @author Yu Cong
+	 */
 	public void placePiece(String str){
 		Piece piece = new Piece(str.charAt(0));
 		piece.rotatePiece(str.charAt(1)-'0');
@@ -247,6 +274,7 @@ public class Board {
 	 * after placePiece, check if the piece cover all the wizard star in same color
 	 * @param c color
 	 * @return true, if number of color star is correct
+	 * @author Yu Cong
 	 */
 	public boolean isCoveredWizard(char c){
 		int count = 0;
@@ -265,6 +293,7 @@ public class Board {
 	 * remove all stars in color(lower case)
 	 * star in upper case is wizard star, which should not be removed
 	 * @param color r, o, y, g, b, i, p
+	 * @author Xiao Cui
 	 */
 	public void removePiece(char color){
 		unusedColor.add(color);
@@ -276,13 +305,16 @@ public class Board {
 		}
 	}
 
+	/**
+	 * @author Xiao Cui
+	 */
 	public void removePiece(String str){
 		this.removePiece(str.charAt(0));
 	}
 
 	/**
 	 *  Solve puzzle without wizard star
-	 *
+	 * @author Xiao Cui
 	 */
 	public void solvePuzzle(){
 		if (this.solution.equals("")) {
@@ -314,6 +346,10 @@ public class Board {
 		}
 	}
 
+	/**
+	 * solve puzzles with wizard stars
+	 * @author Xiao Cui
+	 */
 	public void solveWizard(){
 		if (wizardColor.isEmpty()){
 			solvePuzzle();
@@ -347,6 +383,7 @@ public class Board {
 	 * a gameStateString with 'W' as the end
 	 * the board should not have empty star(s)
 	 * @return a String format in readme
+	 * @author Xiao Cui
 	 */
 	public String toString(){
 		char[] c = {'r', 'o', 'y', 'g', 'b', 'i', 'p'};

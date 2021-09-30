@@ -6,6 +6,9 @@ import javafx.scene.Group;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Xiao Cui
+ */
 public class VisualPiece extends Group {
 
 	private Set<Star> stars;
