@@ -221,12 +221,12 @@ public class Board extends Application {
         // difficulty slider
         Label label1 = new Label("Difficulty");
         label1.setLayoutX(630);
-        label1.setLayoutY(470);
+        label1.setLayoutY(480);
         label1.setFont(new Font(24));
 
         controlBoard.getChildren().add(label1);
         difficultyControl.setLayoutX(740);
-        difficultyControl.setLayoutY(480);
+        difficultyControl.setLayoutY(490);
         difficultyControl.setMin(1);
         difficultyControl.setMax(5);
         difficultyControl.setShowTickLabels(true);
@@ -235,6 +235,7 @@ public class Board extends Application {
         difficultyControl.setMajorTickUnit(1);
         difficultyControl.setMinorTickCount(0);
         difficultyControl.setSnapToTicks(true);
+
         controlBoard.getChildren().add(difficultyControl);
         //button
         Rectangle rec1 = new Rectangle(774,554,100,40);
@@ -243,7 +244,7 @@ public class Board extends Application {
         rec1.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
         controlBoard.getChildren().add(rec1);
         Button button1 = new Button("Start");
-        button1.setPrefSize(100, 40);
+        button1.setPrefSize(110, 50);
         button1.setLayoutX(770);
         button1.setLayoutY(550);
         button1.setFont(new Font(20));
@@ -288,7 +289,7 @@ public class Board extends Application {
         rec2.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
         controlBoard.getChildren().add(rec2);
         Button button2 = new Button("Restart");
-        button2.setPrefSize(100, 40);
+        button2.setPrefSize(110, 50);
         button2.setLayoutX(640);
         button2.setLayoutY(620);
         button2.setFont(new Font(20));
@@ -325,7 +326,7 @@ public class Board extends Application {
         rec3.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
         controlBoard.getChildren().add(rec3);
         button3 = new Button("Hint("+hintUse+")");
-        button3.setPrefSize(100, 40);
+        button3.setPrefSize(110, 50);
         button3.setLayoutX(770);
         button3.setLayoutY(620);
         button3.setFont(new Font(20));
@@ -357,8 +358,8 @@ public class Board extends Application {
         rec4.setArcWidth(7);
         rec4.setFill(new Color(0.97058825F, 0.5647059F, 0.49019608F,1.0));
         controlBoard.getChildren().add(rec4);
-        Button button4 = new Button("Radom");
-        button4.setPrefSize(100, 40);
+        Button button4 = new Button("Random");
+        button4.setPrefSize(110, 50);
         button4.setLayoutX(640);
         button4.setLayoutY(550);
         button4.setFont(new Font(20));
