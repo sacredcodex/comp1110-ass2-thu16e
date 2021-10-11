@@ -210,7 +210,7 @@ public class Board {
 	}
 
 	/**
-	 * All star locations should be on board and empty or wizard
+	 * All star locations should be on board and empty or wizard(same color)
 	 *
 	 * @param loc the center star location to place the piece
 	 * @return whether loc is on board and empty to place the Piece
@@ -487,6 +487,7 @@ public class Board {
 						}else
 							rotation[i] = 5;
 						break;
+					//greean
 					case 3:
 						if (getColor(topLeft.getNext(0).toString()) == 'g' || getColor(topLeft.getNext(0).toString()) == 'G'){
 							if (getColor(topLeft.getNext(2).toString()) == 'g' || getColor(topLeft.getNext(2).toString()) == 'G')
@@ -502,6 +503,7 @@ public class Board {
 							else rotation[i] = 2;
 						}
 						break;
+					// blue
 					case 4:
 						if (getColor(topLeft.getNext(0).toString()) == 'b' || getColor(topLeft.getNext(0).toString()) == 'B'){
 							if (getColor(topLeft.getNext(1).toString()) == 'b' || getColor(topLeft.getNext(1).toString()) == 'B')
@@ -515,6 +517,7 @@ public class Board {
 							}else rotation[i] = 1;
 						}else rotation[i] = 2;
 						break;
+					//purple
 					case 5:
 						for (int j = 0; j < 3; j++) {
 							if (getColor(topLeft.getNext(j).toString()) == 'i' || getColor(topLeft.getNext(j).toString()) == 'I'){
@@ -523,6 +526,7 @@ public class Board {
 							}
 						}
 						break;
+					//pink
 					case 6:
 						if (getColor(topLeft.getNext(1).toString()) == 'p' || getColor(topLeft.getNext(1).toString()) == 'P'){
 							if (getColor(topLeft.getNext(1).getNext(0).toString()) == 'p' || getColor(topLeft.getNext(1).getNext(0).toString()) == 'P')

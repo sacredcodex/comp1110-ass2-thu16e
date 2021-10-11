@@ -151,6 +151,8 @@ public class Viewer extends Application {
         root.getChildren().add(controls);
 
         makeControls();
+
+        // use enter press the button refresh
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

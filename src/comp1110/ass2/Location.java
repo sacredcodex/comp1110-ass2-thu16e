@@ -92,7 +92,6 @@ public class Location {
 			}
 		}
 		return new Location(column, row);
-
 	}
 
 	/**

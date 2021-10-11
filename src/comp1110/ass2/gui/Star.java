@@ -32,9 +32,9 @@ public class Star extends Polygon {
 				x+ 0.75*UNIT * Math.sqrt(3), y- 2.25*UNIT,
 				x+ 0.75*UNIT * Math.sqrt(3), y- 0.75*UNIT
 		);
-
 		super.setFill(Color.WHITE);
 		// StrokeWidth is the distance from outer side of Polygon edges to inner sides
+		// 
 		super.setStrokeWidth(0.5*UNIT * Math.sqrt(3));
 		switch (color) {
 			case 'r' -> super.setStroke(Color.RED);

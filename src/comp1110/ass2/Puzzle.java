@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * this class is used to find(after line 3784) and store(before line ) new puzzle Strings
+ * this class is used to find(after line 3794) and store(before line ) new puzzle Strings
  * @author Xiao Cui
   */
 public class Puzzle {
@@ -3890,7 +3890,7 @@ public class Puzzle {
 												for (String solution : solutions){
 													if (solution.contains(piece1) && solution.contains(piece2)){
 														String pieces = "\n\"" + piece1 + piece2 + "W\"";
-														if (allPuzzlesWithTwoPieces.contains(pieces))
+														if (allPuzzlesWithTwoPieces.contains(pieces))//more than one s
 															notPuzzlesWithTwoPieces.add(pieces);
 														else
 															allPuzzlesWithTwoPieces.add(pieces);
