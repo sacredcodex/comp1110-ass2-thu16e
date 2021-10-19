@@ -114,6 +114,10 @@ public class Piece {
 		return shape;
 	}
 
+	public int getDirection(){
+		return direction;
+	}
+
 	/**
 	 * let piece rotate in rotation*60 degree(clockwise)
 	 *

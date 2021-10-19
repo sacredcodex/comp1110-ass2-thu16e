@@ -90,6 +90,12 @@ public class Location {
 				if (row % 2 == 0)
 					column++;
 			}
+			case 44 -> {
+				return this.getNext(4).getNext(4);
+			}
+			case 55 -> {
+				return this.getNext(5).getNext(5);
+			}
 		}
 		return new Location(column, row);
 	}
