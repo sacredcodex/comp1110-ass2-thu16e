@@ -116,6 +116,10 @@ public class Board extends Application {
                                    2 / 2"""
     };
 
+    /**
+     * create top left board
+     * @author Yu Cong
+     */
     private void initializeBlankBoard(){
         // back board
         Rectangle boardShadow = new Rectangle(WHITE_EDGE + SHADOW, WHITE_EDGE + SHADOW, RECTA_WIDTH, RECTA_HEIGHT);
@@ -149,6 +153,10 @@ public class Board extends Application {
         }
     }
 
+    /**
+     * create lower left board
+     * @author Yu Cong
+     */
     private void initializePieceBoard(){
         // back board
         Rectangle boardShadow = new Rectangle(WHITE_EDGE + SHADOW, 2 * WHITE_EDGE + RECTA_HEIGHT + SHADOW, RECTA_WIDTH, PIECE_BOARD_HEIGHT);
@@ -208,6 +216,10 @@ public class Board extends Application {
         pieceBoard.getChildren().add(visualPiecePriview);
     }
 
+    /**
+     * create lower right board
+     * @author Xiao Cui
+     */
     private void initializeControlBorad(){
         Rectangle rectangle1 = new Rectangle(615,450,315,240);
         rectangle1.setFill(new Color(0,0,0,0.3));
@@ -320,6 +332,7 @@ public class Board extends Application {
             }
         });
 
+        //Task 11
         Rectangle rec3 = new Rectangle(774,624,100,40);
         rec3.setArcHeight(7);
         rec3.setArcWidth(7);
@@ -353,6 +366,7 @@ public class Board extends Application {
             }
         });
 
+        //Task 12
         Rectangle rec4 = new Rectangle(644,554,100,40);
         rec4.setArcHeight(7);
         rec4.setArcWidth(7);
@@ -432,6 +446,10 @@ public class Board extends Application {
         });
     }
 
+    /**
+     * timer
+     * @author Yu Cong
+     */
     private void setTimer(){
         timer = new Label("         00 : 00 . 0     ");
         timer.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(7),Insets.EMPTY)));
@@ -442,6 +460,10 @@ public class Board extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * instructions
+     * @author Xiao Cui
+     */
     private void setHelp(){
         Rectangle rectangle1 = new Rectangle(615, 15, 315, 370);
         rectangle1.setFill(new Color(0,0,0,0.3));
@@ -475,12 +497,19 @@ public class Board extends Application {
         helpBoard.getChildren().add(button);
     }
 
+    /**
+     * change draggable piece color
+     * @author Xiao Cui
+     */
     private void setPiece(char color){
         piecePreview = new Piece(color);
         visualPiecePriview.setPiece(piecePreview);
     }
 
-    // rotate selected Piece
+    /**
+     * rotate draggable piece
+     * @author Xiao Cui
+     */
     private void rotatePiece(int rotation){
         if (piecePreview != null) {
             piecePreview.rotatePiece(rotation);
@@ -488,7 +517,10 @@ public class Board extends Application {
         }
     }
 
-    // show the game state
+    /**
+     * refresh the game state
+     * @author Xiao Cui
+     */
     private void setBoardStars(){
         char[][] colors = gameBoard.getColors();
         for (int i = 0; i < 4; i++) {
@@ -535,7 +567,10 @@ public class Board extends Application {
 
     }
 
-    // clear some information when start a new game
+    /**
+     * reset some variable when start a new game
+     * @author Xiao Cui
+     */
     private void initializeStart(){
         showHint = false;
         hintPieceStr = "";
@@ -547,6 +582,10 @@ public class Board extends Application {
         resetPiecePreview();
     }
 
+    /**
+     * get and show hint
+     * @author Xiao Cui
+     */
     private void showHint() {
         if (!gameBoard.getUnusedColor().isEmpty() && !showHint && gameBoard.getSolution().length() == 28) {
             showHint = true;
@@ -602,6 +641,10 @@ public class Board extends Application {
         }
     }
 
+    /**
+     * hide hint
+     * @author Xiao Cui
+     */
     private void hideHint(){
         if (showHint && hintPieceStr.length() == 4) {
             gameBoard.removePiece(hintPieceStr);
@@ -610,7 +653,10 @@ public class Board extends Application {
         showHint = false;
     }
 
-    // set timer output
+    /**
+     * set timer output
+     * @author Yu Cong
+     */
     private void timeLabel(){
         tmp++;
         int a,b,c;
@@ -639,7 +685,10 @@ public class Board extends Application {
         timer.setText(output);
     }
 
-    // let selected piece movable
+    /**
+     * let selected piece movable
+     * @author Xiao Cui
+     */
     private void movePiece(Node piece){
         //movePiecePreview();
         double[] startX = new double[1];
@@ -694,7 +743,10 @@ public class Board extends Application {
         });
     }
 
-    // drag select button to move the piece
+    /**
+     * drag select button to move the piece
+     * @author Xiao Cui
+     */
     private void movePiece(Button piece, char color){
         piece.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -768,13 +820,19 @@ public class Board extends Application {
         });
     }
 
-    // clear piecePreview and put visualPiecePreview back
+    /**
+     * clear piecePreview and put visualPiecePreview back
+     * @author Yu Cong
+     */
     private void resetPiecePreview(){
         visualPiecePriview.getChildren().setAll();
         piecePreview = null;
     }
 
-    // there are two pages of help, help will change after clicking help
+    /**
+     * there are two pages of help, help will change after clicking help
+     * @author Xiao Cui
+     */
     private void changeHelp(){
         if (help1.getText().equals(help[0])){
             help1.setText(help[2]);
@@ -785,7 +843,10 @@ public class Board extends Application {
         }
     }
 
-    // remove piece from game board
+    /**
+     * remove piece from game board
+     * @author Xiao Cui
+     */
     private void removePiece() {
         final char[] color = {'n'};
         final double[] centerX = new double[1];
