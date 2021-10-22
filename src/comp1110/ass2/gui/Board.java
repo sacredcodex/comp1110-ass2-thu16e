@@ -518,7 +518,7 @@ public class Board extends Application {
     }
 
     /**
-     * refresh the game state
+     * reset the game state
      * @author Xiao Cui
      */
     private void setBoardStars(){

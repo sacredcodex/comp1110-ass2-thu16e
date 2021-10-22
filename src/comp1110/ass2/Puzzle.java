@@ -3973,7 +3973,7 @@ public class Puzzle {
 
 	/**
 	 * this method is used to find all puzzles with 4 given pieces
-	 * run time: about 1 hour
+	 * run time: about 1 hour！！！
 	 * got 11282 puzzles
 	 */
 	public void getAllPuzzlesWithFourPieces(){
@@ -4065,6 +4065,41 @@ public class Puzzle {
 
 	}
 
+	/**
+	 * 2 or 3 stars given, and all stars in different  colors
+	 */
+	public void getWizardPuzzles(){
+		String last = "W";
+		String puzzle;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 4; j++) {
+				for (int k = 0; k < board.getColors()[j].length; k++) {
+					for (int l = i + 1; l < 7; l++) {
+						for (int m = 0; m < 4; m++) {
+							for (int n = 0; n < board.getColors()[j].length; n++) {
+								for (int o = 0; o < 381; o++){
+									Board board = new Board();
+									board.setPuzzle(solutions[o]);
+									if (board.getColor(""+k+j) == colors[i] && board.getColor(""+n+m) == colors[l]) {
+										puzzle = o + "W" + colors[i] + k + j + colors[l] + n + m;
+										if (puzzle.substring(puzzle.indexOf('W')).equals(last.substring(last.indexOf('W')))) {
+											wizardPuzzles.remove(last);
+											break;
+										}else {
+											wizardPuzzles.add(puzzle);
+											last = puzzle;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
 	public static void main(String[] args) {
 		Puzzle puzzle = new Puzzle();
 
@@ -4098,11 +4133,11 @@ public class Puzzle {
 		System.out.println(puzzle.allPuzzlesWithFourPieces);
 		*/
 
-		/*
+
 		puzzle.getWizardPuzzles();
 		for (String wizard : puzzle.wizardPuzzles)
 			System.out.println("\""+wizard+"\",");
-		 */
+
 	}
 
 }
