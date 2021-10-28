@@ -29,3 +29,7 @@ additional features...
  - [x] Page-turning instructions
 
  - [x] Simulate pressing down the button by moving its layout
+
+new feature after D2G...(ignore it when marking)
+
+ - [x] The game can be paused now, the timer will stop and you cannot see the challenge board when you pause the game

@@ -16,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -68,6 +70,7 @@ public class Board extends Application {
     private int hintUse;
 
     private Timeline timeline;
+    private int timelineState = 0; //0 stop, 1 start, 2 pause
     private int tmp = 0;
     private Label timer;
 
@@ -212,6 +215,7 @@ public class Board extends Application {
         movePiece(selects[1][1], 'i');
         movePiece(selects[2][1], 'p');
 
+        setPause();
         visualPiecePriview = new VisualPiece(0, 0, STAR_WIDTH);
         pieceBoard.getChildren().add(visualPiecePriview);
     }
@@ -457,6 +461,7 @@ public class Board extends Application {
         timer.setLayoutX(610);
         timer.setLayoutY(392);
         timeline = new Timeline(new KeyFrame(Duration.millis(100), actionEvent -> timeLabel()));
+        timelineState = 0;
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
@@ -559,8 +564,11 @@ public class Board extends Application {
         if (unusedColor.contains('p'))
             selects[2][1].setOpacity(1.0);
         else selects[2][1].setOpacity(0.3);
-        if (unusedColor.isEmpty() && !showHint )
+        if (unusedColor.isEmpty() && !showHint ){
             timeline.stop();
+            timelineState = 0;
+        }
+
 
 
 
@@ -579,6 +587,7 @@ public class Board extends Application {
         tmp = -1;
         timeLabel();
         timeline.play();
+        timelineState = 1;
         resetPiecePreview();
     }
 
@@ -940,6 +949,42 @@ public class Board extends Application {
         });
     }
 
+    private void setPause(){
+        Button pause = new Button("pause");
+        pause.setFont(new Font(20));
+        pieceBoard.getChildren().add(pause);
+        pause.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE,new CornerRadii(10), Insets.EMPTY)));
+        pause.setLayoutX(470);
+        pause.setLayoutY(600);
+        pause.setPrefWidth(100);
+        pause.setPrefHeight(60);
+        root.setEffect(adj);
+        pause.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                pauseContinue();
+            }
+        });
+    }
+
+    ColorAdjust adj = new ColorAdjust(0, 0, 0, 0);
+    GaussianBlur blur = new GaussianBlur(100); // 55 is just to show edge effect more clearly.
+    GaussianBlur blur1 = new GaussianBlur(0);
+    private void pauseContinue(){
+        if (timelineState == 1) {
+            timeline.pause();
+            timelineState = 2;
+            adj.setBrightness(-0.9);
+            adj.setInput(blur);
+        }else if (timelineState == 2) {
+            timeline.play();
+            timelineState = 1;
+            adj.setBrightness(0);
+            adj.setInput(blur1);
+        }
+    }
+
+
     // FIXME Task 8 (CR): Implement a basic playable IQ Stars game in JavaFX that only allows pieces to be placed in valid places
 
     // FIXME Task 9 (D): Implement challenges (you may use the set of challenges in the Games class)
@@ -969,6 +1014,9 @@ public class Board extends Application {
         setHelp();
         root.getChildren().add(helpBoard);
 
+        //pause
+
+
         // set pieceBoard: select piece here
         root.getChildren().add(pieceBoard);
         initializePieceBoard();
@@ -993,6 +1041,8 @@ public class Board extends Application {
                 if (keyEvent.getCode() == KeyCode.SLASH){
                     hideHint();
                 }
+                if (keyEvent.getCode() == KeyCode.P)
+                    pauseContinue();
             }
         });
 
@@ -1011,6 +1061,8 @@ public class Board extends Application {
                     rotatePiece(1);
             }
         });
+
+
 
         primaryStage.setScene(scene);
         primaryStage.show();
