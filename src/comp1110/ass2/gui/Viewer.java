@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -124,7 +125,7 @@ public class Viewer extends Application {
         root.getChildren().add(label2);
         label2.setLayoutX(210);
         label2.setLayoutY(VIEWER_HEIGHT-40);
-
+        
         // Stars
         stars[0] = new Star[7];
         stars[1] = new Star[6];
@@ -163,5 +164,6 @@ public class Viewer extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setOpacity(.25);
     }
 }

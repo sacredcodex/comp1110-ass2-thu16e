@@ -1,0 +1,39 @@
+Index: admin/E-review-u7387703.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>## Code Review\r\n\r\nReviewed by: Yu Cong u7387703\r\n\r\nReviewing code written by: Xiao Cui u7386319\r\n\r\nComponent: <the component being reviewed>\r\n\r\n### Comments \r\n\r\n<write your comments here>\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/admin/E-review-u7387703.md b/admin/E-review-u7387703.md
+--- a/admin/E-review-u7387703.md	
++++ b/admin/E-review-u7387703.md	
+@@ -8,6 +8,6 @@
+ 
+ ### Comments 
+ 
+-<write your comments here>
++<write your comments here>styr
+ 
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectKey\">\r\n    <option name=\"state\" value=\"project://e79810c8-c5c8-43b1-b19c-90c1f4095425\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_15\" project-jdk-name=\"15\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -3,6 +3,10 @@
+   <component name="ProjectKey">
+     <option name="state" value="project://e79810c8-c5c8-43b1-b19c-90c1f4095425" />
+   </component>
++  <component name="ProjectPlainTextFileTypeManager">
++    <file url="file://$PROJECT_DIR$/admin/E-review-u7386319.md" />
++    <file url="file://$PROJECT_DIR$/admin/E-review-u7387703.md" />
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
