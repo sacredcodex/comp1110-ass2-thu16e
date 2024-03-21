@@ -1,5 +1,9 @@
 # COMP1110 Assignment 2
 
+## Demonstration
+
+<img src="assets/image1.gif" width="600">
+
 ## Academic Honesty and Integrity
 
 Honesty and integrity are of utmost importance. These goals are *not* at odds with being resourceful and working collaboratively. 
